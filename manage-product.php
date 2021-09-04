@@ -27,7 +27,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="Dashboard.php">Home</a></li>
                             <li class="breadcrumb-item"><?php echo urldecode($_GET['m']) ?></li>
-                            <li class="breadcrumb-item active" aria-current="page"><?php echo urldecode($_GET['s']) ?></li>
+                            <li class="breadcrumb-item active"
+                                aria-current="page"><?php echo urldecode($_GET['s']) ?></li>
                         </ol>
                     </div>
 
@@ -37,12 +38,19 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                 </div>
                                 <div class="card-body">
-
                                     <section class="container-fluid">
 
                                         <div class="col-md-12 col-md-offset-2">
-                                            <table id='TableRecordList' class='display dataTable'>
+                                            <label for="name_t"
+                                                   class="control-label"><b>เพิ่ม <?php echo urldecode($_GET['s']) ?></b></label>
 
+                                            <button type='button' name='btnAdd' id='btnAdd'
+                                                    class='btn btn-primary btn-xs'>Add
+                                            </button>
+                                        </div>
+
+                                        <div class="col-md-12 col-md-offset-2">
+                                            <table id='TableRecordList' class='display dataTable'>
                                                 <thead>
                                                 <tr>
                                                     <th>รหัสสินค้า/อะไหล่</th>
@@ -101,19 +109,22 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <div class="modal-body">
                                     <div class="form-group"
                                     <label for="product_id" class="control-label">รหัสสินค้า/อะไหล่</label>
-                                    <input type="product_id" class="form-control" id="product_id" name="product_id" placeholder="product_id"
-                                           required>
+                                    <input type="product_id" class="form-control" id="product_id" name="product_id"
+                                           required="required"
+                                           placeholder="รหัสสินค้า/อะไหล่">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="name_t" class="control-label">ชื่อสินค้า/อะไหล่</label>
                                     <input type="text" class="form-control" id="name_t" name="name_t"
-                                           placeholder="First Name">
+                                           required="required"
+                                           placeholder="ชื่อสินค้า/อะไหล่">
                                 </div>
                                 <div class="form-group">
                                     <label for="quantity" class="control-label">ยอดคงเหลือ</label>
                                     <input type="text" class="form-control" id="quantity" name="quantity"
-                                           placeholder="Last Name" required>
+                                           required="required"
+                                           placeholder="ยอดคงเหลือ">
                                 </div>
                                 <div class=”form-group”>
                                     <label for="unit_id" class="control-label">หน่วยนับ</label>
@@ -178,6 +189,27 @@ if (strlen($_SESSION['alogin']) == "") {
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css"/>
 
     <script>
+
+        $("#product_id").blur(function () {
+            let method = $('#action').val();
+            if (method === "ADD") {
+                let product_id = $('#product_id').val();
+                let formData = {action: "SEARCH", product_id: product_id};
+                $.ajax({
+                    url: 'model/manage_product_process.php',
+                    method: "POST",
+                    data: formData,
+                    success: function (data) {
+                        if (data == 2) {
+                            alert("Duplicate มีข้อมูลนี้แล้วในระบบ กรุณาตรวจสอบ");
+                        }
+                    }
+                })
+            }
+        });
+
+    </script>
+    <script>
         $(document).ready(function () {
 
             let dataRecords = $('#TableRecordList').DataTable({
@@ -190,7 +222,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 'columns': [
                     {data: 'product_id'},
                     {data: 'name_t'},
-                    {data: 'quantity',className: 'text-right'},
+                    {data: 'quantity', className: 'text-right'},
                     {data: 'unit_id'},
                     {data: 'status'},
                     {data: 'update'},
@@ -217,8 +249,23 @@ if (strlen($_SESSION['alogin']) == "") {
                 })
             });
             <!-- *** FOR SUBMIT FORM *** -->
-
         });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#btnAdd").click(function () {
+                $('#recordModal').modal('show');
+                $('#id').val("");
+                $('#product_id').val("");
+                $('#name_t').val("");
+                $('#quantity').val("");
+                $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
+                $('#action').val('ADD');
+                $('#save').val('Save');
+            });
+        });
+
     </script>
 
     <script>
