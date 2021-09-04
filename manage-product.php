@@ -131,10 +131,12 @@ if (strlen($_SESSION['alogin']) == "") {
                                     <select id="unit_id" name="unit_id"
                                             class="form-control" data-live-search="true"
                                             title="Please select">
-                                        <option>KG</option>
-                                        <option>Nos</option>
+                                        <!--option>KG</option>
+                                        <option>Nos</option-->
                                     </select>
                                 </div>
+
+
                                 <div class=”form-group”>
                                     <label for="status" class="control-label">Status</label>
                                     <select id="status" name="status"
@@ -354,6 +356,28 @@ if (strlen($_SESSION['alogin']) == "") {
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
+    </script>
+
+    <script>
+        $(document).ready(function(){
+
+            $('#unit_id').selectpicker();
+                $.ajax({
+                    url:"model/manage_product_process.php",
+                    method:"POST",
+                    data:{action:"FIND_UNIT"},
+                    dataType:"json",
+                    success:function(data)
+                    {
+                        let html = '';
+                        for(let count = 0; count < data.length; count++)
+                        {
+                            html += '<option value="'+data[count].id+'">'+data[count].name+'</option>';
+                        }
+                    }
+                })
+            }
+
     </script>
 
 
