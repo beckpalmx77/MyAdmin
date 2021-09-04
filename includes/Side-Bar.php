@@ -72,7 +72,7 @@ include('config/connect_db.php');
                                 $sub_menu = $_SESSION['lang'] == "th" ? $result1->label : $result1->label_en;
                                 ?>
                                 <a class="collapse-item"
-                                   href="<?php echo $result1->link . '?m=' . base64_encode($main_menu) . '&s=' . base64_encode($sub_menu) ?>"><?php echo "<i class='$result1->icon'></i>" ?>
+                                   href="<?php echo $result1->link . '?m=' . urlencode($main_menu) . '&s=' . urlencode($sub_menu) ?>"><?php echo "<i class='$result1->icon'></i>" ?>
                                     <span><?php echo $sub_menu; ?></span>
                                 </a>
                             <?php }

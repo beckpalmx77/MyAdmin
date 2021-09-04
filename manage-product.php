@@ -45,11 +45,10 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                 <thead>
                                                 <tr>
-                                                    <th>#</th>
-                                                    <th>Email</th>
-                                                    <th>First Name</th>
-                                                    <th>Last Name</th>
-                                                    <th>Type</th>
+                                                    <th>รหัสสินค้า/อะไหล่</th>
+                                                    <th>ชื่อสินค้า/อะไหล่</th>
+                                                    <th>ยอดคงเหลือ</th>
+                                                    <th>หน่วยนับ</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                     <th>Action</th>
@@ -57,11 +56,10 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 </thead>
                                                 <tfoot>
                                                 <tr>
-                                                    <th>#</th>
-                                                    <th>Email</th>
-                                                    <th>First Name</th>
-                                                    <th>Last Name</th>
-                                                    <th>Type</th>
+                                                    <th>รหัสสินค้า/อะไหล่</th>
+                                                    <th>ชื่อสินค้า/อะไหล่</th>
+                                                    <th>ยอดคงเหลือ</th>
+                                                    <th>หน่วยนับ</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                     <th>Action</th>
@@ -102,29 +100,28 @@ if (strlen($_SESSION['alogin']) == "") {
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group"
-                                    <label for="email" class="control-label">Email</label>
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="email"
+                                    <label for="product_id" class="control-label">รหัสสินค้า/อะไหล่</label>
+                                    <input type="product_id" class="form-control" id="product_id" name="product_id" placeholder="product_id"
                                            required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="first_name" class="control-label">ชื่อ</label>
-                                    <input type="text" class="form-control" id="first_name" name="first_name"
+                                    <label for="name_t" class="control-label">ชื่อสินค้า/อะไหล่</label>
+                                    <input type="text" class="form-control" id="name_t" name="name_t"
                                            placeholder="First Name">
                                 </div>
                                 <div class="form-group">
-                                    <label for="last_name" class="control-label">นามสกุล</label>
-                                    <input type="text" class="form-control" id="last_name" name="last_name"
+                                    <label for="quantity" class="control-label">ยอดคงเหลือ</label>
+                                    <input type="text" class="form-control" id="quantity" name="quantity"
                                            placeholder="Last Name" required>
                                 </div>
                                 <div class=”form-group”>
-                                    <label for="account_type" class="control-label">ประเภทผู้ใช้
-                                        (admin=จัดการระบบ,member=ผู้ใช้งานระบบ)</label>
-                                    <select id="account_type" name="account_type"
+                                    <label for="unit_id" class="control-label">หน่วยนับ</label>
+                                    <select id="unit_id" name="unit_id"
                                             class="form-control" data-live-search="true"
                                             title="Please select">
-                                        <option>member</option>
-                                        <option>admin</option>
+                                        <option>KG</option>
+                                        <option>Nos</option>
                                     </select>
                                 </div>
                                 <div class=”form-group”>
@@ -188,14 +185,13 @@ if (strlen($_SESSION['alogin']) == "") {
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': 'model/get_account_records.php'
+                    'url': 'model/get_product_records.php'
                 },
                 'columns': [
-                    {data: 'line_no'},
-                    {data: 'email'},
-                    {data: 'first_name'},
-                    {data: 'last_name'},
-                    {data: 'picture'},
+                    {data: 'product_id'},
+                    {data: 'name_t'},
+                    {data: 'quantity',className: 'text-right'},
+                    {data: 'unit_id'},
                     {data: 'status'},
                     {data: 'update'},
                     {data: 'delete'}
@@ -208,7 +204,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#save').attr('disabled', 'disabled');
                 let formData = $(this).serialize();
                 $.ajax({
-                    url: 'model/manage_account_process.php',
+                    url: 'model/manage_product_process.php',
                     method: "POST",
                     data: formData,
                     success: function (data) {
@@ -232,25 +228,25 @@ if (strlen($_SESSION['alogin']) == "") {
             let formData = {action: "GETDATA", id: id};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_account_process.php',
+                url: 'model/manage_product_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
                     let len = response.length;
                     for (let i = 0; i < len; i++) {
                         let id = response[i].id;
-                        let email = response[i].email;
-                        let first_name = response[i].first_name;
-                        let last_name = response[i].last_name;
-                        let account_type = response[i].account_type;
+                        let product_id = response[i].product_id;
+                        let name_t = response[i].name_t;
+                        let quantity = response[i].quantity;
+                        let unit_id = response[i].unit_id;
                         let status = response[i].status;
 
                         $('#recordModal').modal('show');
                         $('#id').val(id);
-                        $('#email').val(email);
-                        $('#first_name').val(first_name);
-                        $('#last_name').val(last_name);
-                        $('#account_type').val(account_type);
+                        $('#product_id').val(product_id);
+                        $('#name_t').val(name_t);
+                        $('#quantity').val(quantity);
+                        $('#unit_id').val(unit_id);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
                         $('#action').val('UPDATE');
@@ -273,25 +269,25 @@ if (strlen($_SESSION['alogin']) == "") {
             let formData = {action: "GETDATA", id: id};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_account_process.php',
+                url: 'model/manage_product_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
                     let len = response.length;
                     for (let i = 0; i < len; i++) {
                         let id = response[i].id;
-                        let email = response[i].email;
-                        let first_name = response[i].first_name;
-                        let last_name = response[i].last_name;
-                        let account_type = response[i].account_type;
+                        let product_id = response[i].product_id;
+                        let name_t = response[i].name_t;
+                        let quantity = response[i].quantity;
+                        let unit_id = response[i].unit_id;
                         let status = response[i].status;
 
                         $('#recordModal').modal('show');
                         $('#id').val(id);
-                        $('#email').val(email);
-                        $('#first_name').val(first_name);
-                        $('#last_name').val(last_name);
-                        $('#account_type').val(account_type);
+                        $('#product_id').val(product_id);
+                        $('#name_t').val(name_t);
+                        $('#quantity').val(quantity);
+                        $('#unit_id').val(unit_id);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-minus'></i> Delete Record");
                         $('#action').val('DELETE');
@@ -310,16 +306,6 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
-
-    <script>
-        $('#check').click(function () {
-            if ('password' == $('#test-input').attr('type')) {
-                $('#test-input').prop('type', 'text');
-            } else {
-                $('#test-input').prop('type', 'password');
-            }
         });
     </script>
 
