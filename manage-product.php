@@ -131,8 +131,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                     <select id="unit_id" name="unit_id"
                                             class="form-control" data-live-search="true"
                                             title="Please select">
-                                        <!--option>KG</option>
-                                        <option>Nos</option-->
                                     </select>
                                 </div>
 
@@ -151,6 +149,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <input type="hidden" name="id" id="id"/>
                                 <input type="hidden" name="action" id="action" value=""/>
                                 <input type="submit" name="save" id="save" class="btn btn-primary" value="Save"/>
+                                <button type="button" class="btn btn-info" id="btn_unit_id" name="btn_unit_id">Unit</button>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             </div>
                     </div>
@@ -267,7 +266,6 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#save').val('Save');
             });
         });
-
     </script>
 
     <script>
@@ -358,25 +356,30 @@ if (strlen($_SESSION['alogin']) == "") {
         });
     </script>
 
-    <script>
-        $(document).ready(function(){
+    <script type="text/javascript">
 
-            $('#unit_id').selectpicker();
-                $.ajax({
-                    url:"model/manage_product_process.php",
-                    method:"POST",
-                    data:{action:"FIND_UNIT"},
-                    dataType:"json",
-                    success:function(data)
-                    {
-                        let html = '';
-                        for(let count = 0; count < data.length; count++)
-                        {
-                            html += '<option value="'+data[count].id+'">'+data[count].name+'</option>';
-                        }
-                    }
-                })
-            }
+        $(document).ready(function () {
+            $("#unit_id").select2({
+
+                ajax: {
+                    url: 'search_data/search_unit.php',
+                    dataType: "json",
+                    type: "post",
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            searchTerm: params.term // search term
+                        };
+                    },
+                    processResults: function (response) {
+                        return {
+                            results: response
+                        };
+                    },
+                    cache: true
+                }
+            });
+        });
 
     </script>
 

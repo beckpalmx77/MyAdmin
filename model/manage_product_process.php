@@ -134,19 +134,3 @@ if ($_POST["action"] === 'DELETE') {
     }
 }
 
-if ($_POST["action"] === 'FIND_UNIT') {
-
-    $query = "  SELECT * FROM ims_unit ORDER BY id ASC ";
-    $statement = $dbh->prepare($query);
-    $statement->execute();
-    $data = $statement->fetchAll();
-    foreach ($data as $row) {
-        $output[] = array(
-            'id' => $row["id"],
-            'name' => $row["unit_name"]
-        );
-    }
-
-    echo json_encode($output);
-}
-
