@@ -40,7 +40,7 @@ $records = $stmt->fetch();
 $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
-$stmt = $dbh->prepare("SELECT * FROM ims_product WHERE 1 " . $searchQuery
+$stmt = $dbh->prepare("SELECT * FROM vims_product WHERE 1 " . $searchQuery
     . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
 
 // Bind values
@@ -62,6 +62,7 @@ foreach ($empRecords as $row) {
         "name_e" => $row['name_e'],
         "quantity" => $row['quantity'],
         "unit_id" => $row['unit_id'],
+        "unit_name" => $row['unit_name'],
         "update" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
         "delete" => "<button type='button' name='delete' id='" . $row['id'] . "' class='btn btn-danger btn-xs delete' data-toggle='tooltip' title='Delete'>Delete</button>",
         "picture" => "<img src = '" . $row['picture'] . "'  width='32' height='32' title='" . $row['name_t'] . "'>",

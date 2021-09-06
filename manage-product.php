@@ -129,14 +129,13 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <div class=”form-group”>
                                     <label for="unit_id" class="control-label">หน่วยนับ</label>
                                     <select id="unit_id" name="unit_id"
-                                            class="form-control" data-live-search="true"
-                                            title="Please select">
+                                            class="form-control" style="width: 100%" >
+                                        <option value='0'>- เลือกหน่วยนับ -</option>
                                     </select>
                                 </div>
 
-
                                 <div class=”form-group”>
-                                    <label for="status" class="control-label">Status</label>
+                                    <label for="status" class="control-label">สถานะ</label>
                                     <select id="status" name="status"
                                             class="form-control" data-live-search="true"
                                             title="Please select">
@@ -149,7 +148,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <input type="hidden" name="id" id="id"/>
                                 <input type="hidden" name="action" id="action" value=""/>
                                 <input type="submit" name="save" id="save" class="btn btn-primary" value="Save"/>
-                                <button type="button" class="btn btn-info" id="btn_unit_id" name="btn_unit_id">Unit</button>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             </div>
                     </div>
@@ -189,6 +187,9 @@ if (strlen($_SESSION['alogin']) == "") {
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css"/>
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+
     <script>
 
         $("#product_id").blur(function () {
@@ -224,7 +225,7 @@ if (strlen($_SESSION['alogin']) == "") {
                     {data: 'product_id'},
                     {data: 'name_t'},
                     {data: 'quantity', className: 'text-right'},
-                    {data: 'unit_id'},
+                    {data: 'unit_name'},
                     {data: 'status'},
                     {data: 'update'},
                     {data: 'delete'}
@@ -298,7 +299,6 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
                         $('#action').val('UPDATE');
                         $('#save').val('Save');
-
                     }
                 },
                 error: function (response) {
@@ -349,7 +349,6 @@ if (strlen($_SESSION['alogin']) == "") {
 
     </script>
 
-
     <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
@@ -358,27 +357,25 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script type="text/javascript">
 
-        $(document).ready(function () {
-            $("#unit_id").select2({
+        $("#unit_id").select2({
 
-                ajax: {
-                    url: 'search_data/search_unit.php',
-                    dataType: "json",
-                    type: "post",
-                    delay: 250,
-                    data: function (params) {
-                        return {
-                            searchTerm: params.term // search term
-                        };
-                    },
-                    processResults: function (response) {
-                        return {
-                            results: response
-                        };
-                    },
-                    cache: true
-                }
-            });
+            ajax: {
+                url: 'search_data/search_unit.php',
+                dataType: "json",
+                type: "post",
+                delay: 250,
+                data: function (params) {
+                    return {
+                        searchTerm: params.term // search term
+                    };
+                },
+                processResults: function (response) {
+                    return {
+                        results: response
+                    };
+                },
+                cache: true
+            }
         });
 
     </script>

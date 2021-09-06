@@ -31,7 +31,7 @@ $response = array();
 // Read Data
 foreach($ims_unitList as $user){
     $response[] = array(
-        "id" => $user['id'],
+        "id" => $user['unit_name'],
         "text" => $user['unit_name']
     );
 }

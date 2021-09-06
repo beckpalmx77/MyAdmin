@@ -13,7 +13,7 @@ if ($_POST["action"] === 'GETDATA') {
 
     $return_arr = array();
 
-    $sql_get = "SELECT * FROM ims_product WHERE id = " . $id;
+    $sql_get = "SELECT * FROM vims_product WHERE id = " . $id;
     $statement = $dbh->query($sql_get);
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -23,6 +23,7 @@ if ($_POST["action"] === 'GETDATA') {
             "name_t" => $result['name_t'],
             "quantity" => $result['quantity'],
             "unit_id" => $result['unit_id'],
+            "unit_name" => $result['unit_name'],
             "status" => $result['status']);
     }
 

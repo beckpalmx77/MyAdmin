@@ -1,10 +1,7 @@
 <?php
-session_start();
-error_reporting(0);
 
 include('../config/connect_db.php');
-include('../config/lang.php');
-include('../util/reorder_record.php');
+
 // Number of records fetch
     $numberofrecords = 10;
 

@@ -5,17 +5,10 @@
 
     <meta charset="UTF-8">
     <!-- jQuery -->
-    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script-->
-
-    <!-- select2 css -->
-    <!--link href='select2/dist/css/select2.min.css' rel='stylesheet' type='text/css'-->
-
-    <!-- select2 script -->
-    <!--script src='select2/dist/js/select2.min.js'></script-->
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- CDN -->
+    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
 
 </head>
