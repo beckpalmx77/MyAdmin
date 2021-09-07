@@ -27,7 +27,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="Dashboard.php">Home</a></li>
                             <li class="breadcrumb-item"><?php echo urldecode($_GET['m']) ?></li>
-                            <li class="breadcrumb-item active" aria-current="page"><?php echo urldecode($_GET['s']) ?></li>
+                            <li class="breadcrumb-item active"
+                                aria-current="page"><?php echo urldecode($_GET['s']) ?></li>
                         </ol>
                     </div>
 
@@ -53,9 +54,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <div class="">
                                                                     <input type="email" name="email"
                                                                            class="form-control"
-                                                                           required="required" id="email"
-                                                                           value="<?php echo $_SESSION['alogin']; ?>"
-                                                                    >
+                                                                           required="required" id="email">
                                                                 </div>
                                                             </div>
 
@@ -63,7 +62,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <label for="success" class="control-label">รหัสผ่าน
                                                                     ปัจจุบัน
                                                                     Current Password</label>
-
                                                                 <div class="">
                                                                     <input type="password" name="password"
                                                                            class="form-control"
@@ -100,11 +98,12 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 </div>
                                                             </div>
 
-                                                            <div><input id="action" name="action" type="hidden"
-                                                                        value="CHG">
+                                                            <div>
+                                                                <input id="action" name="action" type="hidden"
+                                                                       value="CHG">
                                                             </div>
-                                                            <div><input id="login_id" name="login_id" type="hidden"
-                                                                        value="<?php echo $_SESSION['login_id']; ?>">
+                                                            <div>
+                                                                <input id="login_id" name="login_id" type="hidden">
                                                             </div>
 
                                                         </form>
@@ -192,6 +191,19 @@ if (strlen($_SESSION['alogin']) == "") {
             if ($('#new_password').val() !== $('#re_password').val()) {
                 alertify.error("กรุณาป้อนรหัสผ่านใหม่ 2 ครั้งให้เหมือนกัน !!! ");
             }
+        });
+
+    </script>
+
+
+    <script>
+
+        $(document).ready(function () {
+            let email = '<?php echo $_SESSION['alogin']; ?>';
+            let login_id = '<?php echo $_SESSION['login_id']; ?>';
+            $('#email').val(email);
+            $('#login_id').val(login_id);
+
         });
 
     </script>
