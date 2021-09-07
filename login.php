@@ -16,7 +16,6 @@ include('includes/Header.php');
                     password: password
                 },
                 function (response) {
-
                     if (response == 1) {
                         document.location = 'dashboard.php';
                     } else {
@@ -27,6 +26,7 @@ include('includes/Header.php');
         });
     });
 </script>
+
 
 <script type='text/javascript'>
     $(document).ready(function(){
@@ -70,13 +70,6 @@ include('includes/Header.php');
                                     </div>
                                 </div>
 
-                                <!--div class="form-group">
-                                    <div class="custom-control custom-checkbox small" style="line-height: 1.5rem;">
-                                        <input type="checkbox" class="custom-control-input" id="remember" <?php if(isset($_COOKIE["member_login"])) { ?> checked <?php } ?>>
-                                        <label class="custom-control-label" for="remember">Remember Me</label>
-                                    </div>
-                                </div-->
-
                                 <div class="form-group">
                                     <button type="button" name="login-submit" id="login-submit" tabindex="4"
                                             class="form-control btn btn-primary">
@@ -94,4 +87,5 @@ include('includes/Header.php');
 
 </body>
 </html>
+
 

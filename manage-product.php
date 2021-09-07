@@ -92,10 +92,6 @@ if (strlen($_SESSION['alogin']) == "") {
                         </div>
 
                     </div>
-                    <!--Row-->
-
-                    <!-- Row -->
-
                 </div>
 
                 <div id="recordModal" class="modal fade">
@@ -120,22 +116,30 @@ if (strlen($_SESSION['alogin']) == "") {
                                            required="required"
                                            placeholder="ชื่อสินค้า/อะไหล่">
                                 </div>
-                                <div class="form-group">
-                                    <label for="quantity" class="control-label">ยอดคงเหลือ</label>
-                                    <input type="text" class="form-control" id="quantity" name="quantity"
-                                           required="required"
-                                           placeholder="ยอดคงเหลือ">
-                                </div>
-                                <div class=”form-group”>
-                                    <label for="unit_id" class="control-label">หน่วยนับ</label>
-                                    <select id="unit_id" name="unit_id"
-                                            class="form-control" style="width: 100%" >
-                                        <option value='0'>- เลือกหน่วยนับ -</option>
-                                    </select>
+
+                                <div class="form-group row">
+                                    <div class="col-sm-4">
+                                        <label for="quantity" class="control-label">ยอดคงเหลือ</label>
+                                        <input type="text" class="form-control" id="quantity" name="quantity"
+                                               required="required"
+                                               placeholder="ยอดคงเหลือ">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="quantity" class="control-label">หน่วยนับ</label>
+                                        <input type="text" class="form-control" id="unit_name" name="unit_name"
+                                               required="required"
+                                               placeholder="หน่วยนับ">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <label for="quantity" class="control-label">เลือกหน่วยนับ</label>
+                                        <select id="unit_id" name="unit_id"
+                                                class="form-control" style="width: 100%">
+                                        </select>
+                                    </div>
                                 </div>
 
-                                <div class=”form-group”>
-                                    <label for="status" class="control-label">สถานะ</label>
+                                <div class="form-group">
+                                    <label for="status" class="control-label"></label>
                                     <select id="status" name="status"
                                             class="form-control" data-live-search="true"
                                             title="Please select">
@@ -143,31 +147,33 @@ if (strlen($_SESSION['alogin']) == "") {
                                         <option>InActive</option>
                                     </select>
                                 </div>
+
+                                <div class="modal-footer">
+                                    <input type="hidden" name="id" id="id"/>
+                                    <input type="hidden" name="action" id="action" value=""/>
+                                    <input type="submit" name="save" id="save" class="btn btn-primary" value="Save"/>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
                             </div>
-                            <div class="modal-footer">
-                                <input type="hidden" name="id" id="id"/>
-                                <input type="hidden" name="action" id="action" value=""/>
-                                <input type="submit" name="save" id="save" class="btn btn-primary" value="Save"/>
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
+                        </form>
                     </div>
-                    </form>
                 </div>
 
             </div>
 
-
-            <!---Container Fluid-->
-
         </div>
 
-        <?php
-        include('includes/Modal-Logout.php');
-        include('includes/Footer.php');
-        ?>
 
     </div>
+
     </div>
+
+
+    <?php
+    include('includes/Modal-Logout.php');
+    include('includes/Footer.php');
+    ?>
+
 
     <!-- Scroll to top -->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -287,6 +293,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         let name_t = response[i].name_t;
                         let quantity = response[i].quantity;
                         let unit_id = response[i].unit_id;
+                        let unit_name = response[i].unit_name;
                         let status = response[i].status;
 
                         $('#recordModal').modal('show');
@@ -294,7 +301,9 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#product_id').val(product_id);
                         $('#name_t').val(name_t);
                         $('#quantity').val(quantity);
-                        $('#unit_id').val(unit_id);
+                        //$('#unit_id').val(unit_id);
+                        $('#unit_id').val(unit_id).prop('selected', true);
+                        $('#unit_name').val(unit_name);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
                         $('#action').val('UPDATE');
@@ -358,7 +367,6 @@ if (strlen($_SESSION['alogin']) == "") {
     <script type="text/javascript">
 
         $("#unit_id").select2({
-
             ajax: {
                 url: 'search_data/search_unit.php',
                 dataType: "json",
@@ -378,6 +386,15 @@ if (strlen($_SESSION['alogin']) == "") {
             }
         });
 
+    </script>
+
+    <script>
+        $('#unit_id').on('select2:select', function (e) {
+            let id = e.params.data.id;
+            let name = e.params.data.text;
+            $('#unit_id').val(id);
+            $('#unit_name').val(name);
+        });
     </script>
 
 

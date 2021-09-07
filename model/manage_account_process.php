@@ -37,7 +37,7 @@ if ($_POST["action"] === 'ADD') {
 
         $email = $_POST["email"];
         $user_id = $_POST["email"];
-        $password = md5($_POST['password']);
+        $password = password_hash($password, PASSWORD_DEFAULT);
         $first_name = $_POST["first_name"];
         $last_name = $_POST["last_name"];
         $account_type = $_POST["account_type"];
@@ -132,7 +132,7 @@ if ($_POST["action"] === 'DELETE') {
 
 if ($_POST["action"] === 'CHG') {
     try {
-        $password = md5($_POST['new_password']);
+        $password = password_hash($_POST['new_password'], PASSWORD_DEFAULT);
         $id = $_POST["login_id"];
         $sql_update = "UPDATE ims_user SET password=:password WHERE id = :id";
         $query = $dbh->prepare($sql_update);
