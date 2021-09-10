@@ -26,12 +26,9 @@
       <path value="$PROJECT_DIR$/vendor/fontawesome-free/css" />
       <path value="$PROJECT_DIR$/vendor/fontawesome-free/webfonts" />
       <path value="$PROJECT_DIR$/vendor/fontawesome-free/js" />
-      <path value="$PROJECT_DIR$/vendor/select2/tests" />
       <path value="$PROJECT_DIR$/vendor/fontawesome-free-5.15.4-web/webfonts" />
       <path value="$PROJECT_DIR$/vendor/fontawesome-free/scss" />
       <path value="$PROJECT_DIR$/vendor/fontawesome-free/svgs" />
-      <path value="$PROJECT_DIR$/vendor/select2/src" />
-      <path value="$PROJECT_DIR$/vendor/select2/dist" />
       <path value="$PROJECT_DIR$/vendor/composer" />
       <path value="$PROJECT_DIR$/vendor/tcpdf/tools" />
       <path value="$PROJECT_DIR$/vendor/tcpdf/include" />
@@ -39,6 +36,9 @@
       <path value="$PROJECT_DIR$/vendor/tcpdf/examples" />
       <path value="$PROJECT_DIR$/vendor/tcpdf/fonts" />
       <path value="$PROJECT_DIR$/vendor/fontawesome-4.7/css" />
+      <path value="$PROJECT_DIR$/vendor/bootstrap-select/css" />
+      <path value="$PROJECT_DIR$/vendor/bootstrap-select/js" />
+      <path value="$PROJECT_DIR$/vendor/ttskch/select2-bootstrap4-theme" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />

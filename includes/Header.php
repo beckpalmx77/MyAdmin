@@ -17,21 +17,26 @@
     <link rel="stylesheet" href="vendor/alertify/css/alertify.default.css"/>
     <link rel="stylesheet" href="vendor/alertify/css/main.css"/>
 
-
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <script src="vendor/alertify/js/alertify.js"></script>
 
+    <!--link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script-->
+
     <!--link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /-->
     <!--script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script-->
 
+
+
+
     <link href="../css/select2_4010.css" rel="stylesheet"/>
     <script src="../js/select2_4010.js"></script>
-
 
     <?php
     session_start();
     error_reporting(0);
     ?>
+
 </head>

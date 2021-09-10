@@ -133,7 +133,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                     <div class="col-sm-4">
                                         <label for="quantity" class="control-label">เลือกหน่วยนับ</label>
                                         <select id="unit_id" name="unit_id"
-                                                class="form-control" style="width: 100%">
+                                                style="width: 100%">
                                         </select>
                                     </div>
                                 </div>
@@ -162,7 +162,6 @@ if (strlen($_SESSION['alogin']) == "") {
             </div>
 
         </div>
-
 
     </div>
 
@@ -279,6 +278,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
         $("#TableRecordList").on('click', '.update', function () {
             let id = $(this).attr("id");
+//          alert(id);
             let formData = {action: "GETDATA", id: id};
             $.ajax({
                 type: "POST",
@@ -301,8 +301,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#product_id').val(product_id);
                         $('#name_t').val(name_t);
                         $('#quantity').val(quantity);
-                        //$('#unit_id').val(unit_id);
-                        $('#unit_id').val(unit_id).prop('selected', true);
+                        $('#unit_id').val(unit_id);
                         $('#unit_name').val(unit_name);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
@@ -336,6 +335,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         let name_t = response[i].name_t;
                         let quantity = response[i].quantity;
                         let unit_id = response[i].unit_id;
+                        let unit_name = response[i].unit_name;
                         let status = response[i].status;
 
                         $('#recordModal').modal('show');
@@ -344,6 +344,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#name_t').val(name_t);
                         $('#quantity').val(quantity);
                         $('#unit_id').val(unit_id);
+                        $('#unit_name').val(unit_name);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-minus'></i> Delete Record");
                         $('#action').val('DELETE');
@@ -394,6 +395,12 @@ if (strlen($_SESSION['alogin']) == "") {
             let name = e.params.data.text;
             $('#unit_id').val(id);
             $('#unit_name').val(name);
+        });
+    </script>
+
+    <script>
+        $('#unit_name').on('click', function (e) {
+            $('#Search_Modal').modal('show');
         });
     </script>
 
