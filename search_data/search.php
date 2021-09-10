@@ -28,11 +28,12 @@
 </form>
 
 <!-- Modal -->
-<div class="modal fade" id="SearchModal" tabindex="-1" role="dialog" aria-labelledby="SearchModalTitle" aria-hidden="true">
+<div class="modal fade" id="SearchModal" tabindex="-1" role="dialog" aria-labelledby="SearchModalTitle"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="SearchModalTitle">Modal title</h5>
+                <h5 class="modal-title" id="SearchModalTitle">ค้นหาข้อมูล</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -60,7 +61,7 @@
 
             <div class="modal-footer">
                 <input type="hidden" name="id" id="id"/>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!--button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button-->
             </div>
 
         </div>
@@ -69,11 +70,21 @@
 <!-- Modal -->
 
 
-
 <script>
     $(document).ready(function () {
-
         let dataRecords = $('#TableUnitList').DataTable({
+            'language': {
+                search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
+                info: 'หน้าที่ _PAGE_ of _PAGES_',
+                infoEmpty: 'ไม่มีข้อมูล',
+                zeroRecords: "ไม่มีข้อมูลตามเงื่อนไข",
+                infoFiltered: '(กรองข้อมูลจากทั้งหมด _MAX_ รายการ)',
+                paginate: {
+                    previous: 'ก่อนหน้า',
+                    last: 'สุดท้าย',
+                    next: 'ต่อไป'
+                }
+            },
             'processing': true,
             'serverSide': true,
             'serverMethod': 'post',
