@@ -56,9 +56,9 @@ foreach ($empRecords as $row) {
         "id" => $row['id'],
         "unit_id" => $row['unit_id'],
         "unit_name" => $row['unit_name'],
-        "status" => $row['status'],
-        "select" => "<button type='button' name='select' id='" . $row['unit_id'] . "@" . $row['unit_name'] . "' class='btn btn-outline-success btn-xs select' data-toggle='tooltip' title='select'>select <i class='fa fa-check' aria-hidden='true'></i>
-</button>",
+        "update" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
+        "delete" => "<button type='button' name='delete' id='" . $row['id'] . "' class='btn btn-danger btn-xs delete' data-toggle='tooltip' title='Delete'>Delete</button>",
+        "status" => $row['status']==='Active'? "<div class='text-success'>" . $row['status'] . "</div>" : "<div class='text-muted'> " . $row['status'] . "</div>"
     );
 
 }

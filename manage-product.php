@@ -7,7 +7,6 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <!DOCTYPE html>
     <html lang="th">
-
     <body id="page-top">
     <div id="wrapper">
         <?php
@@ -19,7 +18,6 @@ if (strlen($_SESSION['alogin']) == "") {
                 <?php
                 include('includes/Top-Bar.php');
                 ?>
-
                 <!-- Container Fluid-->
                 <div class="container-fluid" id="container-wrapper">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -79,94 +77,146 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                         </div>
 
-                                        <!--/div-->
-                                        <!-- /.row -->
+                                        <div class="modal fade" id="recordModal">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Modal title</h4>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-hidden="true">×
+                                                        </button>
+                                                    </div>
+                                                    <form method="post" id="recordForm">
+                                                        <div class="modal-body">
+                                                            <div class="modal-body">
 
-                                    </section>
+                                                                <div class="form-group">
+                                                                    <label for="product_id" class="control-label">รหัสสินค้า/อะไหล่</label>
+                                                                    <input type="product_id" class="form-control"
+                                                                           id="product_id" name="product_id"
+                                                                           required="required"
+                                                                           placeholder="รหัสสินค้า/อะไหล่">
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="name_t"
+                                                                           class="control-label">ชื่อสินค้า/อะไหล่</label>
+                                                                    <input type="text" class="form-control" id="name_t"
+                                                                           name="name_t"
+                                                                           required="required"
+                                                                           placeholder="ชื่อสินค้า/อะไหล่">
+                                                                </div>
+
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4">
+                                                                        <label for="quantity"
+                                                                               class="control-label">ยอดคงเหลือ</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="quantity"
+                                                                               name="quantity"
+                                                                               required="required"
+                                                                               placeholder="ยอดคงเหลือ">
+                                                                    </div>
+                                                                    <input type="hidden" class="form-control"
+                                                                           id="unit_id"
+                                                                           name="unit_id">
+                                                                    <div class="col-sm-6">
+                                                                        <label for="quantity"
+                                                                               class="control-label">หน่วยนับ</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="unit_name"
+                                                                               name="unit_name"
+                                                                               required="required"
+                                                                               placeholder="หน่วยนับ">
+                                                                    </div>
+
+                                                                    <div class="col-sm-2">
+                                                                        <label for="quantity"
+                                                                               class="control-label">เลือก</label>
+
+                                                                        <a data-toggle="modal" href="#SearchModal"
+                                                                           class="btn btn-primary">
+                                                                            Click <i class="fa fa-search"
+                                                                                     aria-hidden="true"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label for="status" class="control-label"></label>
+                                                                    <select id="status" name="status"
+                                                                            class="form-control" data-live-search="true"
+                                                                            title="Please select">
+                                                                        <option>Active</option>
+                                                                        <option>InActive</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" name="id" id="id"/>
+                                                            <input type="hidden" name="action" id="action" value=""/>
+                                                            <input type="submit" name="save" id="save"
+                                                                   class="btn btn-primary" value="Save"/>
+                                                            <button type="button" class="btn btn-default"
+                                                                    data-dismiss="modal">Close
+                                                            </button>
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
 
 
+                                        <div class="modal fade" id="SearchModal">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Modal title</h4>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-hidden="true">×
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="container"></div>
+                                                    <div class="modal-body">
+
+                                                        <div class="modal-body">
+
+                                                            <table cellpadding="0" cellspacing="0" border="0"
+                                                                   class="display"
+                                                                   id="TableUnitList"
+                                                                   width="100%">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>รหัส</th>
+                                                                    <th>หน่วยนับ</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tfoot>
+                                                                <tr>
+                                                                    <th>รหัส</th>
+                                                                    <th>หน่วยนับ</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
+
                 </div>
-
-                <div id="recordModal" class="modal fade">
-                    <div class="modal-dialog">
-                        <form method="post" id="recordForm">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title"><i class="fa fa-plus"></i> Edit Record</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group"
-                                    <label for="product_id" class="control-label">รหัสสินค้า/อะไหล่</label>
-                                    <input type="product_id" class="form-control" id="product_id" name="product_id"
-                                           required="required"
-                                           placeholder="รหัสสินค้า/อะไหล่">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="name_t" class="control-label">ชื่อสินค้า/อะไหล่</label>
-                                    <input type="text" class="form-control" id="name_t" name="name_t"
-                                           required="required"
-                                           placeholder="ชื่อสินค้า/อะไหล่">
-                                </div>
-
-                                <div class="form-group row">
-                                    <div class="col-sm-4">
-                                        <label for="quantity" class="control-label">ยอดคงเหลือ</label>
-                                        <input type="text" class="form-control" id="quantity" name="quantity"
-                                               required="required"
-                                               placeholder="ยอดคงเหลือ">
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <label for="quantity" class="control-label">หน่วยนับ</label>
-                                        <input type="text" class="form-control" id="unit_name" name="unit_name"
-                                               required="required"
-                                               placeholder="หน่วยนับ">
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <label for="quantity" class="control-label">เลือกหน่วยนับ</label>
-                                        <select id="unit_id" name="unit_id"
-                                                style="width: 100%">
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="status" class="control-label"></label>
-                                    <select id="status" name="status"
-                                            class="form-control" data-live-search="true"
-                                            title="Please select">
-                                        <option>Active</option>
-                                        <option>InActive</option>
-                                    </select>
-                                </div>
-
-                                <div class="modal-footer">
-                                    <input type="hidden" name="id" id="id"/>
-                                    <input type="hidden" name="action" id="action" value=""/>
-                                    <input type="submit" name="save" id="save" class="btn btn-primary" value="Save"/>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
             </div>
-
         </div>
-
     </div>
-
-    </div>
-
 
     <?php
     include('includes/Modal-Logout.php');
@@ -217,10 +267,24 @@ if (strlen($_SESSION['alogin']) == "") {
         });
 
     </script>
+
     <script>
         $(document).ready(function () {
 
             let dataRecords = $('#TableRecordList').DataTable({
+                'lengthMenu': [[5, 10, 20, 100], [5, 10, 20, 100]],
+                'language': {
+                    search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
+                    info: 'หน้าที่ _PAGE_ จาก _PAGES_',
+                    infoEmpty: 'ไม่มีข้อมูล',
+                    zeroRecords: "ไม่มีข้อมูลตามเงื่อนไข",
+                    infoFiltered: '(กรองข้อมูลจากทั้งหมด _MAX_ รายการ)',
+                    paginate: {
+                        previous: 'ก่อนหน้า',
+                        last: 'สุดท้าย',
+                        next: 'ต่อไป'
+                    }
+                },
                 'processing': true,
                 'serverSide': true,
                 'serverMethod': 'post',
@@ -279,7 +343,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
         $("#TableRecordList").on('click', '.update', function () {
             let id = $(this).attr("id");
-//          alert(id);
+            //alert(id);
             let formData = {action: "GETDATA", id: id};
             $.ajax({
                 type: "POST",
@@ -360,54 +424,50 @@ if (strlen($_SESSION['alogin']) == "") {
 
     </script>
 
+
     <script>
         $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
-
-    <script type="text/javascript">
-
-        $("#unit_id").select2({
-            ajax: {
-                url: 'search_data/search_unit.php',
-                dataType: "json",
-                type: "post",
-                delay: 250,
-                data: function (params) {
-                    return {
-                        searchTerm: params.term // search term
-                    };
+            let dataRecords = $('#TableUnitList').DataTable({
+                'lengthMenu': [[5, 10, 20, 100], [5, 10, 20, 100]],
+                'language': {
+                    search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
+                    info: 'หน้าที่ _PAGE_ จาก _PAGES_',
+                    infoEmpty: 'ไม่มีข้อมูล',
+                    zeroRecords: "ไม่มีข้อมูลตามเงื่อนไข",
+                    infoFiltered: '(กรองข้อมูลจากทั้งหมด _MAX_ รายการ)',
+                    paginate: {
+                        previous: 'ก่อนหน้า',
+                        last: 'สุดท้าย',
+                        next: 'ต่อไป'
+                    }
                 },
-                processResults: function (response) {
-                    return {
-                        results: response
-                    };
+                'processing': true,
+                'serverSide': true,
+                'serverMethod': 'post',
+                'ajax': {
+                    'url': 'model/get_unit_records.php'
                 },
-                cache: true
-            }
-        });
-
-    </script>
-
-    <script>
-        $('#unit_id').on('select2:select', function (e) {
-            let id = e.params.data.id;
-            let name = e.params.data.text;
-            $('#unit_id').val(id);
-            $('#unit_name').val(name);
+                'columns': [
+                    {data: 'unit_id'},
+                    {data: 'unit_name'},
+                    {data: 'select'}
+                ]
+            });
         });
     </script>
 
     <script>
-        $('#unit_name').on('click', function (e) {
-            $('#Search_Modal').modal('show');
-        });
-    </script>
 
+        $("#TableUnitList").on('click', '.select', function () {
+            let data = this.id.split('@');
+            $('#unit_id').val(data[0]);
+            $('#unit_name').val(data[1]);
+            $('#SearchModal').modal('hide');
+        });
+
+    </script>
 
     </body>
-
     </html>
 
 <?php } ?>
