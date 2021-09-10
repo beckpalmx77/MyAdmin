@@ -73,6 +73,7 @@
 <script>
     $(document).ready(function () {
         let dataRecords = $('#TableUnitList').DataTable({
+            'lengthMenu': [[5, 10, 20, 100], [5, 10, 20, 100]],
             'language': {
                 search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
                 info: 'หน้าที่ _PAGE_ of _PAGES_',
