@@ -87,55 +87,21 @@ if (strlen($_SESSION['alogin']) == "") {
                                                             <div class="modal-body">
 
                                                                 <div class="form-group">
-                                                                    <label for="product_id" class="control-label">รหัสสินค้า/อะไหล่</label>
-                                                                    <input type="product_id" class="form-control"
-                                                                           id="product_id" name="product_id"
+                                                                    <label for="unit_id" class="control-label">รหัสหน่วยนับ</label>
+                                                                    <input type="unit_id" class="form-control"
+                                                                           id="unit_id" name="unit_id"
                                                                            required="required"
-                                                                           placeholder="รหัสสินค้า/อะไหล่">
+                                                                           placeholder="รหัสหน่วยนับ">
                                                                 </div>
 
                                                                 <div class="form-group">
                                                                     <label for="name_t"
-                                                                           class="control-label">ชื่อสินค้า/อะไหล่</label>
-                                                                    <input type="text" class="form-control" id="name_t"
-                                                                           name="name_t"
+                                                                           class="control-label">ชื่อหน่วยนับ</label>
+                                                                    <input type="text" class="form-control"
+                                                                           id="unit_name"
+                                                                           name="unit_name"
                                                                            required="required"
-                                                                           placeholder="ชื่อสินค้า/อะไหล่">
-                                                                </div>
-
-                                                                <div class="form-group row">
-                                                                    <div class="col-sm-4">
-                                                                        <label for="quantity"
-                                                                               class="control-label">ยอดคงเหลือ</label>
-                                                                        <input type="text" class="form-control"
-                                                                               id="quantity"
-                                                                               name="quantity"
-                                                                               required="required"
-                                                                               placeholder="ยอดคงเหลือ">
-                                                                    </div>
-                                                                    <input type="hidden" class="form-control"
-                                                                           id="unit_id"
-                                                                           name="unit_id">
-                                                                    <div class="col-sm-6">
-                                                                        <label for="quantity"
-                                                                               class="control-label">หน่วยนับ</label>
-                                                                        <input type="text" class="form-control"
-                                                                               id="unit_name"
-                                                                               name="unit_name"
-                                                                               required="required"
-                                                                               placeholder="หน่วยนับ">
-                                                                    </div>
-
-                                                                    <div class="col-sm-2">
-                                                                        <label for="quantity"
-                                                                               class="control-label">เลือก</label>
-
-                                                                        <a data-toggle="modal" href="#SearchModal"
-                                                                           class="btn btn-primary">
-                                                                            Click <i class="fa fa-search"
-                                                                                     aria-hidden="true"></i>
-                                                                        </a>
-                                                                    </div>
+                                                                           placeholder="ชื่อหน่วยนับ">
                                                                 </div>
 
                                                                 <div class="form-group">
@@ -244,13 +210,14 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
 
-        $("#product_id").blur(function () {
+        $("#unit_id").blur(function () {
             let method = $('#action').val();
             if (method === "ADD") {
-                let product_id = $('#product_id').val();
-                let formData = {action: "SEARCH", product_id: product_id};
+                let unit_id = $('#unit_id').val();
+                let unit_name = $('#unit_name').val();
+                let formData = {action: "SEARCH", unit_id: unit_id,unit_name:unit_name};
                 $.ajax({
-                    url: 'model/manage_product_process.php',
+                    url: 'model/manage_unit_process.php',
                     method: "POST",
                     data: formData,
                     success: function (data) {
@@ -266,6 +233,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
+            let formData = {action: "GETUNIT",sub_action: "GETMASTER"};
             let dataRecords = $('#TableRecordList').DataTable({
                 'lengthMenu': [[5, 10, 20, 100], [5, 10, 20, 100]],
                 'language': {
@@ -284,7 +252,8 @@ if (strlen($_SESSION['alogin']) == "") {
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': 'model/get_unit_master.php'
+                    'url': 'model/manage_unit_process.php',
+                    'data':formData
                 },
                 'columns': [
                     {data: 'unit_id'},
@@ -301,7 +270,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#save').attr('disabled', 'disabled');
                 let formData = $(this).serialize();
                 $.ajax({
-                    url: 'model/manage_product_process.php',
+                    url: 'model/manage_unit_process.php',
                     method: "POST",
                     data: formData,
                     success: function (data) {
@@ -322,7 +291,7 @@ if (strlen($_SESSION['alogin']) == "") {
             $("#btnAdd").click(function () {
                 $('#recordModal').modal('show');
                 $('#id').val("");
-                $('#product_id').val("");
+                $('#unit_id').val("");
                 $('#name_t').val("");
                 $('#quantity').val("");
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
@@ -340,25 +309,19 @@ if (strlen($_SESSION['alogin']) == "") {
             let formData = {action: "GETDATA", id: id};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_product_process.php',
+                url: 'model/manage_unit_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
                     let len = response.length;
                     for (let i = 0; i < len; i++) {
                         let id = response[i].id;
-                        let product_id = response[i].product_id;
-                        let name_t = response[i].name_t;
-                        let quantity = response[i].quantity;
                         let unit_id = response[i].unit_id;
                         let unit_name = response[i].unit_name;
                         let status = response[i].status;
 
                         $('#recordModal').modal('show');
                         $('#id').val(id);
-                        $('#product_id').val(product_id);
-                        $('#name_t').val(name_t);
-                        $('#quantity').val(quantity);
                         $('#unit_id').val(unit_id);
                         $('#unit_name').val(unit_name);
                         $('#status').val(status);
@@ -382,25 +345,19 @@ if (strlen($_SESSION['alogin']) == "") {
             let formData = {action: "GETDATA", id: id};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_product_process.php',
+                url: 'model/manage_unit_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
                     let len = response.length;
                     for (let i = 0; i < len; i++) {
                         let id = response[i].id;
-                        let product_id = response[i].product_id;
-                        let name_t = response[i].name_t;
-                        let quantity = response[i].quantity;
                         let unit_id = response[i].unit_id;
                         let unit_name = response[i].unit_name;
                         let status = response[i].status;
 
                         $('#recordModal').modal('show');
                         $('#id').val(id);
-                        $('#product_id').val(product_id);
-                        $('#name_t').val(name_t);
-                        $('#quantity').val(quantity);
                         $('#unit_id').val(unit_id);
                         $('#unit_name').val(unit_name);
                         $('#status').val(status);
@@ -413,49 +370,6 @@ if (strlen($_SESSION['alogin']) == "") {
                     alertify.error("error : " + response);
                 }
             });
-        });
-
-    </script>
-
-
-    <script>
-        $(document).ready(function () {
-            let dataRecords = $('#TableUnitList').DataTable({
-                'lengthMenu': [[5, 10, 20, 100], [5, 10, 20, 100]],
-                'language': {
-                    search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
-                    info: 'หน้าที่ _PAGE_ จาก _PAGES_',
-                    infoEmpty: 'ไม่มีข้อมูล',
-                    zeroRecords: "ไม่มีข้อมูลตามเงื่อนไข",
-                    infoFiltered: '(กรองข้อมูลจากทั้งหมด _MAX_ รายการ)',
-                    paginate: {
-                        previous: 'ก่อนหน้า',
-                        last: 'สุดท้าย',
-                        next: 'ต่อไป'
-                    }
-                },
-                'processing': true,
-                'serverSide': true,
-                'serverMethod': 'post',
-                'ajax': {
-                    'url': 'model/get_unit_records.php'
-                },
-                'columns': [
-                    {data: 'unit_id'},
-                    {data: 'unit_name'},
-                    {data: 'select'}
-                ]
-            });
-        });
-    </script>
-
-    <script>
-
-        $("#TableUnitList").on('click', '.select', function () {
-            let data = this.id.split('@');
-            $('#unit_id').val(data[0]);
-            $('#unit_name').val(data[1]);
-            $('#SearchModal').modal('hide');
         });
 
     </script>

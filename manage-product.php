@@ -427,6 +427,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
+            let formData = {action: "GETUNIT",sub_action: "GETSELECT"};
             let dataRecords = $('#TableUnitList').DataTable({
                 'lengthMenu': [[5, 10, 20, 100], [5, 10, 20, 100]],
                 'language': {
@@ -445,7 +446,8 @@ if (strlen($_SESSION['alogin']) == "") {
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': 'model/get_unit_records.php'
+                    'url': 'model/manage_unit_process.php',
+                    'data':formData
                 },
                 'columns': [
                     {data: 'unit_id'},
