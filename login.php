@@ -57,7 +57,7 @@ include('includes/Header.php');
                             <div class="login-form">
                                 <div class="text-center">
                                     <div><img src="img/MyAdmin-Logo.png"/></div>
-                                    <h1 class="h4 text-gray-900 mb-4">Login เข้าระบบ</h1>
+                                    <h1 class="h4 text-gray-900 mb-4">Login</h1>
                                 </div>
                                 <div class="form-group">
                                     <input type="email" class="form-control" id="email"
