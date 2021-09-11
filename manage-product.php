@@ -163,7 +163,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                    class="btn btn-primary" value="Save"/>
                                                             </span>
                                                             <button type="button" class="btn btn-danger"
-                                                                    data-dismiss="modal">Close <i class="fa fa-window-close"></i>
+                                                                    data-dismiss="modal">Close <i
+                                                                        class="fa fa-window-close"></i>
                                                             </button>
                                                         </div>
                                                     </form>
