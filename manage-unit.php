@@ -235,7 +235,7 @@ if (strlen($_SESSION['alogin']) == "") {
         $(document).ready(function () {
             let formData = {action: "GETUNIT",sub_action: "GETMASTER"};
             let dataRecords = $('#TableRecordList').DataTable({
-                'lengthMenu': [[5, 10, 20, 100], [5, 10, 20, 100]],
+                'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
                 'language': {
                     search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
                     info: 'หน้าที่ _PAGE_ จาก _PAGES_',
