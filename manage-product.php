@@ -149,7 +149,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                             class="form-control" data-live-search="true"
                                                                             title="Please select">
                                                                         <option>Active</option>
-                                                                        <option>InActive</option>
+                                                                        <option>Inactive</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
