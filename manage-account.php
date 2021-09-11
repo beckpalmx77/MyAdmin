@@ -182,13 +182,14 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
-
+            let formData = {action: "GETACCOUNT",sub_action: "GETMASTER"};
             let dataRecords = $('#TableRecordList').DataTable({
                 'processing': true,
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': 'model/get_account_records.php'
+                    'url': 'model/manage_account_process.php',
+                    'data':formData
                 },
                 'columns': [
                     {data: 'line_no'},
