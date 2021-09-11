@@ -270,7 +270,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
-            let formData = {action: "GETPRODUCT",sub_action: "GETMASTER"};
+            let formData = {action: "GETPRODUCT", sub_action: "GETMASTER"};
             let dataRecords = $('#TableRecordList').DataTable({
                 'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
                 'language': {
@@ -290,7 +290,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 'serverMethod': 'post',
                 'ajax': {
                     'url': 'model/manage_product_process.php',
-                    'data':formData
+                    'data': formData
                 },
                 'columns': [
                     {data: 'product_id'},
@@ -428,7 +428,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
-            let formData = {action: "GETUNIT",sub_action: "GETSELECT"};
+            let formData = {action: "GETUNIT", sub_action: "GETSELECT"};
             let dataRecords = $('#TableUnitList').DataTable({
                 'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
                 'language': {
@@ -448,7 +448,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 'serverMethod': 'post',
                 'ajax': {
                     'url': 'model/manage_unit_process.php',
-                    'data':formData
+                    'data': formData
                 },
                 'columns': [
                     {data: 'unit_id'},
