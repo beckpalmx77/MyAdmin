@@ -27,7 +27,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="Dashboard.php">Home</a></li>
                             <li class="breadcrumb-item"><?php echo urldecode($_GET['m']) ?></li>
-                            <li class="breadcrumb-item active" aria-current="page"><?php echo urldecode($_GET['s']) ?></li>
+                            <li class="breadcrumb-item active"
+                                aria-current="page"><?php echo urldecode($_GET['s']) ?></li>
                         </ol>
                     </div>
 
@@ -140,8 +141,14 @@ if (strlen($_SESSION['alogin']) == "") {
                             <div class="modal-footer">
                                 <input type="hidden" name="id" id="id"/>
                                 <input type="hidden" name="action" id="action" value=""/>
-                                <input type="submit" name="save" id="save" class="btn btn-primary" value="Save"/>
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <span class="icon-input-btn">
+                                    <i class="fa fa-check"></i>
+                                    <input type="submit" name="save" id="save" class="btn btn-primary" value="Save"/>
+                                </span>
+                                <button type="button" class="btn btn-danger"
+                                        data-dismiss="modal">Close <i
+                                            class="fa fa-window-close"></i>
+                                </button>
                             </div>
                     </div>
                     </form>
@@ -180,16 +187,44 @@ if (strlen($_SESSION['alogin']) == "") {
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css"/>
 
+    <style>
+
+        .icon-input-btn {
+            display: inline-block;
+            position: relative;
+        }
+
+        .icon-input-btn input[type="submit"] {
+            padding-left: 2em;
+        }
+
+        .icon-input-btn .fa {
+            display: inline-block;
+            position: absolute;
+            left: 0.65em;
+            top: 30%;
+        }
+    </style>
     <script>
         $(document).ready(function () {
-            let formData = {action: "GETACCOUNT",sub_action: "GETMASTER"};
+            $(".icon-input-btn").each(function () {
+                var btnFont = $(this).find(".btn").css("font-size");
+                var btnColor = $(this).find(".btn").css("color");
+                $(this).find(".fa").css({'font-size': btnFont, 'color': btnColor});
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            let formData = {action: "GETACCOUNT", sub_action: "GETMASTER"};
             let dataRecords = $('#TableRecordList').DataTable({
                 'processing': true,
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
                     'url': 'model/manage_account_process.php',
-                    'data':formData
+                    'data': formData
                 },
                 'columns': [
                     {data: 'line_no'},
