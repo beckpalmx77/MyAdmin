@@ -39,4 +39,10 @@
     error_reporting(0);
     ?>
 
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+        }
+    </style>
+
 </head>
