@@ -45,9 +45,7 @@ if ($_POST["action"] === 'SEARCH') {
 
 if ($_POST["action"] === 'ADD') {
     if ($_POST["unit_name"] !== '') {
-
-        $row = $dbh->query( "select id from ims_unit order by id desc limit 1 " )->fetch();
-        $unit_id =  "U-" . sprintf('%04s', $row["id"] + 1);
+        $unit_id = "U-" . sprintf('%04s', LAST_ID($dbh, "ims_unit", 'id') + 1);
         $unit_name = $_POST["unit_name"];
         $status = $_POST["status"];
         $sql_find = "SELECT * FROM ims_unit WHERE unit_name = '" . $unit_name . "'";
@@ -66,7 +64,7 @@ if ($_POST["action"] === 'ADD') {
             if ($lastInsertId) {
                 echo $save_success;
             } else {
-                echo $error . " | " . $unit_id . " | " . $unit_name . " | " . $status ;
+                echo $error;
             }
         }
     }

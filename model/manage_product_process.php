@@ -202,7 +202,7 @@ if ($_POST["action"] === 'GETPRODUCT') {
             "update" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
             "delete" => "<button type='button' name='delete' id='" . $row['id'] . "' class='btn btn-danger btn-xs delete' data-toggle='tooltip' title='Delete'>Delete</button>",
             "picture" => "<img src = '" . $row['picture'] . "'  width='32' height='32' title='" . $row['name_t'] . "'>",
-            "status" => $row['status']==='Active'? "<div class='text-success'>" . $row['status'] . "</div>" : "<div class='text-muted'> " . $row['status'] . "</div>"
+            "status" => $row['status'] === 'Active' ? "<div class='text-success'>" . $row['status'] . "</div>" : "<div class='text-muted'> " . $row['status'] . "</div>"
         );
 
     }

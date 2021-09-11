@@ -199,14 +199,10 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <!-- Page level plugins -->
 
-    <script src="่js/bootbox.js"></script>
-    <script src="js/datatables-jquery.js"></script>
-
-    <link rel="stylesheet" href="css/dataTables.min.css"/>
-    <link rel="stylesheet" href="css/buttons.dataTables.css"/>
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css"/>
 
     <script>
 
@@ -215,7 +211,7 @@ if (strlen($_SESSION['alogin']) == "") {
             if (method === "ADD") {
                 let unit_id = $('#unit_id').val();
                 let unit_name = $('#unit_name').val();
-                let formData = {action: "SEARCH", unit_id: unit_id,unit_name:unit_name};
+                let formData = {action: "SEARCH", unit_id: unit_id, unit_name: unit_name};
                 $.ajax({
                     url: 'model/manage_unit_process.php',
                     method: "POST",
@@ -233,7 +229,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
-            let formData = {action: "GETUNIT",sub_action: "GETMASTER"};
+            let formData = {action: "GETUNIT", sub_action: "GETMASTER"};
             let dataRecords = $('#TableRecordList').DataTable({
                 'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
                 'language': {
@@ -253,7 +249,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 'serverMethod': 'post',
                 'ajax': {
                     'url': 'model/manage_unit_process.php',
-                    'data':formData
+                    'data': formData
                 },
                 'columns': [
                     {data: 'unit_id'},

@@ -237,14 +237,10 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <!-- Page level plugins -->
 
-    <script src="่js/bootbox.js"></script>
-    <script src="js/datatables-jquery.js"></script>
-
-    <link rel="stylesheet" href="css/dataTables.min.css"/>
-    <link rel="stylesheet" href="css/buttons.dataTables.css"/>
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/css/select2.min.css" rel="stylesheet"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.10/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css"/>
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css"/>
 
     <script>
 
