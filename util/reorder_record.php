@@ -13,7 +13,6 @@ function Reorder_Record($dbh,$table) {
         //echo $row['id'] . " | " . $loop . "<br>";
         Update_Record($dbh, $table, $row['id'], $loop);
         $loop++;
-
     }
 
 }

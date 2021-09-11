@@ -4,7 +4,7 @@ error_reporting(0);
 
 include('../config/connect_db.php');
 include('../config/lang.php');
-include('../util/reorder_record.php');
+include('../util/record_util.php');
 
 
 if ($_POST["action"] === 'GETDATA') {
@@ -30,10 +30,10 @@ if ($_POST["action"] === 'GETDATA') {
 
 if ($_POST["action"] === 'SEARCH') {
 
-    if ($_POST["unit_id"] !== '') {
+    if ($_POST["unit_name"] !== '') {
 
-        $unit_id = $_POST["unit_id"];
-        $sql_find = "SELECT * FROM ims_unit WHERE unit_id = '" . $unit_id . "'";
+        $unit_name = $_POST["unit_name"];
+        $sql_find = "SELECT * FROM ims_unit WHERE unit_name = '" . $unit_name . "'";
         $nRows = $dbh->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             echo 2;
@@ -44,9 +44,10 @@ if ($_POST["action"] === 'SEARCH') {
 }
 
 if ($_POST["action"] === 'ADD') {
+    if ($_POST["unit_name"] !== '') {
 
-    if ($_POST["unit_name"] != '') {
-        $unit_id = $_POST["unit_id"];
+        $row = $dbh->query( "select id from ims_unit order by id desc limit 1 " )->fetch();
+        $unit_id =  "U-" . sprintf('%04s', $row["id"] + 1);
         $unit_name = $_POST["unit_name"];
         $status = $_POST["status"];
         $sql_find = "SELECT * FROM ims_unit WHERE unit_name = '" . $unit_name . "'";
@@ -54,23 +55,20 @@ if ($_POST["action"] === 'ADD') {
         if ($nRows > 0) {
             echo $dup;
         } else {
-            $sql = "INSERT INTO ims_unit(unit_id,unit_name,status)
-            VALUES (:unit_id,:unit_name,:status)";
+            $sql = "INSERT INTO ims_unit(unit_id,unit_name,status) VALUES (:unit_id,:unit_name,:status)";
             $query = $dbh->prepare($sql);
             $query->bindParam(':unit_id', $unit_id, PDO::PARAM_STR);
             $query->bindParam(':unit_name', $unit_name, PDO::PARAM_STR);
             $query->bindParam(':status', $status, PDO::PARAM_STR);
             $query->execute();
-
             $lastInsertId = $dbh->lastInsertId();
+
             if ($lastInsertId) {
                 echo $save_success;
             } else {
-                echo $error;
+                echo $error . " | " . $unit_id . " | " . $unit_name . " | " . $status ;
             }
-
         }
-
     }
 }
 
@@ -111,7 +109,6 @@ if ($_POST["action"] === 'DELETE') {
             $sql = "DELETE FROM ims_unit WHERE id = " . $id;
             $query = $dbh->prepare($sql);
             $query->execute();
-            Reorder_Record($dbh, "ims_unit");
             echo $del_success;
         } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage();
@@ -202,7 +199,6 @@ if ($_POST["action"] === 'GETUNIT') {
     );
 
     echo json_encode($response);
-
 
 
 }

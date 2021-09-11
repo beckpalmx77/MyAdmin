@@ -90,8 +90,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                     <label for="unit_id" class="control-label">รหัสหน่วยนับ</label>
                                                                     <input type="unit_id" class="form-control"
                                                                            id="unit_id" name="unit_id"
-                                                                           required="required"
-                                                                           placeholder="รหัสหน่วยนับ">
+                                                                           readonly="true"
+                                                                           placeholder="สร้างอัตโนมัติ">
                                                                 </div>
 
                                                                 <div class="form-group">
@@ -210,7 +210,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
 
-        $("#unit_id").blur(function () {
+        $("#unit_name").blur(function () {
             let method = $('#action').val();
             if (method === "ADD") {
                 let unit_id = $('#unit_id').val();
