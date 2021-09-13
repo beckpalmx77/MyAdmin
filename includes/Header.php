@@ -39,8 +39,9 @@
 
     <style>
         body {
-            font-family: 'Prompt', sans-serif;
+            font-family: 'Prompt', sans-serif !important;
         }
     </style>
+
 
 </head>

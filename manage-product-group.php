@@ -52,8 +52,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                             <table id='TableRecordList' class='display dataTable'>
                                                 <thead>
                                                 <tr>
-                                                    <th>รหัสหน่วยนับ</th>
-                                                    <th>ชื่อหน่วยนับ</th>
+                                                    <th>รหัสกลุ่มสินค้า</th>
+                                                    <th>ชื่อกลุ่มสินค้า</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                     <th>Action</th>
@@ -61,8 +61,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 </thead>
                                                 <tfoot>
                                                 <tr>
-                                                    <th>รหัสหน่วยนับ</th>
-                                                    <th>ชื่อหน่วยนับ</th>
+                                                    <th>รหัสกลุ่มสินค้า</th>
+                                                    <th>ชื่อกลุ่มสินค้า</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                     <th>Action</th>
@@ -88,21 +88,20 @@ if (strlen($_SESSION['alogin']) == "") {
                                                             <div class="modal-body">
 
                                                                 <div class="form-group">
-                                                                    <label for="unit_id" class="control-label">รหัสหน่วยนับ</label>
-                                                                    <input type="unit_id" class="form-control"
-                                                                           id="unit_id" name="unit_id"
-                                                                           readonly="true"
-                                                                           placeholder="สร้างอัตโนมัติ">
+                                                                    <label for="pgroup_id" class="control-label">รหัสกลุ่มสินค้า</label>
+                                                                    <input type="pgroup_id" class="form-control"
+                                                                           id="pgroup_id" name="pgroup_id"
+                                                                           placeholder="รหัสกลุ่มสินค้า">
                                                                 </div>
 
                                                                 <div class="form-group">
                                                                     <label for="name_t"
-                                                                           class="control-label">ชื่อหน่วยนับ</label>
+                                                                           class="control-label">ชื่อกลุ่มสินค้า</label>
                                                                     <input type="text" class="form-control"
-                                                                           id="unit_name"
-                                                                           name="unit_name"
+                                                                           id="pgroup_name"
+                                                                           name="pgroup_name"
                                                                            required="required"
-                                                                           placeholder="ชื่อหน่วยนับ">
+                                                                           placeholder="ชื่อกลุ่มสินค้า">
                                                                 </div>
 
                                                                 <div class="form-group">
@@ -158,14 +157,14 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <thead>
                                                                 <tr>
                                                                     <th>รหัส</th>
-                                                                    <th>หน่วยนับ</th>
+                                                                    <th>กลุ่มสินค้า</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tfoot>
                                                                 <tr>
                                                                     <th>รหัส</th>
-                                                                    <th>หน่วยนับ</th>
+                                                                    <th>กลุ่มสินค้า</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </tfoot>
@@ -239,14 +238,14 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
 
-        $("#unit_name").blur(function () {
+        $("#pgroup_name").blur(function () {
             let method = $('#action').val();
             if (method === "ADD") {
-                let unit_id = $('#unit_id').val();
-                let unit_name = $('#unit_name').val();
-                let formData = {action: "SEARCH", unit_id: unit_id, unit_name: unit_name};
+                let pgroup_id = $('#pgroup_id').val();
+                let pgroup_name = $('#pgroup_name').val();
+                let formData = {action: "SEARCH", pgroup_id: pgroup_id, pgroup_name: pgroup_name};
                 $.ajax({
-                    url: 'model/manage_unit_process.php',
+                    url: 'model/manage_pgroup_process.php',
                     method: "POST",
                     data: formData,
                     success: function (data) {
@@ -281,12 +280,12 @@ if (strlen($_SESSION['alogin']) == "") {
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': 'model/manage_unit_process.php',
+                    'url': 'model/manage_pgroup_process.php',
                     'data': formData
                 },
                 'columns': [
-                    {data: 'unit_id'},
-                    {data: 'unit_name'},
+                    {data: 'pgroup_id'},
+                    {data: 'pgroup_name'},
                     {data: 'status'},
                     {data: 'update'},
                     {data: 'delete'}
@@ -299,7 +298,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#save').attr('disabled', 'disabled');
                 let formData = $(this).serialize();
                 $.ajax({
-                    url: 'model/manage_unit_process.php',
+                    url: 'model/manage_pgroup_process.php',
                     method: "POST",
                     data: formData,
                     success: function (data) {
@@ -320,7 +319,7 @@ if (strlen($_SESSION['alogin']) == "") {
             $("#btnAdd").click(function () {
                 $('#recordModal').modal('show');
                 $('#id').val("");
-                $('#unit_id').val("");
+                $('#pgroup_id').val("");
                 $('#name_t').val("");
                 $('#quantity').val("");
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
@@ -338,21 +337,21 @@ if (strlen($_SESSION['alogin']) == "") {
             let formData = {action: "GETDATA", id: id};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_unit_process.php',
+                url: 'model/manage_pgroup_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
                     let len = response.length;
                     for (let i = 0; i < len; i++) {
                         let id = response[i].id;
-                        let unit_id = response[i].unit_id;
-                        let unit_name = response[i].unit_name;
+                        let pgroup_id = response[i].pgroup_id;
+                        let pgroup_name = response[i].pgroup_name;
                         let status = response[i].status;
 
                         $('#recordModal').modal('show');
                         $('#id').val(id);
-                        $('#unit_id').val(unit_id);
-                        $('#unit_name').val(unit_name);
+                        $('#pgroup_id').val(pgroup_id);
+                        $('#pgroup_name').val(pgroup_name);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
                         $('#action').val('UPDATE');
@@ -374,21 +373,21 @@ if (strlen($_SESSION['alogin']) == "") {
             let formData = {action: "GETDATA", id: id};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_unit_process.php',
+                url: 'model/manage_pgroup_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
                     let len = response.length;
                     for (let i = 0; i < len; i++) {
                         let id = response[i].id;
-                        let unit_id = response[i].unit_id;
-                        let unit_name = response[i].unit_name;
+                        let pgroup_id = response[i].pgroup_id;
+                        let pgroup_name = response[i].pgroup_name;
                         let status = response[i].status;
 
                         $('#recordModal').modal('show');
                         $('#id').val(id);
-                        $('#unit_id').val(unit_id);
-                        $('#unit_name').val(unit_name);
+                        $('#pgroup_id').val(pgroup_id);
+                        $('#pgroup_name').val(pgroup_name);
                         $('#status').val(status);
                         $('.modal-title').html("<i class='fa fa-minus'></i> Delete Record");
                         $('#action').val('DELETE');

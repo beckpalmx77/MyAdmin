@@ -107,7 +107,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <label for="status" class="control-label"></label>
+                                                                    <label for="status" class="control-label">Status</label>
                                                                     <select id="status" name="status"
                                                                             class="form-control" data-live-search="true"
                                                                             title="Please select">

@@ -21,7 +21,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 <!-- Container Fluid-->
                 <div class="container-fluid" id="container-wrapper">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <span><b><?php echo urldecode($_GET['s'])?></b></span>
+                        <span><b><?php echo urldecode($_GET['s']) ?></b></span>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="Dashboard.php">Home</a></li>
                             <li class="breadcrumb-item"><?php echo urldecode($_GET['m']) ?></li>
@@ -109,6 +109,33 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 </div>
 
                                                                 <div class="form-group row">
+                                                                    <input type="hidden" class="form-control"
+                                                                           id="pgroup_id"
+                                                                           name="pgroup_id">
+                                                                    <div class="col-sm-10">
+                                                                        <label for="quantity"
+                                                                               class="control-label">กลุ่มสินค้า</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="pgroup_name"
+                                                                               name="pgroup_name"
+                                                                               required="required"
+                                                                               placeholder="กลุ่มสินค้า">
+                                                                    </div>
+
+                                                                    <div class="col-sm-2">
+                                                                        <label for="quantity"
+                                                                               class="control-label">เลือก</label>
+
+                                                                        <a data-toggle="modal" href="#Search-PG-Modal"
+                                                                           class="btn btn-primary">
+                                                                            Click <i class="fa fa-search"
+                                                                                     aria-hidden="true"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="form-group row">
                                                                     <div class="col-sm-5">
                                                                         <label for="quantity"
                                                                                class="control-label">ยอดคงเหลือ</label>
@@ -144,7 +171,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <label for="status" class="control-label"></label>
+                                                                    <label for="status"
+                                                                           class="control-label">Status</label>
                                                                     <select id="status" name="status"
                                                                             class="form-control" data-live-search="true"
                                                                             title="Please select">
@@ -169,6 +197,46 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         </div>
                                                     </form>
 
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal fade" id="Search-PG-Modal">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Modal title</h4>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-hidden="true">×
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="container"></div>
+                                                    <div class="modal-body">
+
+                                                        <div class="modal-body">
+
+                                                            <table cellpadding="0" cellspacing="0" border="0"
+                                                                   class="display"
+                                                                   id="TablePGList"
+                                                                   width="100%">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>รหัส</th>
+                                                                    <th>กลุ่มสินค้า</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tfoot>
+                                                                <tr>
+                                                                    <th>รหัส</th>
+                                                                    <th>กลุ่มสินค้า</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -387,6 +455,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         let product_id = response[i].product_id;
                         let name_t = response[i].name_t;
                         let quantity = response[i].quantity;
+                        let pgroup_id = response[i].pgroup_id;
+                        let pgroup_name = response[i].pgroup_name;
                         let unit_id = response[i].unit_id;
                         let unit_name = response[i].unit_name;
                         let status = response[i].status;
@@ -396,6 +466,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#product_id').val(product_id);
                         $('#name_t').val(name_t);
                         $('#quantity').val(quantity);
+                        $('#pgroup_id').val(pgroup_id);
+                        $('#pgroup_name').val(pgroup_name);
                         $('#unit_id').val(unit_id);
                         $('#unit_name').val(unit_name);
                         $('#status').val(status);
@@ -429,6 +501,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         let product_id = response[i].product_id;
                         let name_t = response[i].name_t;
                         let quantity = response[i].quantity;
+                        let pgroup_id = response[i].pgroup_id;
+                        let pgroup_name = response[i].pgroup_name;
                         let unit_id = response[i].unit_id;
                         let unit_name = response[i].unit_name;
                         let status = response[i].status;
@@ -438,6 +512,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#product_id').val(product_id);
                         $('#name_t').val(name_t);
                         $('#quantity').val(quantity);
+                        $('#pgroup_id').val(pgroup_id);
+                        $('#pgroup_name').val(pgroup_name);
                         $('#unit_id').val(unit_id);
                         $('#unit_name').val(unit_name);
                         $('#status').val(status);
@@ -450,6 +526,50 @@ if (strlen($_SESSION['alogin']) == "") {
                     alertify.error("error : " + response);
                 }
             });
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            let formData = {action: "GETPGROUP", sub_action: "GETSELECT"};
+            let dataRecords = $('#TablePGList').DataTable({
+                'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
+                'language': {
+                    search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
+                    info: 'หน้าที่ _PAGE_ จาก _PAGES_',
+                    infoEmpty: 'ไม่มีข้อมูล',
+                    zeroRecords: "ไม่มีข้อมูลตามเงื่อนไข",
+                    infoFiltered: '(กรองข้อมูลจากทั้งหมด _MAX_ รายการ)',
+                    paginate: {
+                        previous: 'ก่อนหน้า',
+                        last: 'สุดท้าย',
+                        next: 'ต่อไป'
+                    }
+                },
+                'processing': true,
+                'serverSide': true,
+                'serverMethod': 'post',
+                'ajax': {
+                    'url': 'model/manage_pgroup_process.php',
+                    'data': formData
+                },
+                'columns': [
+                    {data: 'pgroup_id'},
+                    {data: 'pgroup_name'},
+                    {data: 'select'}
+                ]
+            });
+        });
+    </script>
+
+    <script>
+
+        $("#TablePGList").on('click', '.select', function () {
+            let data = this.id.split('@');
+            $('#pgroup_id').val(data[0]);
+            $('#pgroup_name').val(data[1]);
+            $('#Search-PG-Modal').modal('hide');
         });
 
     </script>
