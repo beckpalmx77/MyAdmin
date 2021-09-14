@@ -13,14 +13,14 @@ if ($_POST["action"] === 'GETDATA') {
 
     $return_arr = array();
 
-    $sql_get = "SELECT * FROM ims_unit WHERE id = " . $id;
+    $sql_get = "SELECT * FROM ims_customer WHERE id = " . $id;
     $statement = $dbh->query($sql_get);
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($results as $result) {
         $return_arr[] = array("id" => $result['id'],
-            "unit_id" => $result['unit_id'],
-            "unit_name" => $result['unit_name'],
+            "customer_id" => $result['customer_id'],
+            "customer_name" => $result['customer_name'],
             "status" => $result['status']);
     }
 
@@ -30,10 +30,10 @@ if ($_POST["action"] === 'GETDATA') {
 
 if ($_POST["action"] === 'SEARCH') {
 
-    if ($_POST["unit_name"] !== '') {
+    if ($_POST["customer_name"] !== '') {
 
-        $unit_name = $_POST["unit_name"];
-        $sql_find = "SELECT * FROM ims_unit WHERE unit_name = '" . $unit_name . "'";
+        $customer_name = $_POST["customer_name"];
+        $sql_find = "SELECT * FROM ims_customer WHERE customer_name = '" . $customer_name . "'";
         $nRows = $dbh->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             echo 2;
@@ -44,19 +44,19 @@ if ($_POST["action"] === 'SEARCH') {
 }
 
 if ($_POST["action"] === 'ADD') {
-    if ($_POST["unit_name"] !== '') {
-        $unit_id = "U-" . sprintf('%04s', LAST_ID($dbh, "ims_unit", 'id'));
-        $unit_name = $_POST["unit_name"];
+    if ($_POST["customer_name"] !== '') {
+        $customer_id = "U-" . sprintf('%04s', LAST_ID($dbh, "ims_customer", 'id'));
+        $customer_name = $_POST["customer_name"];
         $status = $_POST["status"];
-        $sql_find = "SELECT * FROM ims_unit WHERE unit_name = '" . $unit_name . "'";
+        $sql_find = "SELECT * FROM ims_customer WHERE customer_name = '" . $customer_name . "'";
         $nRows = $dbh->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             echo $dup;
         } else {
-            $sql = "INSERT INTO ims_unit(unit_id,unit_name,status) VALUES (:unit_id,:unit_name,:status)";
+            $sql = "INSERT INTO ims_customer(customer_id,customer_name,status) VALUES (:customer_id,:customer_name,:status)";
             $query = $dbh->prepare($sql);
-            $query->bindParam(':unit_id', $unit_id, PDO::PARAM_STR);
-            $query->bindParam(':unit_name', $unit_name, PDO::PARAM_STR);
+            $query->bindParam(':customer_id', $customer_id, PDO::PARAM_STR);
+            $query->bindParam(':customer_name', $customer_name, PDO::PARAM_STR);
             $query->bindParam(':status', $status, PDO::PARAM_STR);
             $query->execute();
             $lastInsertId = $dbh->lastInsertId();
@@ -73,20 +73,20 @@ if ($_POST["action"] === 'ADD') {
 
 if ($_POST["action"] === 'UPDATE') {
 
-    if ($_POST["unit_name"] != '') {
+    if ($_POST["customer_name"] != '') {
 
         $id = $_POST["id"];
-        $unit_id = $_POST["unit_id"];
-        $unit_name = $_POST["unit_name"];
+        $customer_id = $_POST["customer_id"];
+        $customer_name = $_POST["customer_name"];
         $status = $_POST["status"];
-        $sql_find = "SELECT * FROM ims_unit WHERE unit_id = '" . $unit_id . "'";
+        $sql_find = "SELECT * FROM ims_customer WHERE customer_id = '" . $customer_id . "'";
         $nRows = $dbh->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
-            $sql_update = "UPDATE ims_unit SET unit_id=:unit_id,unit_name=:unit_name,status=:status            
+            $sql_update = "UPDATE ims_customer SET customer_id=:customer_id,customer_name=:customer_name,status=:status            
             WHERE id = :id";
             $query = $dbh->prepare($sql_update);
-            $query->bindParam(':unit_id', $unit_id, PDO::PARAM_STR);
-            $query->bindParam(':unit_name', $unit_name, PDO::PARAM_STR);
+            $query->bindParam(':customer_id', $customer_id, PDO::PARAM_STR);
+            $query->bindParam(':customer_name', $customer_name, PDO::PARAM_STR);
             $query->bindParam(':status', $status, PDO::PARAM_STR);
             $query->bindParam(':id', $id, PDO::PARAM_STR);
             $query->execute();
@@ -100,11 +100,11 @@ if ($_POST["action"] === 'DELETE') {
 
     $id = $_POST["id"];
 
-    $sql_find = "SELECT * FROM ims_unit WHERE id = " . $id;
+    $sql_find = "SELECT * FROM ims_customer WHERE id = " . $id;
     $nRows = $dbh->query($sql_find)->fetchColumn();
     if ($nRows > 0) {
         try {
-            $sql = "DELETE FROM ims_unit WHERE id = " . $id;
+            $sql = "DELETE FROM ims_customer WHERE id = " . $id;
             $query = $dbh->prepare($sql);
             $query->execute();
             echo $del_success;
@@ -114,7 +114,7 @@ if ($_POST["action"] === 'DELETE') {
     }
 }
 
-if ($_POST["action"] === 'GETUNIT') {
+if ($_POST["action"] === 'GETCUSTOMER') {
 
     ## Read value
     $draw = $_POST['draw'];
@@ -130,28 +130,28 @@ if ($_POST["action"] === 'GETUNIT') {
 ## Search
     $searchQuery = " ";
     if ($searchValue != '') {
-        $searchQuery = " AND (unit_id LIKE :unit_id or
-        unit_name LIKE :unit_name ) ";
+        $searchQuery = " AND (customer_id LIKE :customer_id or
+        customer_name LIKE :customer_name ) ";
         $searchArray = array(
-            'unit_id' => "%$searchValue%",
-            'unit_name' => "%$searchValue%",
+            'customer_id' => "%$searchValue%",
+            'customer_name' => "%$searchValue%",
         );
     }
 
 ## Total number of records without filtering
-    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM ims_unit ");
+    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM ims_customer ");
     $stmt->execute();
     $records = $stmt->fetch();
     $totalRecords = $records['allcount'];
 
 ## Total number of records with filtering
-    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM ims_unit WHERE 1 " . $searchQuery);
+    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM ims_customer WHERE 1 " . $searchQuery);
     $stmt->execute($searchArray);
     $records = $stmt->fetch();
     $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
-    $stmt = $dbh->prepare("SELECT * FROM ims_unit WHERE 1 " . $searchQuery
+    $stmt = $dbh->prepare("SELECT * FROM ims_customer WHERE 1 " . $searchQuery
         . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
 
 // Bind values
@@ -170,8 +170,8 @@ if ($_POST["action"] === 'GETUNIT') {
         if ($_POST['sub_action'] === "GETMASTER") {
             $data[] = array(
                 "id" => $row['id'],
-                "unit_id" => $row['unit_id'],
-                "unit_name" => $row['unit_name'],
+                "customer_id" => $row['customer_id'],
+                "customer_name" => $row['customer_name'],
                 "update" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
                 "delete" => "<button type='button' name='delete' id='" . $row['id'] . "' class='btn btn-danger btn-xs delete' data-toggle='tooltip' title='Delete'>Delete</button>",
                 "status" => $row['status'] === 'Active' ? "<div class='text-success'>" . $row['status'] . "</div>" : "<div class='text-muted'> " . $row['status'] . "</div>"
@@ -179,9 +179,9 @@ if ($_POST["action"] === 'GETUNIT') {
         } else {
             $data[] = array(
                 "id" => $row['id'],
-                "unit_id" => $row['unit_id'],
-                "unit_name" => $row['unit_name'],
-                "select" => "<button type='button' name='select' id='" . $row['unit_id'] . "@" . $row['unit_name'] . "' class='btn btn-outline-success btn-xs select' data-toggle='tooltip' title='select'>select <i class='fa fa-check' aria-hidden='true'></i>
+                "customer_id" => $row['customer_id'],
+                "customer_name" => $row['customer_name'],
+                "select" => "<button type='button' name='select' id='" . $row['customer_id'] . "@" . $row['customer_name'] . "' class='btn btn-outline-success btn-xs select' data-toggle='tooltip' title='select'>select <i class='fa fa-check' aria-hidden='true'></i>
 </button>",
             );
         }

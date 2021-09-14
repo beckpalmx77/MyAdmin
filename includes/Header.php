@@ -32,6 +32,9 @@
     <link href="../css/select2_4010.css" rel="stylesheet"/>
     <script src="../js/select2_4010.js"></script>
 
+    <link rel="stylesheet" href="../css/datepicker.css">
+    <script src="../js/bootstrap-datepicker1.js"></script>
+
     <?php
     session_start();
     error_reporting(0);

@@ -12,15 +12,14 @@ if ($_POST["action"] === 'GETDATA') {
     $id = $_POST["id"];
 
     $return_arr = array();
-
-    $sql_get = "SELECT * FROM ims_unit WHERE id = " . $id;
+    $sql_get = "SELECT * FROM ims_order_master WHERE id = " . $id;
     $statement = $dbh->query($sql_get);
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($results as $result) {
         $return_arr[] = array("id" => $result['id'],
-            "unit_id" => $result['unit_id'],
-            "unit_name" => $result['unit_name'],
+            "doc_no" => $result['doc_no'],
+            "customer_id" => $result['customer_id'],
             "status" => $result['status']);
     }
 
@@ -30,10 +29,10 @@ if ($_POST["action"] === 'GETDATA') {
 
 if ($_POST["action"] === 'SEARCH') {
 
-    if ($_POST["unit_name"] !== '') {
+    if ($_POST["doc_no"] !== '') {
 
-        $unit_name = $_POST["unit_name"];
-        $sql_find = "SELECT * FROM ims_unit WHERE unit_name = '" . $unit_name . "'";
+        $customer_id = $_POST["doc_no"];
+        $sql_find = "SELECT * FROM ims_order_master WHERE doc_no = '" . $doc_no . "'";
         $nRows = $dbh->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             echo 2;
@@ -44,23 +43,36 @@ if ($_POST["action"] === 'SEARCH') {
 }
 
 if ($_POST["action"] === 'ADD') {
-    if ($_POST["unit_name"] !== '') {
-        $unit_id = "U-" . sprintf('%04s', LAST_ID($dbh, "ims_unit", 'id'));
-        $unit_name = $_POST["unit_name"];
+    if ($_POST["customer_id"] !== '') {
+        $table = "ims_order_master";
+        $doc_year = substr($_POST["doc_date"], 0, 4);
+        $field = "doc_runno";
+        $doc_type = "-ORD-";
+        $doc_runno = LAST_ID_YEAR($dbh, $table, $field, $doc_year);
+        $doc_no = $doc_year . $doc_type . sprintf('%06s', $doc_runno);
+        $customer_id = $_POST["customer_id"];
+        $doc_date = $_POST["doc_date"];
         $status = $_POST["status"];
-        $sql_find = "SELECT * FROM ims_unit WHERE unit_name = '" . $unit_name . "'";
-        $nRows = $dbh->query($sql_find)->fetchColumn();
+        $sql_find = "SELECT * FROM " . $table . " WHERE doc_no = '" . $doc_no . "'";
+        $stmt = $dbh->query($sql_find);
+        $nRows = $stmt->rowCount();
+
+        echo $doc_runno;
+
         if ($nRows > 0) {
             echo $dup;
         } else {
-            $sql = "INSERT INTO ims_unit(unit_id,unit_name,status) VALUES (:unit_id,:unit_name,:status)";
+            $sql = "INSERT INTO " . $table . " (doc_no,customer_id,doc_date,doc_year,doc_runno,status)
+                    VALUES (:doc_no,:customer_id,:doc_date,:doc_year,:doc_runno,:status)";
             $query = $dbh->prepare($sql);
-            $query->bindParam(':unit_id', $unit_id, PDO::PARAM_STR);
-            $query->bindParam(':unit_name', $unit_name, PDO::PARAM_STR);
+            $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
+            $query->bindParam(':customer_id', $customer_id, PDO::PARAM_STR);
+            $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
+            $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
+            $query->bindParam(':doc_runno', $doc_runno, PDO::PARAM_STR);
             $query->bindParam(':status', $status, PDO::PARAM_STR);
             $query->execute();
             $lastInsertId = $dbh->lastInsertId();
-
             if ($lastInsertId) {
                 echo $save_success;
             } else {
@@ -73,20 +85,20 @@ if ($_POST["action"] === 'ADD') {
 
 if ($_POST["action"] === 'UPDATE') {
 
-    if ($_POST["unit_name"] != '') {
+    if ($_POST["customer_id"] != '') {
 
         $id = $_POST["id"];
-        $unit_id = $_POST["unit_id"];
-        $unit_name = $_POST["unit_name"];
+        $doc_no = $_POST["doc_no"];
+        $customer_id = $_POST["customer_id"];
         $status = $_POST["status"];
-        $sql_find = "SELECT * FROM ims_unit WHERE unit_id = '" . $unit_id . "'";
+        $sql_find = "SELECT * FROM ims_order_master WHERE doc_no = '" . $doc_no . "'";
         $nRows = $dbh->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
-            $sql_update = "UPDATE ims_unit SET unit_id=:unit_id,unit_name=:unit_name,status=:status            
+            $sql_update = "UPDATE ims_order_master SET doc_no=:doc_no,customer_id=:customer_id,status=:status            
             WHERE id = :id";
             $query = $dbh->prepare($sql_update);
-            $query->bindParam(':unit_id', $unit_id, PDO::PARAM_STR);
-            $query->bindParam(':unit_name', $unit_name, PDO::PARAM_STR);
+            $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
+            $query->bindParam(':customer_id', $customer_id, PDO::PARAM_STR);
             $query->bindParam(':status', $status, PDO::PARAM_STR);
             $query->bindParam(':id', $id, PDO::PARAM_STR);
             $query->execute();
@@ -100,11 +112,11 @@ if ($_POST["action"] === 'DELETE') {
 
     $id = $_POST["id"];
 
-    $sql_find = "SELECT * FROM ims_unit WHERE id = " . $id;
+    $sql_find = "SELECT * FROM ims_order_master WHERE id = " . $id;
     $nRows = $dbh->query($sql_find)->fetchColumn();
     if ($nRows > 0) {
         try {
-            $sql = "DELETE FROM ims_unit WHERE id = " . $id;
+            $sql = "DELETE FROM ims_order_master WHERE id = " . $id;
             $query = $dbh->prepare($sql);
             $query->execute();
             echo $del_success;
@@ -114,7 +126,7 @@ if ($_POST["action"] === 'DELETE') {
     }
 }
 
-if ($_POST["action"] === 'GETUNIT') {
+if ($_POST["action"] === 'GETORDER') {
 
     ## Read value
     $draw = $_POST['draw'];
@@ -125,33 +137,40 @@ if ($_POST["action"] === 'GETUNIT') {
     $columnSortOrder = $_POST['order'][0]['dir']; // asc or desc
     $searchValue = $_POST['search']['value']; // Search value
 
+    if ($columnName === 'doc_no') {
+        $columnSortOrder = "desc";
+    }
+
     $searchArray = array();
 
 ## Search
     $searchQuery = " ";
     if ($searchValue != '') {
-        $searchQuery = " AND (unit_id LIKE :unit_id or
-        unit_name LIKE :unit_name ) ";
+        $searchQuery = " AND (doc_no LIKE :doc_no or
+        customer_id LIKE :customer_id ) ";
         $searchArray = array(
-            'unit_id' => "%$searchValue%",
-            'unit_name' => "%$searchValue%",
+            'doc_no' => "%$searchValue%",
+            'customer_id' => "%$searchValue%",
         );
     }
 
 ## Total number of records without filtering
-    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM ims_unit ");
+    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM ims_order_master ");
     $stmt->execute();
     $records = $stmt->fetch();
     $totalRecords = $records['allcount'];
 
 ## Total number of records with filtering
-    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM ims_unit WHERE 1 " . $searchQuery);
+    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM ims_order_master WHERE 1 " . $searchQuery);
     $stmt->execute($searchArray);
     $records = $stmt->fetch();
     $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
-    $stmt = $dbh->prepare("SELECT * FROM ims_unit WHERE 1 " . $searchQuery
+    $query_str = "SELECT * FROM v_order_master WHERE 1 " . $searchQuery
+        . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset";
+
+    $stmt = $dbh->prepare("SELECT * FROM v_order_master WHERE 1 " . $searchQuery
         . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
 
 // Bind values
@@ -169,19 +188,20 @@ if ($_POST["action"] === 'GETUNIT') {
 
         if ($_POST['sub_action'] === "GETMASTER") {
             $data[] = array(
-                "id" => $row['id'],
-                "unit_id" => $row['unit_id'],
-                "unit_name" => $row['unit_name'],
+                "doc_no" => $row['doc_no'],
+                "customer_id" => $row['customer_id'],
+                "customer_name" => $row['customer_name'],
+                "doc_date" => $row['doc_date'],
+                "status" => $row['status'] === 'Active' ? "<div class='text-success'>" . $row['status'] . "</div>" : "<div class='text-muted'> " . $row['status'] . "</div>",
                 "update" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",
-                "delete" => "<button type='button' name='delete' id='" . $row['id'] . "' class='btn btn-danger btn-xs delete' data-toggle='tooltip' title='Delete'>Delete</button>",
-                "status" => $row['status'] === 'Active' ? "<div class='text-success'>" . $row['status'] . "</div>" : "<div class='text-muted'> " . $row['status'] . "</div>"
+                "delete" => "<button type='button' name='delete' id='" . $row['id'] . "' class='btn btn-danger btn-xs delete' data-toggle='tooltip' title='Delete'>Delete</button>"
             );
         } else {
             $data[] = array(
                 "id" => $row['id'],
-                "unit_id" => $row['unit_id'],
-                "unit_name" => $row['unit_name'],
-                "select" => "<button type='button' name='select' id='" . $row['unit_id'] . "@" . $row['unit_name'] . "' class='btn btn-outline-success btn-xs select' data-toggle='tooltip' title='select'>select <i class='fa fa-check' aria-hidden='true'></i>
+                "doc_no" => $row['doc_no'],
+                "customer_id" => $row['customer_id'],
+                "select" => "<button type='button' name='select' id='" . $row['doc_no'] . "@" . $row['customer_id'] . "' class='btn btn-outline-success btn-xs select' data-toggle='tooltip' title='select'>select <i class='fa fa-check' aria-hidden='true'></i>
 </button>",
             );
         }

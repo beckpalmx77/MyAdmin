@@ -21,7 +21,8 @@ if (strlen($_SESSION['alogin']) == "") {
                 <!-- Container Fluid-->
                 <div class="container-fluid" id="container-wrapper">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800"><?php echo urldecode($_GET['s']) ?></h1>
+                        <!--h1 class="h3 mb-0 text-gray-800"><?php echo urldecode($_GET['s']) ?></h1-->
+                        <span><b><?php echo urldecode($_GET['s']) ?></b></span>
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="Dashboard.php">Home</a></li>
                             <li class="breadcrumb-item"><?php echo urldecode($_GET['m']) ?></li>
@@ -52,18 +53,20 @@ if (strlen($_SESSION['alogin']) == "") {
                                             <table id='TableRecordList' class='display dataTable'>
                                                 <thead>
                                                 <tr>
-                                                    <th>รหัสกลุ่มสินค้า</th>
-                                                    <th>ชื่อกลุ่มสินค้า</th>
-                                                    <th>Status</th>
+                                                    <th>เลขที่เอกสาร</th>
+                                                    <th>ชื่อผู้ซื้อ</th>
+                                                    <th>วันที่</th>
+                                                    <th>สถานะ</th>
                                                     <th>Action</th>
                                                     <th>Action</th>
                                                 </tr>
                                                 </thead>
                                                 <tfoot>
                                                 <tr>
-                                                    <th>รหัสกลุ่มสินค้า</th>
-                                                    <th>ชื่อกลุ่มสินค้า</th>
-                                                    <th>Status</th>
+                                                    <th>เลขที่เอกสาร</th>
+                                                    <th>ชื่อผู้ซื้อ</th>
+                                                    <th>วันที่</th>
+                                                    <th>สถานะ</th>
                                                     <th>Action</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -87,27 +90,60 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         <div class="modal-body">
                                                             <div class="modal-body">
 
-                                                                <div class="form-group">
-                                                                    <label for="pgroup_id" class="control-label">รหัสกลุ่มสินค้า</label>
-                                                                    <input type="pgroup_id" class="form-control"
-                                                                           id="pgroup_id" name="pgroup_id"
-                                                                           placeholder="รหัสกลุ่มสินค้า">
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-6">
+                                                                        <label for="doc_no"
+                                                                               class="control-label">เลขที่เอกสาร</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="doc_no"
+                                                                               name="doc_no"
+                                                                               readonly="true"
+                                                                               placeholder="สร้างอัตโนมัติ">
+                                                                    </div>
+                                                                    <div class="col-sm-6">
+                                                                        <label for="doc_date"
+                                                                               class="control-label">วันที่เอกสาร</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="doc_date"
+                                                                               name="doc_date"
+                                                                               required="required"
+                                                                               placeholder="วันที่เอกสาร">
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div class="form-group row">
+                                                                    <input type="hidden" class="form-control"
+                                                                           id="customer_id"
+                                                                           name="customer_id">
+                                                                    <div class="col-sm-10">
+                                                                        <label for="customer_name"
+                                                                               class="control-label">ชื่อลูกค้า</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="customer_name"
+                                                                               name="customer_name"
+                                                                               required="required"
+                                                                               placeholder="ชื่อลูกค้า">
+                                                                    </div>
+
+                                                                    <div class="col-sm-2">
+                                                                        <label for="quantity"
+                                                                               class="control-label">เลือก</label>
+
+                                                                        <a data-toggle="modal" href="#SearchCusModal"
+                                                                           class="btn btn-primary">
+                                                                            Click <i class="fa fa-search"
+                                                                                     aria-hidden="true"></i>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <label for="name_t"
-                                                                           class="control-label">ชื่อกลุ่มสินค้า</label>
-                                                                    <input type="text" class="form-control"
-                                                                           id="pgroup_name"
-                                                                           name="pgroup_name"
-                                                                           required="required"
-                                                                           placeholder="ชื่อกลุ่มสินค้า">
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <label for="status" class="control-label"></label>
+                                                                    <label for="status"
+                                                                           class="control-label">Status</label>
                                                                     <select id="status" name="status"
-                                                                            class="form-control" data-live-search="true"
+                                                                            class="form-control"
+                                                                            data-live-search="true"
                                                                             title="Please select">
                                                                         <option>Active</option>
                                                                         <option>Inactive</option>
@@ -117,7 +153,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         </div>
                                                         <div class="modal-footer">
                                                             <input type="hidden" name="id" id="id"/>
-                                                            <input type="hidden" name="action" id="action" value=""/>
+                                                            <input type="hidden" name="action" id="action"
+                                                                   value=""/>
                                                             <span class="icon-input-btn">
                                                                 <i class="fa fa-check"></i>
                                                             <input type="submit" name="save" id="save"
@@ -135,7 +172,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                         </div>
 
 
-                                        <div class="modal fade" id="SearchModal">
+                                        <div class="modal fade" id="SearchCusModal">
                                             <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -152,19 +189,19 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                             <table cellpadding="0" cellspacing="0" border="0"
                                                                    class="display"
-                                                                   id="TableUnitList"
+                                                                   id="TableCustomerList"
                                                                    width="100%">
                                                                 <thead>
                                                                 <tr>
-                                                                    <th>รหัส</th>
-                                                                    <th>กลุ่มสินค้า</th>
+                                                                    <th>รหัสลูกค้า</th>
+                                                                    <th>ชื่อลูกค้า</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tfoot>
                                                                 <tr>
-                                                                    <th>รหัส</th>
-                                                                    <th>กลุ่มสินค้า</th>
+                                                                    <th>รหัสลูกค้า</th>
+                                                                    <th>ชื่อลูกค้า</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </tfoot>
@@ -208,6 +245,10 @@ if (strlen($_SESSION['alogin']) == "") {
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css"/>
 
+    <link rel="stylesheet" href="css/datepicker.css">
+    <script src="js/bootstrap-datepicker1.js"></script>
+
+
     <style>
 
         .icon-input-btn {
@@ -226,6 +267,16 @@ if (strlen($_SESSION['alogin']) == "") {
             top: 30%;
         }
     </style>
+
+    <script>
+        $(document).ready(function () {
+            $('#doc_date').datepicker({
+                format: "yyyy-mm-dd",
+                autoclose: true
+            });
+        });
+    </script>
+
     <script>
         $(document).ready(function () {
             $(".icon-input-btn").each(function () {
@@ -238,14 +289,14 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
 
-        $("#pgroup_name").blur(function () {
+        $("#doc_no").blur(function () {
             let method = $('#action').val();
             if (method === "ADD") {
-                let pgroup_id = $('#pgroup_id').val();
-                let pgroup_name = $('#pgroup_name').val();
-                let formData = {action: "SEARCH", pgroup_id: pgroup_id, pgroup_name: pgroup_name};
+                let doc_no = $('#doc_no').val();
+                let customer_id = $('#doc_no').val();
+                let formData = {action: "SEARCH", doc_no: doc_no, customer_id: customer_id};
                 $.ajax({
-                    url: 'model/manage_pgroup_process.php',
+                    url: 'model/manage_order_process.php',
                     method: "POST",
                     data: formData,
                     success: function (data) {
@@ -261,8 +312,9 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
-            let formData = {action: "GETPGROUP", sub_action: "GETMASTER"};
+            let formData = {action: "GETORDER", sub_action: "GETMASTER"};
             let dataRecords = $('#TableRecordList').DataTable({
+                'columnDefs': [{"orderSequence": ["desc", "asc"]}],
                 'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
                 'language': {
                     search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
@@ -280,12 +332,13 @@ if (strlen($_SESSION['alogin']) == "") {
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': 'model/manage_pgroup_process.php',
+                    'url': 'model/manage_order_process.php',
                     'data': formData
                 },
                 'columns': [
-                    {data: 'pgroup_id'},
-                    {data: 'pgroup_name'},
+                    {data: 'doc_no'},
+                    {data: 'customer_name'},
+                    {data: 'doc_date'},
                     {data: 'status'},
                     {data: 'update'},
                     {data: 'delete'}
@@ -298,7 +351,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#save').attr('disabled', 'disabled');
                 let formData = $(this).serialize();
                 $.ajax({
-                    url: 'model/manage_pgroup_process.php',
+                    url: 'model/manage_order_process.php',
                     method: "POST",
                     data: formData,
                     success: function (data) {
@@ -319,7 +372,7 @@ if (strlen($_SESSION['alogin']) == "") {
             $("#btnAdd").click(function () {
                 $('#recordModal').modal('show');
                 $('#id').val("");
-                $('#pgroup_id').val("");
+                $('#doc_no').val("");
                 $('#name_t').val("");
                 $('#quantity').val("");
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
@@ -337,22 +390,22 @@ if (strlen($_SESSION['alogin']) == "") {
             let formData = {action: "GETDATA", id: id};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_pgroup_process.php',
+                url: 'model/manage_order_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
                     let len = response.length;
                     for (let i = 0; i < len; i++) {
                         let id = response[i].id;
-                        let pgroup_id = response[i].pgroup_id;
-                        let pgroup_name = response[i].pgroup_name;
-                        let status = response[i].status;
+                        let doc_no = response[i].doc_no;
+                        let customer_id = response[i].customer_id;
+                        let ชื่อผู้ซื้อ = response[i].ชื่อผู้ซื้อ;
 
                         $('#recordModal').modal('show');
                         $('#id').val(id);
-                        $('#pgroup_id').val(pgroup_id);
-                        $('#pgroup_name').val(pgroup_name);
-                        $('#status').val(status);
+                        $('#doc_no').val(doc_no);
+                        $('#customer_id').val(customer_id);
+                        $('#ชื่อผู้ซื้อ').val(ชื่อผู้ซื้อ);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
                         $('#action').val('UPDATE');
                         $('#save').val('Save');
@@ -373,22 +426,22 @@ if (strlen($_SESSION['alogin']) == "") {
             let formData = {action: "GETDATA", id: id};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_pgroup_process.php',
+                url: 'model/manage_order_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
                     let len = response.length;
                     for (let i = 0; i < len; i++) {
                         let id = response[i].id;
-                        let pgroup_id = response[i].pgroup_id;
-                        let pgroup_name = response[i].pgroup_name;
-                        let status = response[i].status;
+                        let doc_no = response[i].doc_no;
+                        let customer_id = response[i].customer_id;
+                        let ชื่อผู้ซื้อ = response[i].ชื่อผู้ซื้อ;
 
                         $('#recordModal').modal('show');
                         $('#id').val(id);
-                        $('#pgroup_id').val(pgroup_id);
-                        $('#pgroup_name').val(pgroup_name);
-                        $('#status').val(status);
+                        $('#doc_no').val(doc_no);
+                        $('#customer_id').val(customer_id);
+                        $('#ชื่อผู้ซื้อ').val(ชื่อผู้ซื้อ);
                         $('.modal-title').html("<i class='fa fa-minus'></i> Delete Record");
                         $('#action').val('DELETE');
                         $('#save').val('Confirm Delete');
@@ -398,6 +451,50 @@ if (strlen($_SESSION['alogin']) == "") {
                     alertify.error("error : " + response);
                 }
             });
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            let formData = {action: "GETCUSTOMER", sub_action: "GETSELECT"};
+            let dataRecords = $('#TableCustomerList').DataTable({
+                'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
+                'language': {
+                    search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
+                    info: 'หน้าที่ _PAGE_ จาก _PAGES_',
+                    infoEmpty: 'ไม่มีข้อมูล',
+                    zeroRecords: "ไม่มีข้อมูลตามเงื่อนไข",
+                    infoFiltered: '(กรองข้อมูลจากทั้งหมด _MAX_ รายการ)',
+                    paginate: {
+                        previous: 'ก่อนหน้า',
+                        last: 'สุดท้าย',
+                        next: 'ต่อไป'
+                    }
+                },
+                'processing': true,
+                'serverSide': true,
+                'serverMethod': 'post',
+                'ajax': {
+                    'url': 'model/manage_customer_process.php',
+                    'data': formData
+                },
+                'columns': [
+                    {data: 'customer_id'},
+                    {data: 'customer_name'},
+                    {data: 'select'}
+                ]
+            });
+        });
+    </script>
+
+    <script>
+
+        $("#TableCustomerList").on('click', '.select', function () {
+            let data = this.id.split('@');
+            $('#customer_id').val(data[0]);
+            $('#customer_name').val(data[1]);
+            $('#SearchCusModal').modal('hide');
         });
 
     </script>
