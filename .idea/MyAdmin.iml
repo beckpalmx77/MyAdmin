@@ -19,6 +19,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/bootstrap/js" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/bootstrap/scss" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datepicker/css" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/datepicker/js" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/fontawesome-4.7/css" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/fontawesome-free-5.15.4-web/css" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/fontawesome-free-5.15.4-web/js" />

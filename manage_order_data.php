@@ -36,7 +36,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                     <section class="container-fluid">
 
                                         <form method="post" id="MainrecordForm">
-                                            <input type="hidden" class="form-control" id="KeyAddData" name="KeyAddData" value="">
+                                            <input type="text" class="form-control" id="KeyAddData" name="KeyAddData"
+                                                   value="">
                                             <div class="modal-body">
                                                 <div class="modal-body">
                                                     <div class="form-group row">
@@ -144,6 +145,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         </button>
                                                     </div>
                                                     <form method="post" id="recordForm">
+                                                        <input type="text" class="form-control" id="KeyAddDetail"
+                                                               name="KeyAddDetail" value="">
                                                         <div class="modal-body">
                                                             <div class="modal-body">
 
@@ -351,6 +354,8 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="vendor/select2/dist/js/select2.min.js"></script>
     <!-- Bootstrap Datepicker -->
     <script src="vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="vendor/bootstrap-datepicker/css/bootstrap-datepicker.css"/>
+
     <!-- Bootstrap Touchspin -->
     <script src="vendor/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js"></script>
     <!-- ClockPicker -->
@@ -360,11 +365,9 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="js/util.js"></script>
     <!-- Javascript for this page -->
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css"/>
-
 
 
     <style>
@@ -398,8 +401,8 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
         $(document).ready(function () {
             $(".icon-input-btn").each(function () {
-                var btnFont = $(this).find(".btn").css("font-size");
-                var btnColor = $(this).find(".btn").css("color");
+                let btnFont = $(this).find(".btn").css("font-size");
+                let btnColor = $(this).find(".btn").css("color");
                 $(this).find(".fa").css({'font-size': btnFont, 'color': btnColor});
             });
         });
@@ -424,7 +427,7 @@ if (strlen($_SESSION['alogin']) == "") {
             $("#main_menu").html(queryString["main_menu"]);
             $("#sub_menu").html(queryString["sub_menu"]);
 
-            if (queryString["action"]==='ADD') {
+            if (queryString["action"] === 'ADD') {
                 let KeyData = generate_token(15);
                 $('#KeyAddData').val(KeyData + ":" + Date.now());
             }
@@ -541,12 +544,16 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
         $(document).ready(function () {
             $("#btnAdd").click(function () {
+                if ($('#doc_date').val() == '' || $('#customer_name').val() == '') {
+                    alertify.error("กรุณาป้อนวันที่ / ชื่อลูกค้า ");
+                } else {
+                    $('#recordModal').modal('show');
+                    $('#KeyAddDetail').val($('#KeyAddData').val());
+                    $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
+                    $('#action').val('ADD');
+                    $('#save').val('Save');
+                }
 
-                let KeyData = generate_token(25);
-                $('#recordModal').modal('show');
-                $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
-                $('#action').val('ADD');
-                $('#save').val('Save');
             });
         });
     </script>

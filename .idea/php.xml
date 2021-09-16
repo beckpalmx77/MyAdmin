@@ -39,6 +39,8 @@
       <path value="$PROJECT_DIR$/vendor/bootstrap-select/css" />
       <path value="$PROJECT_DIR$/vendor/bootstrap-select/js" />
       <path value="$PROJECT_DIR$/vendor/ttskch/select2-bootstrap4-theme" />
+      <path value="$PROJECT_DIR$/vendor/datepicker/css" />
+      <path value="$PROJECT_DIR$/vendor/datepicker/js" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />
