@@ -36,9 +36,9 @@ if (strlen($_SESSION['alogin']) == "") {
                                     <section class="container-fluid">
 
                                         <form method="post" id="MainrecordForm">
+                                            <input type="hidden" class="form-control" id="KeyAddData" name="KeyAddData" value="">
                                             <div class="modal-body">
                                                 <div class="modal-body">
-
                                                     <div class="form-group row">
                                                         <div class="col-sm-2">
                                                             <label for="doc_no"
@@ -357,12 +357,15 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="vendor/clock-picker/clockpicker.js"></script>
     <!-- RuangAdmin Javascript -->
     <script src="js/myadmin.min.js"></script>
+    <script src="js/util.js"></script>
     <!-- Javascript for this page -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css"/>
+
+
 
     <style>
 
@@ -420,6 +423,11 @@ if (strlen($_SESSION['alogin']) == "") {
             $("#title").html(data);
             $("#main_menu").html(queryString["main_menu"]);
             $("#sub_menu").html(queryString["sub_menu"]);
+
+            if (queryString["action"]==='ADD') {
+                let KeyData = generate_token(15);
+                $('#KeyAddData').val(KeyData + ":" + Date.now());
+            }
 
             if (queryString["doc_no"] != null && queryString["customer_name"] != null) {
 
@@ -533,6 +541,8 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
         $(document).ready(function () {
             $("#btnAdd").click(function () {
+
+                let KeyData = generate_token(25);
                 $('#recordModal').modal('show');
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
                 $('#action').val('ADD');
