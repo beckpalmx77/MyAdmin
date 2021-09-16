@@ -28,7 +28,6 @@
     <!--link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /-->
     <!--script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script-->
 
-
     <link href="../css/select2_4010.css" rel="stylesheet"/>
     <script src="../js/select2_4010.js"></script>
 
@@ -41,10 +40,9 @@
     ?>
 
     <style>
-        body {
+        body, h1, h2, h3, h4, h5, h6 {
             font-family: 'Prompt', sans-serif !important;
         }
     </style>
-
 
 </head>
