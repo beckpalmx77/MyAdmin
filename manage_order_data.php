@@ -120,8 +120,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <input type="hidden" name="id" id="id"/>
-                                                <input type="hidden" name="action" id="action"
+                                                <input type="text" name="id" id="id"/>
+                                                <input type="text" name="action" id="action"
                                                        value=""/>
 
                                                 <!--span class="icon-input-btn">
@@ -231,8 +231,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         </div>
 
                                                         <div class="modal-footer">
-                                                            <input type="text" name="id" id="id"/>
-                                                            <input type="text" name="action_detail"
+                                                            <input type="hidden" name="id" id="id"/>
+                                                            <input type="hidden" name="action_detail"
                                                                    id="action_detail" value=""/>
                                                             <span class="icon-input-btn">
                                                                 <i class="fa fa-check"></i>
@@ -460,6 +460,7 @@ if (strlen($_SESSION['alogin']) == "") {
             $("#title").html(data);
             $("#main_menu").html(queryString["main_menu"]);
             $("#sub_menu").html(queryString["sub_menu"]);
+            $('#action').val(queryString["action"]);
 
             if (queryString["action"] === 'ADD') {
                 let KeyData = generate_token(15);
@@ -569,7 +570,6 @@ if (strlen($_SESSION['alogin']) == "") {
                     $('#action_detail').val('ADD');
                     $('#save').val('Save');
                 }
-
             });
         });
     </script>
@@ -725,19 +725,22 @@ if (strlen($_SESSION['alogin']) == "") {
                 if ($('#doc_date').val() == '' || $('#customer_name').val() == '') {
                     alertify.error("กรุณาป้อนวันที่ / ชื่อลูกค้า ");
                 } else {
-                    let formData = $(this).serialize();
-                    if ($('#KeyAddData').val() !== '') {
-                        alertify.success("ADD");
-                    } else {
-                        alertify.success("UPDATE");
-                    }
-
+                    let formData = $('#MainrecordForm').serialize();
                     $.ajax({
                         url: 'model/manage_order_process.php',
                         method: "POST",
                         data: formData,
                         success: function (data) {
+
+                            if ($('#KeyAddData').val() !== '') {
+                                let KeyAddData = $('#KeyAddData').val();
+                                Save_Detail(KeyAddData);
+                            }
+
                             alertify.success(data);
+                            //window.opener.location.reload();
+                            //window.opener = self;
+                            //window.close();
 
                         }
                     })
@@ -746,6 +749,22 @@ if (strlen($_SESSION['alogin']) == "") {
 
             });
         });
+    </script>
+
+    <script>
+        function Save_Detail(KeyAddData) {
+
+            let formData = {action: "SAVEDETAIL", KeyAddData: KeyAddData};
+            $.ajax({
+                url: 'model/manage_order_detail_process.php',
+                method: "POST",
+                data: formData,
+                success: function (data) {
+                    alertify.success(data);
+                }
+            })
+
+        }
     </script>
 
     <script>
@@ -773,7 +792,6 @@ if (strlen($_SESSION['alogin']) == "") {
                     } else {
                         Load_Data_Detail(doc_no_detail, "v_order_detail");
                     }
-
                 }
             })
 

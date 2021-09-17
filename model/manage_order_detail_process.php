@@ -35,7 +35,7 @@ if ($_POST["action"] === 'GETDATA') {
 if ($_POST["action_detail"] === 'ADD') {
     if ($_POST["doc_date"] !== '') {
 
-        if ($_POST["KeyAddDetail"]!=='') {
+        if ($_POST["KeyAddDetail"] !== '') {
             $doc_no = $_POST["KeyAddDetail"];
             $table_name = "ims_order_detail_temp";
         } else {
@@ -54,7 +54,7 @@ if ($_POST["action_detail"] === 'ADD') {
         } else {
             $line_no = $row["0"] + 1;
         }
-        $sql = "INSERT INTO "  . $table_name . " (doc_no,product_id,unit_id,quantity,line_no) 
+        $sql = "INSERT INTO " . $table_name . " (doc_no,product_id,unit_id,quantity,line_no) 
             VALUES (:doc_no,:product_id,:unit_id,:quantity,:line_no)";
         $query = $dbh->prepare($sql);
         $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
@@ -98,6 +98,56 @@ if ($_POST["action"] === 'UPDATE') {
         }
 
     }
+}
+
+
+if ($_POST["action"] === 'SAVEDETAIL') {
+
+    if ($_POST["KeyAddData"] != '') {
+
+        $KeyAddData = $_POST["KeyAddData"];
+
+        $sql_find = "SELECT * FROM ims_order_master WHERE KeyAddData = '" . $KeyAddData . "'";
+        $statement = $dbh->query($sql_find);
+        $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($results as $result) {
+            $doc_no = $result['doc_no'];
+            $doc_date = $result['doc_date'];
+        }
+
+        $myfile = fopen("newfile.txt", "w") or die("Unable to open file!");
+        $txt = $KeyAddData . " | " . $doc_no . " | " . $doc_date . " | ";
+        fwrite($myfile, $txt);
+        fclose($myfile);
+
+        $sql_find_detail = "SELECT * FROM ims_order_detail_temp WHERE doc_no = '" . $KeyAddData . "'";
+        $statement = $dbh->query($sql_find_detail);
+        $results = $statement->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($results as $result) {
+
+            $sql = "INSERT INTO ims_order_detail (doc_no,doc_date,product_id,unit_id,quantity,line_no) 
+            VALUES (:doc_no,:doc_date,:product_id,:unit_id,:quantity,:line_no)";
+            $query = $dbh->prepare($sql);
+            $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
+            $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
+            $query->bindParam(':product_id', $result['product_id'], PDO::PARAM_STR);
+            $query->bindParam(':unit_id', $result['unit_id'], PDO::PARAM_STR);
+            $query->bindParam(':quantity', $result['quantity'], PDO::PARAM_STR);
+            $query->bindParam(':line_no', $result['line_no'], PDO::PARAM_STR);
+            $query->execute();
+            $lastInsertId = $dbh->lastInsertId();
+
+        }
+
+
+        if ($lastInsertId) {
+            echo $save_success;
+        } else {
+            echo $error;
+        }
+
+    }
+
 }
 
 if ($_POST["action"] === 'DELETE') {
@@ -213,11 +263,6 @@ if ($_POST["action"] === 'GETORDERDETAIL') {
         "iTotalDisplayRecords" => $totalRecordwithFilter,
         "aaData" => $data
     );
-
-    $myfile = fopen("newfile.txt", "w") or die("Unable to open file!");
-    $txt = $_POST["doc_no"];
-    fwrite($myfile, $txt);
-    fclose($myfile);
 
     echo json_encode($response);
 

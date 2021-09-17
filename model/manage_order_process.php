@@ -47,6 +47,7 @@ if ($_POST["action"] === 'SEARCH') {
 if ($_POST["action"] === 'ADD') {
     if ($_POST["customer_id"] !== '') {
         $table = "ims_order_master";
+        $KeyAddData = $_POST["KeyAddData"];
         $doc_year = substr($_POST["doc_date"], 0, 4);
         $field = "doc_runno";
         $doc_type = "-ORD-";
@@ -59,19 +60,18 @@ if ($_POST["action"] === 'ADD') {
         $stmt = $dbh->query($sql_find);
         $nRows = $stmt->rowCount();
 
-        echo $doc_runno;
-
         if ($nRows > 0) {
             echo $dup;
         } else {
-            $sql = "INSERT INTO " . $table . " (doc_no,customer_id,doc_date,doc_year,doc_runno,status)
-                    VALUES (:doc_no,:customer_id,:doc_date,:doc_year,:doc_runno,:status)";
+            $sql = "INSERT INTO " . $table . " (doc_no,customer_id,doc_date,doc_year,doc_runno,KeyAddData,status)
+                    VALUES (:doc_no,:customer_id,:doc_date,:doc_year,:doc_runno,:KeyAddData,:status)";
             $query = $dbh->prepare($sql);
             $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
             $query->bindParam(':customer_id', $customer_id, PDO::PARAM_STR);
             $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
             $query->bindParam(':doc_year', $doc_year, PDO::PARAM_STR);
             $query->bindParam(':doc_runno', $doc_runno, PDO::PARAM_STR);
+            $query->bindParam(':KeyAddData', $KeyAddData, PDO::PARAM_STR);
             $query->bindParam(':status', $status, PDO::PARAM_STR);
             $query->execute();
             $lastInsertId = $dbh->lastInsertId();
