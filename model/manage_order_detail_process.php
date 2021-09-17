@@ -205,21 +205,7 @@ if ($_POST["action"] === 'GETORDERDETAIL') {
     $records = $stmt->fetch();
     $totalRecordwithFilter = $records['allcount'];
 
-## Fetch records
-    /*
-        $stmt = $dbh->prepare("SELECT * FROM v_order_detail WHERE 1 " . $searchQuery
-            . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
-    */
 
-// Bind values
-    /*
-        foreach ($searchArray as $key => $search) {
-            $stmt->bindValue(':' . $key, $search, PDO::PARAM_STR);
-        }
-
-        $stmt->bindValue(':limit', (int)$row, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', (int)$rowperpage, PDO::PARAM_INT);
-    */
     $query_str = "SELECT * FROM " . $table_name . " WHERE doc_no = '" . $_POST["doc_no"] . "'"
         . " ORDER BY line_no ";
 
