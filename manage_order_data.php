@@ -123,11 +123,17 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 <input type="hidden" name="id" id="id"/>
                                                 <input type="hidden" name="action" id="action"
                                                        value=""/>
-                                                <span class="icon-input-btn">
+
+                                                <!--span class="icon-input-btn">
                                                                 <i class="fa fa-check"></i>
                                                             <input type="submit" name="save" id="save"
                                                                    class="btn btn-primary" value="Save"/>
-                                                            </span>
+                                                            </span-->
+
+                                                <button type="button" class="btn btn-primary"
+                                                        id="btnSave">Save <i
+                                                            class="fa fa-check"></i>
+                                                </button>
                                                 <button type="button" class="btn btn-danger"
                                                         id="btnClose">Close <i
                                                             class="fa fa-window-close"></i>
@@ -145,15 +151,29 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         </button>
                                                     </div>
                                                     <form method="post" id="recordForm">
-                                                        <input type="text" class="form-control" id="KeyAddDetail"
-                                                               name="KeyAddDetail" value="">
+
+                                                        <div class="form-group row">
+                                                            <div class="col-sm-5">
+                                                                <input type="text" class="form-control"
+                                                                       id="KeyAddDetail"
+                                                                       name="KeyAddDetail" value="">
+                                                            </div>
+                                                            <div class="col-sm-5">
+                                                                <input type="text" class="form-control"
+                                                                       id="doc_no_detail"
+                                                                       name="doc_no_detail" value="">
+                                                            </div>
+                                                        </div>
+
                                                         <div class="modal-body">
                                                             <div class="modal-body">
 
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-5">
-                                                                        <label for="product_id" class="control-label">รหัสสินค้า/อะไหล่</label>
-                                                                        <input type="product_id" class="form-control"
+                                                                        <label for="product_id"
+                                                                               class="control-label">รหัสสินค้า/อะไหล่</label>
+                                                                        <input type="product_id"
+                                                                               class="form-control"
                                                                                id="product_id" name="product_id"
                                                                                required="required"
                                                                                placeholder="รหัสสินค้า/อะไหล่">
@@ -211,8 +231,9 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         </div>
 
                                                         <div class="modal-footer">
-                                                            <input type="hidden" name="id" id="id"/>
-                                                            <input type="hidden" name="action" id="action" value=""/>
+                                                            <input type="text" name="id" id="id"/>
+                                                            <input type="text" name="action_detail"
+                                                                   id="action_detail" value=""/>
                                                             <span class="icon-input-btn">
                                                                 <i class="fa fa-check"></i>
                                                             <input type="submit" name="save" id="save"
@@ -352,14 +373,12 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Select2 -->
     <script src="vendor/select2/dist/js/select2.min.js"></script>
-    <!-- Bootstrap Datepicker -->
-    <script src="vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-    <link rel="stylesheet" href="vendor/bootstrap-datepicker/css/bootstrap-datepicker.css"/>
+
 
     <!-- Bootstrap Touchspin -->
     <script src="vendor/bootstrap-touchspin/js/jquery.bootstrap-touchspin.js"></script>
     <!-- ClockPicker -->
-    <script src="vendor/clock-picker/clockpicker.js"></script>
+
     <!-- RuangAdmin Javascript -->
     <script src="js/myadmin.min.js"></script>
     <script src="js/util.js"></script>
@@ -369,6 +388,10 @@ if (strlen($_SESSION['alogin']) == "") {
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css"/>
 
+    <script src="vendor/date-picker-1.9/js/bootstrap-datepicker.js"></script>
+    <script src="vendor/date-picker-1.9/locales/bootstrap-datepicker.th.min.js"></script>
+    <!--link href="vendor/date-picker-1.9/css/date_picker_style.css" rel="stylesheet"/-->
+    <link href="vendor/date-picker-1.9/css/bootstrap-datepicker.css" rel="stylesheet"/>
 
     <style>
 
@@ -393,6 +416,8 @@ if (strlen($_SESSION['alogin']) == "") {
         $(document).ready(function () {
             $('#doc_date').datepicker({
                 format: "yyyy-mm-dd",
+                todayHighlight: true,
+                language: "th",
                 autoclose: true
             });
         });
@@ -404,6 +429,15 @@ if (strlen($_SESSION['alogin']) == "") {
                 let btnFont = $(this).find(".btn").css("font-size");
                 let btnColor = $(this).find(".btn").css("color");
                 $(this).find(".fa").css({'font-size': btnFont, 'color': btnColor});
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#btnClose").click(function () {
+                window.opener = self;
+                window.close();
             });
         });
     </script>
@@ -439,14 +473,15 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#customer_id').val(queryString["customer_id"]);
                 $('#customer_name').val(queryString["customer_name"]);
 
-                Load_Data_Detail(queryString["doc_no"]);
+                Load_Data_Detail(queryString["doc_no"], "v_order_detail");
             }
         });
     </script>
 
     <script>
-        function Load_Data_Detail(doc_no) {
-            let formData = {action: "GETORDERDETAIL", sub_action: "GETMASTER", doc_no: doc_no};
+        function Load_Data_Detail(doc_no, table_name) {
+
+            let formData = {action: "GETORDERDETAIL", sub_action: "GETMASTER", doc_no: doc_no, table_name: table_name};
             let dataRecords = $('#TableOrderDetailList').DataTable({
                 "paging": false,
                 "ordering": false,
@@ -482,27 +517,6 @@ if (strlen($_SESSION['alogin']) == "") {
                 ]
             });
         }
-    </script>
-
-
-    <script>
-        $(document).ready(function () {
-            $("form").on("submit", function (event) {
-                event.preventDefault();
-                let formValues = $(this).serialize();
-                $.post("model/manage_account_process.php", formValues, function (response) {
-                    if (response == 1) {
-                        document.getElementById("from_data").reset();
-                        alertify.success("บันทึกข้อมูลเรียบร้อย Save Data Success");
-
-                    } else if (response == 2) {
-                        alertify.error("ไม่สามารถบันทึกข้อมูลได้ มี User นี้แล้ว ");
-                    } else {
-                        alertify.error("ไม่สามารถบันทึกข้อมูลได้ DB Error ");
-                    }
-                });
-            });
-        });
     </script>
 
     <script>
@@ -544,13 +558,15 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
         $(document).ready(function () {
             $("#btnAdd").click(function () {
+                //alert($('#doc_no').val());
                 if ($('#doc_date').val() == '' || $('#customer_name').val() == '') {
                     alertify.error("กรุณาป้อนวันที่ / ชื่อลูกค้า ");
                 } else {
                     $('#recordModal').modal('show');
                     $('#KeyAddDetail').val($('#KeyAddData').val());
+                    $('#doc_no_detail').val($('#doc_no').val());
                     $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
-                    $('#action').val('ADD');
+                    $('#action_detail').val('ADD');
                     $('#save').val('Save');
                 }
 
@@ -581,13 +597,14 @@ if (strlen($_SESSION['alogin']) == "") {
 
                         $('#recordModal').modal('show');
                         $('#id').val(id);
+                        $('#doc_no_detail').val(doc_no_detail);
                         $('#product_id').val(product_id);
                         $('#name_t').val(name_t);
                         $('#quantity').val(quantity);
                         $('#unit_id').val(unit_id);
                         $('#unit_name').val(unit_name);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
-                        $('#action').val('UPDATE');
+                        $('#action_detail').val('UPDATE');
                         $('#save').val('Save');
                     }
                 },
@@ -608,15 +625,6 @@ if (strlen($_SESSION['alogin']) == "") {
             $('#SearchCusModal').modal('hide');
         });
 
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            $("#btnClose").click(function () {
-                window.opener = self;
-                window.close();
-            });
-        });
     </script>
 
     <script>
@@ -704,9 +712,71 @@ if (strlen($_SESSION['alogin']) == "") {
             let data = this.id.split('@');
             $('#product_id').val(data[0]);
             $('#name_t').val(data[1]);
-            $('#ีunit_id').val(data[2]);
+            $('#unit_id').val(data[2]);
             $('#unit_name').val(data[3]);
             $('#SearchProductModal').modal('hide');
+        });
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#btnSave").click(function () {
+                if ($('#doc_date').val() == '' || $('#customer_name').val() == '') {
+                    alertify.error("กรุณาป้อนวันที่ / ชื่อลูกค้า ");
+                } else {
+                    let formData = $(this).serialize();
+                    if ($('#KeyAddData').val() !== '') {
+                        alertify.success("ADD");
+                    } else {
+                        alertify.success("UPDATE");
+                    }
+
+                    $.ajax({
+                        url: 'model/manage_order_process.php',
+                        method: "POST",
+                        data: formData,
+                        success: function (data) {
+                            alertify.success(data);
+
+                        }
+                    })
+
+                }
+
+            });
+        });
+    </script>
+
+    <script>
+
+        $("#recordModal").on('submit', '#recordForm', function (event) {
+            event.preventDefault();
+
+            let KeyAddData = $('#KeyAddData').val();
+            let doc_no_detail = $('#doc_no_detail').val();
+            let formData = $(this).serialize();
+
+            $.ajax({
+                url: 'model/manage_order_detail_process.php',
+                method: "POST",
+                data: formData,
+                success: function (data) {
+                    alertify.success(data);
+                    $('#recordForm')[0].reset();
+                    $('#recordModal').modal('hide');
+
+                    $('#TableOrderDetailList').DataTable().clear().destroy();
+
+                    if (KeyAddData !== '') {
+                        Load_Data_Detail(KeyAddData, "v_order_detail_temp");
+                    } else {
+                        Load_Data_Detail(doc_no_detail, "v_order_detail");
+                    }
+
+                }
+            })
+
         });
 
     </script>

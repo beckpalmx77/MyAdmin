@@ -237,8 +237,10 @@ if (strlen($_SESSION['alogin']) == "") {
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css"/>
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css"/>
 
-    <link rel="stylesheet" href="css/datepicker.css">
-    <script src="js/bootstrap-datepicker1.js"></script>
+    <script src="vendor/date-picker-1.9/js/bootstrap-datepicker.js"></script>
+    <script src="vendor/date-picker-1.9/locales/bootstrap-datepicker.th.min.js"></script>
+    <!--link href="vendor/date-picker-1.9/css/date_picker_style.css" rel="stylesheet"/-->
+    <link href="vendor/date-picker-1.9/css/bootstrap-datepicker.css" rel="stylesheet"/>
 
     <script src="js/popup.js"></script>
 
@@ -265,6 +267,8 @@ if (strlen($_SESSION['alogin']) == "") {
         $(document).ready(function () {
             $('#doc_date').datepicker({
                 format: "yyyy-mm-dd",
+                todayHighlight: true,
+                language: "th",
                 autoclose: true
             });
         });

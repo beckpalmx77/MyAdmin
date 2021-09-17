@@ -32,30 +32,45 @@ if ($_POST["action"] === 'GETDATA') {
 
 }
 
-if ($_POST["action"] === 'ADD') {
+if ($_POST["action_detail"] === 'ADD') {
     if ($_POST["doc_date"] !== '') {
-        $doc_no = "U-" . sprintf('%04s', LAST_ID($dbh, "v_order_detail", 'id'));
-        $doc_date = $_POST["doc_date"];
-        $status = $_POST["status"];
-        $sql_find = "SELECT * FROM v_order_detail WHERE doc_date = '" . $doc_date . "'";
-        $nRows = $dbh->query($sql_find)->fetchColumn();
-        if ($nRows > 0) {
-            echo $dup;
-        } else {
-            $sql = "INSERT INTO v_order_detail(doc_no,doc_date,status) VALUES (:doc_no,:doc_date,:status)";
-            $query = $dbh->prepare($sql);
-            $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
-            $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
-            $query->bindParam(':status', $status, PDO::PARAM_STR);
-            $query->execute();
-            $lastInsertId = $dbh->lastInsertId();
 
-            if ($lastInsertId) {
-                echo $save_success;
-            } else {
-                echo $error;
-            }
+        if ($_POST["KeyAddDetail"]!=='') {
+            $doc_no = $_POST["KeyAddDetail"];
+            $table_name = "ims_order_detail_temp";
+        } else {
+            $doc_no = $_POST["doc_no_detail"];
+            $table_name = "ims_order_detail";
         }
+
+        $product_id = $_POST["product_id"];
+        $unit_id = $_POST["unit_id"];
+        $quantity = $_POST["quantity"];
+
+        $sql_find = "SELECT count(*) as row FROM " . $table_name . " WHERE doc_no = '" . $doc_no . "'";
+        $row = $dbh->query($sql_find)->fetch();
+        if (empty($row["0"])) {
+            $line_no = 1;
+        } else {
+            $line_no = $row["0"] + 1;
+        }
+        $sql = "INSERT INTO "  . $table_name . " (doc_no,product_id,unit_id,quantity,line_no) 
+            VALUES (:doc_no,:product_id,:unit_id,:quantity,:line_no)";
+        $query = $dbh->prepare($sql);
+        $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
+        $query->bindParam(':product_id', $product_id, PDO::PARAM_STR);
+        $query->bindParam(':unit_id', $unit_id, PDO::PARAM_STR);
+        $query->bindParam(':quantity', $quantity, PDO::PARAM_STR);
+        $query->bindParam(':line_no', $line_no, PDO::PARAM_STR);
+        $query->execute();
+        $lastInsertId = $dbh->lastInsertId();
+
+        if ($lastInsertId) {
+            echo $save_success;
+        } else {
+            echo $error . " | " . $doc_no . " | " . $line_no . " | " . $product_id . " | " . $quantity . " | " . $unit_id;
+        }
+
     }
 }
 
@@ -106,6 +121,7 @@ if ($_POST["action"] === 'DELETE') {
 if ($_POST["action"] === 'GETORDERDETAIL') {
 
     ## Read value
+    $table_name = $_POST['table_name'];
     $draw = $_POST['draw'];
     $row = $_POST['start'];
     $rowperpage = $_POST['length']; // Rows display per page
@@ -128,34 +144,34 @@ if ($_POST["action"] === 'GETORDERDETAIL') {
     }
 
 ## Total number of records without filtering
-    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM v_order_detail WHERE DOC_NO = '" . $_POST["doc_no"] . "'");
+    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM " . $table_name . " WHERE DOC_NO = '" . $_POST["doc_no"] . "'");
     $stmt->execute();
     $records = $stmt->fetch();
     $totalRecords = $records['allcount'];
 
 ## Total number of records with filtering
-    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM v_order_detail WHERE DOC_NO = '" . $_POST["doc_no"] . "'");
+    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM " . $table_name . " WHERE DOC_NO = '" . $_POST["doc_no"] . "'");
     $stmt->execute();
     $records = $stmt->fetch();
     $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
-/*
-    $stmt = $dbh->prepare("SELECT * FROM v_order_detail WHERE 1 " . $searchQuery
-        . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
-*/
+    /*
+        $stmt = $dbh->prepare("SELECT * FROM v_order_detail WHERE 1 " . $searchQuery
+            . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
+    */
 
 // Bind values
-/*
-    foreach ($searchArray as $key => $search) {
-        $stmt->bindValue(':' . $key, $search, PDO::PARAM_STR);
-    }
+    /*
+        foreach ($searchArray as $key => $search) {
+            $stmt->bindValue(':' . $key, $search, PDO::PARAM_STR);
+        }
 
-    $stmt->bindValue(':limit', (int)$row, PDO::PARAM_INT);
-    $stmt->bindValue(':offset', (int)$rowperpage, PDO::PARAM_INT);
-*/
-    $query_str = "SELECT * FROM v_order_detail WHERE doc_no = '" . $_POST["doc_no"] . "'"
-    . " ORDER BY line_no " ;
+        $stmt->bindValue(':limit', (int)$row, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int)$rowperpage, PDO::PARAM_INT);
+    */
+    $query_str = "SELECT * FROM " . $table_name . " WHERE doc_no = '" . $_POST["doc_no"] . "'"
+        . " ORDER BY line_no ";
 
     $stmt = $dbh->prepare($query_str);
     $stmt->execute();
@@ -207,3 +223,4 @@ if ($_POST["action"] === 'GETORDERDETAIL') {
 
 
 }
+

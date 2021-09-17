@@ -31,8 +31,10 @@
     <link href="../css/select2_4010.css" rel="stylesheet"/>
     <script src="../js/select2_4010.js"></script>
 
-    <link rel="stylesheet" href="../css/datepicker.css">
-    <script src="../js/bootstrap-datepicker1.js"></script>
+    <script src="vendor/date-picker-1.9/js/bootstrap-datepicker.js"></script>
+    <script src="vendor/date-picker-1.9/locales/bootstrap-datepicker.th.min.js"></script>
+    <link href="vendor/date-picker-1.9/css/date_picker_style.css" rel="stylesheet"/>
+    <!--link href="vendor/date-picker-1.9/css/bootstrap-datepicker.css" rel="stylesheet"/-->
 
     <?php
     session_start();
