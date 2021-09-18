@@ -5,6 +5,7 @@ error_reporting(0);
 include('../config/connect_db.php');
 include('../config/lang.php');
 include('../util/record_util.php');
+include('../util/reorder_record.php');
 
 
 if ($_POST["action"] === 'GETDATA') {
@@ -45,6 +46,7 @@ if ($_POST["action_detail"] === 'ADD') {
             $table_name = "ims_order_detail";
         }
 
+        $doc_date = $_POST["doc_date_detail"];
         $product_id = $_POST["product_id"];
         $unit_id = $_POST["unit_id"];
         $quantity = $_POST["quantity"];
@@ -56,10 +58,11 @@ if ($_POST["action_detail"] === 'ADD') {
         } else {
             $line_no = $row["0"] + 1;
         }
-        $sql = "INSERT INTO " . $table_name . " (doc_no,product_id,unit_id,quantity,line_no) 
-            VALUES (:doc_no,:product_id,:unit_id,:quantity,:line_no)";
+        $sql = "INSERT INTO " . $table_name . " (doc_no,doc_date,product_id,unit_id,quantity,line_no) 
+            VALUES (:doc_no,:doc_date,:product_id,:unit_id,:quantity,:line_no)";
         $query = $dbh->prepare($sql);
         $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
+        $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
         $query->bindParam(':product_id', $product_id, PDO::PARAM_STR);
         $query->bindParam(':unit_id', $unit_id, PDO::PARAM_STR);
         $query->bindParam(':quantity', $quantity, PDO::PARAM_STR);
@@ -89,6 +92,7 @@ if ($_POST["action_detail"] === 'UPDATE') {
             $table_name = "ims_order_detail";
         }
 
+        $doc_date = $_POST["doc_date_detail"];
         $id = $_POST["detail_id"];
         $product_id = $_POST["product_id"];
         $quantity = $_POST["quantity"];
@@ -100,9 +104,10 @@ if ($_POST["action_detail"] === 'UPDATE') {
         if (empty($row["0"])) {
             echo $error;
         } else {
-            $sql_update = "UPDATE " . $table_name . " SET product_id=:product_id,quantity=:quantity,unit_id=:unit_id            
+            $sql_update = "UPDATE " . $table_name . " SET doc_date=:doc_date,product_id=:product_id,quantity=:quantity,unit_id=:unit_id            
             WHERE id = :id";
             $query = $dbh->prepare($sql_update);
+            $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
             $query->bindParam(':product_id', $product_id, PDO::PARAM_STR);
             $query->bindParam(':quantity', $quantity, PDO::PARAM_STR);
             $query->bindParam(':unit_id', $unit_id, PDO::PARAM_STR);
@@ -130,13 +135,7 @@ if ($_POST["action_detail"] === 'DELETE') {
         $product_id = $_POST["product_id"];
         $quantity = $_POST["quantity"];
         $unit_id = $_POST["unit_id"];
-
         $sql_find = "SELECT * FROM " . $table_name . " WHERE id = " . $id;
-        $myfile = fopen("newDelfile.txt", "w") or die("Unable to open file!");
-        $txt = $id . " | " . $product_id . " | " . $quantity . " | " . $sql_find . " | " . $_POST["KeyAddDetail"];
-        fwrite($myfile, $txt);
-        fclose($myfile);
-
         $nRows = $dbh->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             try {
@@ -144,9 +143,10 @@ if ($_POST["action_detail"] === 'DELETE') {
                 $query = $dbh->prepare($sql);
                 $query->execute();
 
-                Reorder_Record_By_DocNO($dbh,$table_name,$doc_no);
+                Reorder_Record_By_DocNO($dbh, $table_name, $doc_no);
 
                 echo $del_success;
+
             } catch (Exception $e) {
                 echo 'Message: ' . $e->getMessage();
             }
@@ -155,8 +155,6 @@ if ($_POST["action_detail"] === 'DELETE') {
 
     }
 }
-
-
 
 if ($_POST["action"] === 'UPDATE') {
 
@@ -182,7 +180,6 @@ if ($_POST["action"] === 'UPDATE') {
 
     }
 }
-
 
 if ($_POST["action"] === 'SAVEDETAIL') {
 

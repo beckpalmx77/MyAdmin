@@ -36,7 +36,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                     <section class="container-fluid">
 
                                         <form method="post" id="MainrecordForm">
-                                            <input type="text" class="form-control" id="KeyAddData" name="KeyAddData"
+                                            <input type="hidden" class="form-control" id="KeyAddData" name="KeyAddData"
                                                    value="">
                                             <div class="modal-body">
                                                 <div class="modal-body">
@@ -120,16 +120,9 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <input type="text" name="id" id="id"/>
-                                                <input type="text" name="action" id="action"
+                                                <input type="hidden" name="id" id="id"/>
+                                                <input type="hidden" name="action" id="action"
                                                        value=""/>
-
-                                                <!--span class="icon-input-btn">
-                                                                <i class="fa fa-check"></i>
-                                                            <input type="submit" name="save" id="save"
-                                                                   class="btn btn-primary" value="Save"/>
-                                                            </span-->
-
                                                 <button type="button" class="btn btn-primary"
                                                         id="btnSave">Save <i
                                                             class="fa fa-check"></i>
@@ -154,14 +147,19 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                         <div class="form-group row">
                                                             <div class="col-sm-5">
-                                                                <input type="text" class="form-control"
+                                                                <input type="hidden" class="form-control"
                                                                        id="KeyAddDetail"
                                                                        name="KeyAddDetail" value="">
                                                             </div>
                                                             <div class="col-sm-5">
-                                                                <input type="text" class="form-control"
+                                                                <input type="hidden" class="form-control"
                                                                        id="doc_no_detail"
                                                                        name="doc_no_detail" value="">
+                                                            </div>
+                                                            <div class="col-sm-5">
+                                                                <input type="hidden" class="form-control"
+                                                                       id="doc_date_detail"
+                                                                       name="doc_date_detail" value="">
                                                             </div>
                                                         </div>
 
@@ -231,8 +229,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         </div>
 
                                                         <div class="modal-footer">
-                                                            <input type="text" name="id" id="id"/>
-                                                            <input type="text" name="detail_id" id="detail_id"/>
+                                                            <input type="hidden" name="id" id="id"/>
+                                                            <input type="hidden" name="detail_id" id="detail_id"/>
                                                             <input type="hidden" name="action_detail"
                                                                    id="action_detail" value=""/>
                                                             <span class="icon-input-btn">
@@ -560,13 +558,13 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
         $(document).ready(function () {
             $("#btnAdd").click(function () {
-                //alert($('#doc_no').val());
                 if ($('#doc_date').val() == '' || $('#customer_name').val() == '') {
                     alertify.error("กรุณาป้อนวันที่ / ชื่อลูกค้า ");
                 } else {
                     $('#recordModal').modal('show');
                     $('#KeyAddDetail').val($('#KeyAddData').val());
                     $('#doc_no_detail').val($('#doc_no').val());
+                    $('#doc_date_detail').val($('#doc_date').val());
                     $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
                     $('#action_detail').val('ADD');
                     $('#save').val('Save');
@@ -589,8 +587,6 @@ if (strlen($_SESSION['alogin']) == "") {
                 table_name = "v_order_detail";
             }
 
-            alert(rec_id + " | " + doc_no);
-
             let formData = {action: "GETDATA", id: rec_id, doc_no: doc_no, table_name: table_name};
             $.ajax({
                 type: "POST",
@@ -603,6 +599,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         let product_id = response[i].product_id;
                         let id = response[i].id;
                         let name_t = response[i].name_t;
+                        let doc_date = response[i].doc_date;
                         let quantity = response[i].quantity;
                         let unit_id = response[i].unit_id;
                         let unit_name = response[i].unit_name;
@@ -611,6 +608,7 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#id').val(id);
                         $('#detail_id').val(rec_id);
                         $('#doc_no_detail').val(doc_no);
+                        $('#doc_date_detail').val(doc_date);
                         $('#product_id').val(product_id);
                         $('#name_t').val(name_t);
                         $('#quantity').val(quantity);
@@ -642,8 +640,6 @@ if (strlen($_SESSION['alogin']) == "") {
                 doc_no = $('#doc_no').val();
                 table_name = "v_order_detail";
             }
-
-            alert(rec_id + " | " + doc_no);
 
             let formData = {action: "GETDATA", id: rec_id, doc_no: doc_no, table_name: table_name};
             $.ajax({

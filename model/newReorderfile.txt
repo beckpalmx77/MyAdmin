@@ -1,0 +1,1 @@
+UPDATE ims_order_detail_temp SET line_no = 5 WHERE id = 72
