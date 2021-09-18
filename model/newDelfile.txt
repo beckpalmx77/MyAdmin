@@ -1,0 +1,1 @@
+61 | EL-MB002 | 3 | SELECT * FROM ims_order_detail_temp WHERE id = 61 | L9t!6S9jgeVBsdz:1631949021626

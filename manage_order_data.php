@@ -231,7 +231,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         </div>
 
                                                         <div class="modal-footer">
-                                                            <input type="hidden" name="id" id="id"/>
+                                                            <input type="text" name="id" id="id"/>
+                                                            <input type="text" name="detail_id" id="detail_id"/>
                                                             <input type="hidden" name="action_detail"
                                                                    id="action_detail" value=""/>
                                                             <span class="icon-input-btn">
@@ -577,9 +578,20 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
 
         $("#TableOrderDetailList").on('click', '.update', function () {
-            let id = $(this).attr("id");
-            //alert(id);
-            let formData = {action: "GETDATA", id: id};
+
+            let rec_id = $(this).attr("id");
+
+            if ($('#KeyAddData').val() !== '') {
+                doc_no = $('#KeyAddData').val();
+                table_name = "v_order_detail_temp";
+            } else {
+                doc_no = $('#doc_no').val();
+                table_name = "v_order_detail";
+            }
+
+            alert(rec_id + " | " + doc_no);
+
+            let formData = {action: "GETDATA", id: rec_id, doc_no: doc_no, table_name: table_name};
             $.ajax({
                 type: "POST",
                 url: 'model/manage_order_detail_process.php',
@@ -588,8 +600,8 @@ if (strlen($_SESSION['alogin']) == "") {
                 success: function (response) {
                     let len = response.length;
                     for (let i = 0; i < len; i++) {
-                        let id = response[i].id;
                         let product_id = response[i].product_id;
+                        let id = response[i].id;
                         let name_t = response[i].name_t;
                         let quantity = response[i].quantity;
                         let unit_id = response[i].unit_id;
@@ -597,7 +609,8 @@ if (strlen($_SESSION['alogin']) == "") {
 
                         $('#recordModal').modal('show');
                         $('#id').val(id);
-                        $('#doc_no_detail').val(doc_no_detail);
+                        $('#detail_id').val(rec_id);
+                        $('#doc_no_detail').val(doc_no);
                         $('#product_id').val(product_id);
                         $('#name_t').val(name_t);
                         $('#quantity').val(quantity);
@@ -606,6 +619,60 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
                         $('#action_detail').val('UPDATE');
                         $('#save').val('Save');
+                    }
+                },
+                error: function (response) {
+                    alertify.error("error : " + response);
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+
+        $("#TableOrderDetailList").on('click', '.delete', function () {
+
+            let rec_id = $(this).attr("id");
+
+            if ($('#KeyAddData').val() !== '') {
+                doc_no = $('#KeyAddData').val();
+                table_name = "v_order_detail_temp";
+            } else {
+                doc_no = $('#doc_no').val();
+                table_name = "v_order_detail";
+            }
+
+            alert(rec_id + " | " + doc_no);
+
+            let formData = {action: "GETDATA", id: rec_id, doc_no: doc_no, table_name: table_name};
+            $.ajax({
+                type: "POST",
+                url: 'model/manage_order_detail_process.php',
+                dataType: "json",
+                data: formData,
+                success: function (response) {
+                    let len = response.length;
+                    for (let i = 0; i < len; i++) {
+                        let product_id = response[i].product_id;
+                        let id = response[i].id;
+                        let name_t = response[i].name_t;
+                        let quantity = response[i].quantity;
+                        let unit_id = response[i].unit_id;
+                        let unit_name = response[i].unit_name;
+
+                        $('#recordModal').modal('show');
+                        $('#id').val(id);
+                        $('#detail_id').val(rec_id);
+                        $('#doc_no_detail').val(doc_no);
+                        $('#product_id').val(product_id);
+                        $('#name_t').val(name_t);
+                        $('#quantity').val(quantity);
+                        $('#unit_id').val(unit_id);
+                        $('#unit_name').val(unit_name);
+                        $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
+                        $('#action_detail').val('DELETE');
+                        $('#save').val('Confirm Delete');
                     }
                 },
                 error: function (response) {
@@ -738,7 +805,7 @@ if (strlen($_SESSION['alogin']) == "") {
                             }
 
                             alertify.success(data);
-                            //window.opener.location.reload();
+                            window.opener.location.reload();
                             //window.opener = self;
                             //window.close();
 
@@ -771,8 +838,10 @@ if (strlen($_SESSION['alogin']) == "") {
 
         $("#recordModal").on('submit', '#recordForm', function (event) {
             event.preventDefault();
-
             let KeyAddData = $('#KeyAddData').val();
+            if (KeyAddData !== '') {
+                $('#KeyAddDetail').val(KeyAddData);
+            }
             let doc_no_detail = $('#doc_no_detail').val();
             let formData = $(this).serialize();
 

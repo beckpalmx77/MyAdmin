@@ -129,6 +129,20 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                     </div>
                                                                 </div>
 
+                                                                <table cellpadding="0" cellspacing="0" border="0"
+                                                                       class="display"
+                                                                       id="TableOrderDetailList"
+                                                                       width="100%">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>#</th>
+                                                                        <th>สินค้า</th>
+                                                                        <th>จำนวน</th>
+                                                                        <th>หน่วยนับ</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                </table>
+
                                                                 <div class="form-group">
                                                                     <label for="status"
                                                                            class="control-label">Status</label>
@@ -365,69 +379,11 @@ if (strlen($_SESSION['alogin']) == "") {
     </script>
 
     <script>
-        $(document).ready(function () {
-            $("#btnAdd-").click(function () {
-                $('#recordModal').modal('show');
-                $('#KeyAddData').val(Math.random().toString(20));
-                $('#id').val("");
-                $('#doc_no').val("");
-                $('#doc_date').val("");
-                $('#customer_id').val("");
-                $('#customer_name').val("");
-                $('#status').val("Active");
-                $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
-                $('#action').val('ADD');
-                $('#save').val('Save');
-            });
-        });
-    </script>
-
-    <script>
-
-        $("#TableRecordList").on('click', '.update--', function () {
-            let id = $(this).attr("id");
-            //alert(id);
-            let formData = {action: "GETDATA", id: id};
-            $.ajax({
-                type: "POST",
-                url: 'model/manage_order_process.php',
-                dataType: "json",
-                data: formData,
-                success: function (response) {
-                    let len = response.length;
-                    for (let i = 0; i < len; i++) {
-                        let id = response[i].id;
-                        let doc_no = response[i].doc_no;
-                        let doc_date = response[i].doc_date;
-                        let customer_id = response[i].customer_id;
-                        let customer_name = response[i].customer_name;
-                        let status = response[i].status;
-
-                        $('#recordModal').modal('show');
-                        $('#id').val(id);
-                        $('#doc_no').val(doc_no);
-                        $('#doc_date').val(doc_date);
-                        $('#customer_id').val(customer_id);
-                        $('#customer_name').val(customer_name);
-                        $('#status').val(status);
-                        $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
-                        $('#action').val('UPDATE');
-                        $('#save').val('Save');
-                    }
-                },
-                error: function (response) {
-                    alertify.error("error : " + response);
-                }
-            });
-        });
-
-    </script>
-
-    <script>
 
         $("#TableRecordList").on('click', '.delete', function () {
             let id = $(this).attr("id");
             let formData = {action: "GETDATA", id: id};
+            let table_name = "v_order_detail";
             $.ajax({
                 type: "POST",
                 url: 'model/manage_order_process.php',
@@ -444,6 +400,9 @@ if (strlen($_SESSION['alogin']) == "") {
                         let status = response[i].status;
 
                         $('#recordModal').modal('show');
+
+                        Load_Data_Detail(doc_no, table_name);
+
                         $('#id').val(id);
                         $('#doc_no').val(doc_no);
                         $('#doc_date').val(doc_date);
@@ -556,6 +515,47 @@ if (strlen($_SESSION['alogin']) == "") {
                 }
             });
         });
+    </script>
+
+    <script>
+        function Load_Data_Detail(doc_no, table_name) {
+
+            $('#TableOrderDetailList').DataTable().clear().destroy();
+
+            let formData = {action: "GETORDERDETAIL", sub_action: "GETMASTER", doc_no: doc_no, table_name: table_name};
+            let dataRecords = $('#TableOrderDetailList').DataTable({
+                "paging": false,
+                "ordering": false,
+                'info': false,
+                "searching": false,
+                'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
+                'language': {
+                    search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
+                    info: 'หน้าที่ _PAGE_ จาก _PAGES_',
+                    infoEmpty: 'ไม่มีข้อมูล',
+                    zeroRecords: "ไม่มีข้อมูลตามเงื่อนไข",
+                    infoFiltered: '(กรองข้อมูลจากทั้งหมด _MAX_ รายการ)',
+                    paginate: {
+                        previous: 'ก่อนหน้า',
+                        last: 'สุดท้าย',
+                        next: 'ต่อไป'
+                    }
+                },
+                'processing': true,
+                'serverSide': true,
+                'serverMethod': 'post',
+                'ajax': {
+                    'url': 'model/manage_order_detail_process.php',
+                    'data': formData
+                },
+                'columns': [
+                    {data: 'line_no'},
+                    {data: 'product_name'},
+                    {data: 'quantity'},
+                    {data: 'unit_name'}
+                ]
+            });
+        }
     </script>
 
     </body>

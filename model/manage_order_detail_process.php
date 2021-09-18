@@ -10,10 +10,12 @@ include('../util/record_util.php');
 if ($_POST["action"] === 'GETDATA') {
 
     $id = $_POST["id"];
+    $doc_no = $_POST["doc_no"];
+    $table_name = $_POST["table_name"];
 
     $return_arr = array();
 
-    $sql_get = "SELECT * FROM v_order_detail WHERE id = " . $id;
+    $sql_get = "SELECT * FROM " . $table_name . " WHERE id = " . $id;
     $statement = $dbh->query($sql_get);
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
@@ -75,6 +77,87 @@ if ($_POST["action_detail"] === 'ADD') {
 }
 
 
+if ($_POST["action_detail"] === 'UPDATE') {
+
+    if ($_POST["$product_id"] !== '') {
+
+        if ($_POST["KeyAddDetail"] !== '') {
+            $doc_no = $_POST["KeyAddDetail"];
+            $table_name = "ims_order_detail_temp";
+        } else {
+            $doc_no = $_POST["doc_no_detail"];
+            $table_name = "ims_order_detail";
+        }
+
+        $id = $_POST["detail_id"];
+        $product_id = $_POST["product_id"];
+        $quantity = $_POST["quantity"];
+        $unit_id = $_POST["unit_id"];
+
+        $sql_find = "SELECT count(*) as row FROM " . $table_name . " WHERE id = '" . $id . "'";
+
+        $row = $dbh->query($sql_find)->fetch();
+        if (empty($row["0"])) {
+            echo $error;
+        } else {
+            $sql_update = "UPDATE " . $table_name . " SET product_id=:product_id,quantity=:quantity,unit_id=:unit_id            
+            WHERE id = :id";
+            $query = $dbh->prepare($sql_update);
+            $query->bindParam(':product_id', $product_id, PDO::PARAM_STR);
+            $query->bindParam(':quantity', $quantity, PDO::PARAM_STR);
+            $query->bindParam(':unit_id', $unit_id, PDO::PARAM_STR);
+            $query->bindParam(':id', $id, PDO::PARAM_STR);
+            $query->execute();
+            echo $save_success;
+        }
+
+    }
+}
+
+if ($_POST["action_detail"] === 'DELETE') {
+
+    if ($_POST["$product_id"] !== '') {
+
+        if ($_POST["KeyAddDetail"] !== '') {
+            $doc_no = $_POST["KeyAddDetail"];
+            $table_name = "ims_order_detail_temp";
+        } else {
+            $doc_no = $_POST["doc_no_detail"];
+            $table_name = "ims_order_detail";
+        }
+
+        $id = $_POST["detail_id"];
+        $product_id = $_POST["product_id"];
+        $quantity = $_POST["quantity"];
+        $unit_id = $_POST["unit_id"];
+
+        $sql_find = "SELECT * FROM " . $table_name . " WHERE id = " . $id;
+        $myfile = fopen("newDelfile.txt", "w") or die("Unable to open file!");
+        $txt = $id . " | " . $product_id . " | " . $quantity . " | " . $sql_find . " | " . $_POST["KeyAddDetail"];
+        fwrite($myfile, $txt);
+        fclose($myfile);
+
+        $nRows = $dbh->query($sql_find)->fetchColumn();
+        if ($nRows > 0) {
+            try {
+                $sql = "DELETE FROM " . $table_name . " WHERE id = " . $id;
+                $query = $dbh->prepare($sql);
+                $query->execute();
+
+                Reorder_Record_By_DocNO($dbh,$table_name,$doc_no);
+
+                echo $del_success;
+            } catch (Exception $e) {
+                echo 'Message: ' . $e->getMessage();
+            }
+        }
+
+
+    }
+}
+
+
+
 if ($_POST["action"] === 'UPDATE') {
 
     if ($_POST["doc_date"] != '') {
@@ -114,11 +197,6 @@ if ($_POST["action"] === 'SAVEDETAIL') {
             $doc_no = $result['doc_no'];
             $doc_date = $result['doc_date'];
         }
-
-        $myfile = fopen("newfile.txt", "w") or die("Unable to open file!");
-        $txt = $KeyAddData . " | " . $doc_no . " | " . $doc_date . " | ";
-        fwrite($myfile, $txt);
-        fclose($myfile);
 
         $sql_find_detail = "SELECT * FROM ims_order_detail_temp WHERE doc_no = '" . $KeyAddData . "'";
         $statement = $dbh->query($sql_find_detail);

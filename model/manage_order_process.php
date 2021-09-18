@@ -6,7 +6,6 @@ include('../config/connect_db.php');
 include('../config/lang.php');
 include('../util/record_util.php');
 
-
 if ($_POST["action"] === 'GETDATA') {
 
     $id = $_POST["id"];
@@ -95,14 +94,19 @@ if ($_POST["action"] === 'UPDATE') {
         $status = $_POST["status"];
         $sql_find = "SELECT * FROM ims_order_master WHERE doc_no = '" . $doc_no . "'";
         $nRows = $dbh->query($sql_find)->fetchColumn();
+
+        $text = $id . " | " . $doc_no . " | " . $nRows . " | " . $customer_id ;
+        $logfile = fopen("Z-logfile.txt", "w") or die("Unable to open file!");
+        fwrite($logfile, $text);
+        fclose($logfile);
+
         if ($nRows > 0) {
-            $sql_update = "UPDATE ims_order_master SET doc_no=:doc_no,customer_id=:customer_id,status=:status            
-            WHERE id = :id";
+            $sql_update = "UPDATE ims_order_master SET customer_id=:customer_id,status=:status            
+            WHERE doc_no = :doc_no";
             $query = $dbh->prepare($sql_update);
-            $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
             $query->bindParam(':customer_id', $customer_id, PDO::PARAM_STR);
             $query->bindParam(':status', $status, PDO::PARAM_STR);
-            $query->bindParam(':id', $id, PDO::PARAM_STR);
+            $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
             $query->execute();
             echo $save_success;
         }
