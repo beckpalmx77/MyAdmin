@@ -113,28 +113,14 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- /.col-md-8 col-md-offset-2 -->
                                         </div>
-                                        <!-- /.row -->
 
                                     </section>
-
-
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
-                    <!--Row-->
-
-                    <!-- Row -->
-
                 </div>
-
-                <!---Container Fluid-->
-
             </div>
 
             <?php

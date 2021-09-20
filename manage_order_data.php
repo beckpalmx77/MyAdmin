@@ -57,7 +57,11 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                    id="doc_date"
                                                                    name="doc_date"
                                                                    required="required"
+                                                                   readonly="true"
                                                                    placeholder="วันที่">
+                                                            <div class="input-group-addon">
+                                                                <span class="glyphicon glyphicon-th"></span>
+                                                            </div>
                                                         </div>
 
                                                         <input type="hidden" class="form-control"

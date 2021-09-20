@@ -28,7 +28,6 @@ if ($_POST["action"] === 'GETDATA') {
 
 if ($_POST["action"] === 'SEARCH') {
     if ($_POST["customer_name"] !== '') {
-
         $customer_name = $_POST["customer_name"];
         $sql_find = "SELECT * FROM ims_customer WHERE customer_name = '" . $customer_name . "'";
         $nRows = $dbh->query($sql_find)->fetchColumn();
@@ -198,8 +197,6 @@ if ($_POST["action"] === 'GETCUSTOMER') {
         "iTotalDisplayRecords" => $totalRecordwithFilter,
         "aaData" => $data
     );
-
     echo json_encode($response);
-
 }
 
