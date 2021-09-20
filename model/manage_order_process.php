@@ -94,12 +94,6 @@ if ($_POST["action"] === 'UPDATE') {
         $status = $_POST["status"];
         $sql_find = "SELECT * FROM ims_order_master WHERE doc_no = '" . $doc_no . "'";
         $nRows = $dbh->query($sql_find)->fetchColumn();
-
-        $text = $id . " | " . $doc_no . " | " . $nRows . " | " . $customer_id ;
-        $logfile = fopen("Z-logfile.txt", "w") or die("Unable to open file!");
-        fwrite($logfile, $text);
-        fclose($logfile);
-
         if ($nRows > 0) {
             $sql_update = "UPDATE ims_order_master SET customer_id=:customer_id,status=:status            
             WHERE doc_no = :doc_no";

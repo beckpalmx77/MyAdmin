@@ -1,1 +1,0 @@
-2021-ORD-000026 | 45 | EL-MB002 | 3 | SELECT * FROM ims_order_detail WHERE id = 45 | 
