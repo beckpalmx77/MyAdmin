@@ -134,6 +134,31 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                     </div>
                                                                 </div>
 
+                                                                <div class="form-group row">
+                                                                    <input type="hidden" class="form-control"
+                                                                           id="brand_id"
+                                                                           name="brand_id">
+                                                                    <div class="col-sm-10">
+                                                                        <label for="brand_name"
+                                                                               class="control-label">ชื่อยี่ห้อ</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="brand_name"
+                                                                               name="brand_name"
+                                                                               required="required"
+                                                                               placeholder="ชื่อยี่ห้อ">
+                                                                    </div>
+
+                                                                    <div class="col-sm-2">
+                                                                        <label for="quantity"
+                                                                               class="control-label">เลือก</label>
+
+                                                                        <a data-toggle="modal" href="#Search-Brand-Modal"
+                                                                           class="btn btn-primary">
+                                                                            Click <i class="fa fa-search"
+                                                                                     aria-hidden="true"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
 
                                                                 <div class="form-group row">
                                                                     <div class="col-sm-5">
@@ -162,7 +187,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                         <label for="quantity"
                                                                                class="control-label">เลือก</label>
 
-                                                                        <a data-toggle="modal" href="#SearchModal"
+                                                                        <a data-toggle="modal" href="#SearchUnitModal"
                                                                            class="btn btn-primary">
                                                                             Click <i class="fa fa-search"
                                                                                      aria-hidden="true"></i>
@@ -241,8 +266,49 @@ if (strlen($_SESSION['alogin']) == "") {
                                             </div>
                                         </div>
 
+                                        <div class="modal fade" id="Search-Brand-Modal">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Modal title</h4>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-hidden="true">×
+                                                        </button>
+                                                    </div>
 
-                                        <div class="modal fade" id="SearchModal">
+                                                    <div class="container"></div>
+                                                    <div class="modal-body">
+
+                                                        <div class="modal-body">
+
+                                                            <table cellpadding="0" cellspacing="0" border="0"
+                                                                   class="display"
+                                                                   id="TableBrandList"
+                                                                   width="100%">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>รหัส</th>
+                                                                    <th>กลุ่มสินค้า</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tfoot>
+                                                                <tr>
+                                                                    <th>รหัส</th>
+                                                                    <th>กลุ่มสินค้า</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="modal fade" id="SearchUnitModal">
                                             <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -457,6 +523,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         let quantity = response[i].quantity;
                         let pgroup_id = response[i].pgroup_id;
                         let pgroup_name = response[i].pgroup_name;
+                        let brand_id = response[i].brand_id;
+                        let brand_name = response[i].brand_name;
                         let unit_id = response[i].unit_id;
                         let unit_name = response[i].unit_name;
                         let status = response[i].status;
@@ -468,6 +536,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#quantity').val(quantity);
                         $('#pgroup_id').val(pgroup_id);
                         $('#pgroup_name').val(pgroup_name);
+                        $('#brand_id').val(brand_id);
+                        $('#brand_name').val(brand_name);
                         $('#unit_id').val(unit_id);
                         $('#unit_name').val(unit_name);
                         $('#status').val(status);
@@ -503,6 +573,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         let quantity = response[i].quantity;
                         let pgroup_id = response[i].pgroup_id;
                         let pgroup_name = response[i].pgroup_name;
+                        let brand_id = response[i].brand_id;
+                        let brand_name = response[i].brand_name;
                         let unit_id = response[i].unit_id;
                         let unit_name = response[i].unit_name;
                         let status = response[i].status;
@@ -514,6 +586,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#quantity').val(quantity);
                         $('#pgroup_id').val(pgroup_id);
                         $('#pgroup_name').val(pgroup_name);
+                        $('#brand_id').val(brand_id);
+                        $('#brand_name').val(brand_name);
                         $('#unit_id').val(unit_id);
                         $('#unit_name').val(unit_name);
                         $('#status').val(status);
@@ -577,6 +651,51 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
+            let formData = {action: "GETBRAND", sub_action: "GETSELECT"};
+            let dataRecords = $('#TableBrandList').DataTable({
+                'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
+                'language': {
+                    search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
+                    info: 'หน้าที่ _PAGE_ จาก _PAGES_',
+                    infoEmpty: 'ไม่มีข้อมูล',
+                    zeroRecords: "ไม่มีข้อมูลตามเงื่อนไข",
+                    infoFiltered: '(กรองข้อมูลจากทั้งหมด _MAX_ รายการ)',
+                    paginate: {
+                        previous: 'ก่อนหน้า',
+                        last: 'สุดท้าย',
+                        next: 'ต่อไป'
+                    }
+                },
+                'processing': true,
+                'serverSide': true,
+                'serverMethod': 'post',
+                'ajax': {
+                    'url': 'model/manage_brand_process.php',
+                    'data': formData
+                },
+                'columns': [
+                    {data: 'brand_id'},
+                    {data: 'brand_name'},
+                    {data: 'select'}
+                ]
+            });
+        });
+    </script>
+
+    <script>
+
+        $("#TableBrandList").on('click', '.select', function () {
+            let data = this.id.split('@');
+            $('#brand_id').val(data[0]);
+            $('#brand_name').val(data[1]);
+            $('#Search-Brand-Modal').modal('hide');
+        });
+
+    </script>
+
+
+    <script>
+        $(document).ready(function () {
             let formData = {action: "GETUNIT", sub_action: "GETSELECT"};
             let dataRecords = $('#TableUnitList').DataTable({
                 'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
@@ -614,7 +733,7 @@ if (strlen($_SESSION['alogin']) == "") {
             let data = this.id.split('@');
             $('#unit_id').val(data[0]);
             $('#unit_name').val(data[1]);
-            $('#SearchModal').modal('hide');
+            $('#SearchUnitModal').modal('hide');
         });
 
     </script>
