@@ -91,25 +91,30 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         <div class="modal-body">
                                                             <div class="modal-body">
 
-                                                                <div class="form-group">
-                                                                    <label for="customer_id" class="control-label">รหัสลูกค้า</label>
-                                                                    <input type="customer_id" class="form-control"
-                                                                           id="customer_id" name="customer_id"
-                                                                           readonly="true"
-                                                                           placeholder="รหัสลูกค้า สร้างอัตโนมัติ">
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4">
+                                                                        <label for="customer_id" class="control-label">รหัสลูกค้า</label>
+                                                                        <input type="customer_id" class="form-control"
+                                                                               id="customer_id" name="customer_id"
+                                                                               readonly="true"
+                                                                               placeholder="รหัสลูกค้า สร้างอัตโนมัติ">
+                                                                    </div>
+
+
+                                                                    <div class="col-sm-8">
+                                                                        <label for="customer_name"
+                                                                               class="control-label">ชื่อลูกค้า</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="customer_name"
+                                                                               name="customer_name"
+                                                                               required="required"
+                                                                               placeholder="ชื่อลูกค้า">
+                                                                    </div>
                                                                 </div>
 
                                                                 <div class="form-group">
-                                                                    <label for="customer_name"
-                                                                           class="control-label">ชื่อลูกค้า</label>
-                                                                    <input type="text" class="form-control" id="customer_name"
-                                                                           name="customer_name"
-                                                                           required="required"
-                                                                           placeholder="ชื่อลูกค้า">
-                                                                </div>
-
-                                                                <div class="form-group">
-                                                                    <label for="address" class="control-label">ที่อยู่</label>
+                                                                    <label for="address"
+                                                                           class="control-label">ที่อยู่</label>
                                                                     <input type="address" class="form-control"
                                                                            id="address" name="address"
                                                                            required="required"
@@ -148,7 +153,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                             </span>
                                                             <button type="button" class="btn btn-danger"
                                                                     data-dismiss="modal">Close <i
-                                                                    class="fa fa-window-close"></i>
+                                                                        class="fa fa-window-close"></i>
                                                             </button>
                                                         </div>
                                                     </form>

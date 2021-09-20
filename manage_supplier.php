@@ -91,25 +91,28 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         <div class="modal-body">
                                                             <div class="modal-body">
 
-                                                                <div class="form-group">
-                                                                    <label for="supplier_id" class="control-label">รหัสผู้จำหน่าย</label>
-                                                                    <input type="supplier_id" class="form-control"
-                                                                           id="supplier_id" name="supplier_id"
-                                                                           readonly="true"
-                                                                           placeholder="รหัสผู้จำหน่าย สร้างอัตโนมัติ">
-                                                                </div>
 
-                                                                <div class="form-group">
-                                                                    <label for="supplier_name"
-                                                                           class="control-label">ชื่อผู้จำหน่าย</label>
-                                                                    <input type="text" class="form-control" id="supplier_name"
-                                                                           name="supplier_name"
-                                                                           required="required"
-                                                                           placeholder="ชื่อผู้จำหน่าย">
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4">
+                                                                        <label for="supplier_id" class="control-label">รหัสผู้จำหน่าย</label>
+                                                                        <input type="supplier_id" class="form-control"
+                                                                               id="supplier_id" name="supplier_id"
+                                                                               readonly="true"
+                                                                               placeholder="รหัสผู้จำหน่าย สร้างอัตโนมัติ">
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        <label for="supplier_name"
+                                                                               class="control-label">ชื่อผู้จำหน่าย</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="supplier_name"
+                                                                               name="supplier_name"
+                                                                               required="required"
+                                                                               placeholder="ชื่อผู้จำหน่าย">
+                                                                    </div>
                                                                 </div>
-
                                                                 <div class="form-group">
-                                                                    <label for="address" class="control-label">ที่อยู่</label>
+                                                                    <label for="address"
+                                                                           class="control-label">ที่อยู่</label>
                                                                     <input type="address" class="form-control"
                                                                            id="address" name="address"
                                                                            required="required"
@@ -119,7 +122,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                 <div class="form-group">
                                                                     <label for="phone"
                                                                            class="control-label">โทรศัพท์</label>
-                                                                    <input type="text" class="form-control" id="phone"
+                                                                    <input type="text" class="form-control"
+                                                                           id="phone"
                                                                            name="phone"
                                                                            required="required"
                                                                            placeholder="โทรศัพท์">
@@ -130,7 +134,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                     <label for="status"
                                                                            class="control-label">Status</label>
                                                                     <select id="status" name="status"
-                                                                            class="form-control" data-live-search="true"
+                                                                            class="form-control"
+                                                                            data-live-search="true"
                                                                             title="Please select">
                                                                         <option>Active</option>
                                                                         <option>Inactive</option>
@@ -140,7 +145,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         </div>
                                                         <div class="modal-footer">
                                                             <input type="hidden" name="id" id="id"/>
-                                                            <input type="hidden" name="action" id="action" value=""/>
+                                                            <input type="hidden" name="action" id="action"
+                                                                   value=""/>
                                                             <span class="icon-input-btn">
                                                                 <i class="fa fa-check"></i>
                                                             <input type="submit" name="save" id="save"
@@ -148,7 +154,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                             </span>
                                                             <button type="button" class="btn btn-danger"
                                                                     data-dismiss="modal">Close <i
-                                                                    class="fa fa-window-close"></i>
+                                                                        class="fa fa-window-close"></i>
                                                             </button>
                                                         </div>
                                                     </form>
