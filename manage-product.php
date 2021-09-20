@@ -91,23 +91,25 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         <div class="modal-body">
                                                             <div class="modal-body">
 
-                                                                <div class="form-group">
-                                                                    <label for="product_id" class="control-label">รหัสสินค้า/อะไหล่</label>
-                                                                    <input type="product_id" class="form-control"
-                                                                           id="product_id" name="product_id"
-                                                                           required="required"
-                                                                           placeholder="รหัสสินค้า/อะไหล่">
-                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-4">
+                                                                        <label for="product_id" class="control-label">รหัสสินค้า/อะไหล่</label>
+                                                                        <input type="product_id" class="form-control"
+                                                                               id="product_id" name="product_id"
+                                                                               required="required"
+                                                                               placeholder="รหัสสินค้า/อะไหล่">
+                                                                    </div>
 
-                                                                <div class="form-group">
-                                                                    <label for="name_t"
-                                                                           class="control-label">ชื่อสินค้า/อะไหล่</label>
-                                                                    <input type="text" class="form-control" id="name_t"
-                                                                           name="name_t"
-                                                                           required="required"
-                                                                           placeholder="ชื่อสินค้า/อะไหล่">
+                                                                    <div class="col-sm-8">
+                                                                        <label for="name_t"
+                                                                               class="control-label">ชื่อสินค้า/อะไหล่</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="name_t"
+                                                                               name="name_t"
+                                                                               required="required"
+                                                                               placeholder="ชื่อสินค้า/อะไหล่">
+                                                                    </div>
                                                                 </div>
-
                                                                 <div class="form-group row">
                                                                     <input type="hidden" class="form-control"
                                                                            id="pgroup_id"
@@ -152,7 +154,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                         <label for="quantity"
                                                                                class="control-label">เลือก</label>
 
-                                                                        <a data-toggle="modal" href="#Search-Brand-Modal"
+                                                                        <a data-toggle="modal"
+                                                                           href="#Search-Brand-Modal"
                                                                            class="btn btn-primary">
                                                                             Click <i class="fa fa-search"
                                                                                      aria-hidden="true"></i>
@@ -305,7 +308,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                                 </div>
                                             </div>
                                         </div>
-
 
 
                                         <div class="modal fade" id="SearchUnitModal">
