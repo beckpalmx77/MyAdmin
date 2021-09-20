@@ -11,7 +11,7 @@
  Target Server Version : 100420
  File Encoding         : 65001
 
- Date: 11/09/2021 14:35:26
+ Date: 20/09/2021 15:13:34
 */
 
 SET NAMES utf8mb4;
@@ -36,60 +36,134 @@ INSERT INTO `ims_brand` VALUES (2, 1, 'Apple', 'active');
 INSERT INTO `ims_brand` VALUES (4, 2, 'Samsung', 'active');
 
 -- ----------------------------
--- Table structure for ims_category
--- ----------------------------
-DROP TABLE IF EXISTS `ims_category`;
-CREATE TABLE `ims_category`  (
-  `categoryid` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `status` enum('active','inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`categoryid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of ims_category
--- ----------------------------
-INSERT INTO `ims_category` VALUES (1, 'Mobile', 'active');
-INSERT INTO `ims_category` VALUES (2, 'Laptop', 'active');
-
--- ----------------------------
 -- Table structure for ims_customer
 -- ----------------------------
 DROP TABLE IF EXISTS `ims_customer`;
 CREATE TABLE `ims_customer`  (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `customer_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `customer_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `mobile` int NOT NULL,
-  `balance` double(10, 2) NOT NULL,
+  `phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `balance` double(10, 2) NULL DEFAULT 0.00,
+  `status` enum('Active','Inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of ims_customer
 -- ----------------------------
-INSERT INTO `ims_customer` VALUES (1, 'Smith', 'London,UK', 123456789, 120000.00);
-INSERT INTO `ims_customer` VALUES (2, 'Adam', 'Newyork, USA', 987654321, 200000.00);
-INSERT INTO `ims_customer` VALUES (4, 'Garry', 'Paris, France', 2147483647, 560000.00);
+INSERT INTO `ims_customer` VALUES (1, 'C-0001', 'โรนัลโด', 'London,UK', '123456789', 0.00, 'Active');
+INSERT INTO `ims_customer` VALUES (2, 'C-0002', 'เบคแฮม', 'Newyork, USA', '987654321', 0.00, 'Active');
+INSERT INTO `ims_customer` VALUES (3, 'C-0003', 'แกรี่ มัวร์', 'Paris, France', '2147483647', 0.00, 'Active');
+INSERT INTO `ims_customer` VALUES (9, 'C-0004', 'ไมเคิล', 'หนองบุญมาก ', '0900105656', 0.00, 'Active');
 
 -- ----------------------------
--- Table structure for ims_order
+-- Table structure for ims_order_detail
 -- ----------------------------
-DROP TABLE IF EXISTS `ims_order`;
-CREATE TABLE `ims_order`  (
-  `order_id` int NOT NULL AUTO_INCREMENT,
-  `product_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `total_shipped` int NOT NULL,
-  `customer_id` int NOT NULL,
-  `order_date` timestamp NOT NULL DEFAULT current_timestamp,
-  PRIMARY KEY (`order_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+DROP TABLE IF EXISTS `ims_order_detail`;
+CREATE TABLE `ims_order_detail`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `doc_no` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `doc_date` date NULL DEFAULT NULL,
+  `line_no` int NOT NULL,
+  `product_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `unit_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `quantity` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `create_date` timestamp NOT NULL DEFAULT current_timestamp,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 50 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of ims_order
+-- Records of ims_order_detail
 -- ----------------------------
-INSERT INTO `ims_order` VALUES (2, '2', 50, 4, '2019-04-15 19:16:33');
-INSERT INTO `ims_order` VALUES (3, '1', 20, 2, '2019-04-16 17:48:29');
+INSERT INTO `ims_order_detail` VALUES (5, '2021-ORD-000006', '2021-09-14', 1, 'EL-MB001', 'U-0001', '2', '2021-09-15 08:26:33');
+INSERT INTO `ims_order_detail` VALUES (6, '2021-ORD-000006', '2021-09-14', 2, 'EL-MB002', 'U-0001', '5', '2021-09-15 08:26:33');
+INSERT INTO `ims_order_detail` VALUES (7, '2021-ORD-000006', '2021-09-14', 3, 'EL-MB003', 'U-0001', '4', '2021-09-15 08:26:33');
+INSERT INTO `ims_order_detail` VALUES (8, '2021-ORD-000006', '2021-09-14', 4, 'EL-MB001', 'U-0001', '2', '2021-09-16 11:49:18');
+INSERT INTO `ims_order_detail` VALUES (9, '2021-ORD-000006', '2021-09-14', 5, 'EL-MB002', 'U-0001', '5', '2021-09-16 11:49:19');
+INSERT INTO `ims_order_detail` VALUES (38, '2021-ORD-000025', '2021-09-17', 1, 'EL-MB003', 'U-0001', '8', '2021-09-17 17:09:55');
+INSERT INTO `ims_order_detail` VALUES (39, '2021-ORD-000025', '2021-09-17', 2, 'OF-PN001', 'U-0003', '65', '2021-09-17 23:52:24');
+INSERT INTO `ims_order_detail` VALUES (40, '2021-ORD-000025', '2021-09-17', 3, 'EL-MB001', 'U-0001', '4', '2021-09-18 11:04:47');
+INSERT INTO `ims_order_detail` VALUES (41, '2021-ORD-000025', '2021-09-17', 4, 'EL-MB002', 'U-0001', '6', '2021-09-18 11:54:17');
+INSERT INTO `ims_order_detail` VALUES (42, '2021-ORD-000026', '2021-09-18', 1, 'EL-MB003', 'U-0001', '5', '2021-09-18 14:52:22');
+INSERT INTO `ims_order_detail` VALUES (47, '2021-ORD-000027', '2021-09-18', 1, 'EL-MB001', 'U-0001', '8', '2021-09-18 15:19:09');
+INSERT INTO `ims_order_detail` VALUES (48, '2021-ORD-000001', '2021-09-14', 1, 'EL-MB001', 'U-0001', '3', '2021-09-20 11:58:26');
+INSERT INTO `ims_order_detail` VALUES (49, '2021-ORD-000027', '2021-09-18', 2, 'EL-MB003', 'U-0001', 'ุ6', '2021-09-20 14:34:23');
+
+-- ----------------------------
+-- Table structure for ims_order_detail_temp
+-- ----------------------------
+DROP TABLE IF EXISTS `ims_order_detail_temp`;
+CREATE TABLE `ims_order_detail_temp`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `doc_no` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `doc_date` date NULL DEFAULT NULL,
+  `line_no` int NOT NULL,
+  `product_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `unit_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `quantity` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `create_date` timestamp NOT NULL DEFAULT current_timestamp,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 79 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of ims_order_detail_temp
+-- ----------------------------
+INSERT INTO `ims_order_detail_temp` VALUES (78, 'npVorYwWbm@KABG:1631953082868', '2021-09-18', 1, 'EL-MB001', 'U-0001', '8', '2021-09-18 15:18:18');
+
+-- ----------------------------
+-- Table structure for ims_order_master
+-- ----------------------------
+DROP TABLE IF EXISTS `ims_order_master`;
+CREATE TABLE `ims_order_master`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `doc_no` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `doc_year` int NULL DEFAULT NULL,
+  `doc_runno` int NULL DEFAULT NULL,
+  `customer_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `doc_date` date NULL DEFAULT NULL,
+  `create_date` timestamp NULL DEFAULT current_timestamp,
+  `status` enum('Active','Inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'Active',
+  `KeyAddData` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of ims_order_master
+-- ----------------------------
+INSERT INTO `ims_order_master` VALUES (16, '2021-ORD-000001', 2021, 1, 'C-0002', '2021-09-14', '2021-09-14 11:14:56', 'Active', NULL);
+INSERT INTO `ims_order_master` VALUES (17, '2021-ORD-000002', 2021, 2, 'C-0002', '2021-09-14', '2021-09-14 11:17:16', 'Active', NULL);
+INSERT INTO `ims_order_master` VALUES (18, '2021-ORD-000003', 2021, 3, 'C-0001', '2021-09-14', '2021-09-14 11:18:01', 'Active', NULL);
+INSERT INTO `ims_order_master` VALUES (19, '2021-ORD-000004', 2021, 4, 'C-0001', '2021-09-13', '2021-09-14 11:40:49', 'Active', NULL);
+INSERT INTO `ims_order_master` VALUES (20, '2021-ORD-000005', 2021, 5, 'C-0001', '2021-09-14', '2021-09-14 13:49:48', 'Active', NULL);
+INSERT INTO `ims_order_master` VALUES (21, '2021-ORD-000006', 2021, 6, 'C-0001', '2021-09-15', '2021-09-15 10:14:01', 'Active', NULL);
+INSERT INTO `ims_order_master` VALUES (22, '2021-ORD-000007', 2021, 7, 'C-0001', '2021-09-17', '2021-09-17 15:48:02', 'Active', NULL);
+INSERT INTO `ims_order_master` VALUES (23, '2021-ORD-000008', 2021, 8, 'C-0003', '2021-09-17', '2021-09-17 15:56:13', 'Active', NULL);
+INSERT INTO `ims_order_master` VALUES (24, '2021-ORD-000009', 2021, 9, 'C-0002', '2021-09-16', '2021-09-17 15:58:10', 'Active', NULL);
+INSERT INTO `ims_order_master` VALUES (40, '2021-ORD-000025', 2021, 25, 'C-0001', '2021-09-17', '2021-09-17 17:09:55', 'Active', 'L!RMQE-6Lc+Btrf:1631873381706');
+INSERT INTO `ims_order_master` VALUES (41, '2021-ORD-000026', 2021, 26, 'C-0003', '2021-09-18', '2021-09-18 14:52:22', 'Active', 'nXJM8@XWjz!OTF1:1631951474158');
+INSERT INTO `ims_order_master` VALUES (42, '2021-ORD-000027', 2021, 27, 'C-0001', '2021-09-18', '2021-09-18 15:19:09', 'Active', 'npVorYwWbm@KABG:1631953082868');
+
+-- ----------------------------
+-- Table structure for ims_pgroup
+-- ----------------------------
+DROP TABLE IF EXISTS `ims_pgroup`;
+CREATE TABLE `ims_pgroup`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `pgroup_id` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `pgroup_name` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status` enum('Active','Inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of ims_pgroup
+-- ----------------------------
+INSERT INTO `ims_pgroup` VALUES (3, 'EL', 'เครื่องใช้ไฟฟ้า-ZX', 'Active');
+INSERT INTO `ims_pgroup` VALUES (4, 'MB', 'โทรศัพท์', 'Active');
+INSERT INTO `ims_pgroup` VALUES (5, 'GN', 'ของใช้ทั่วไป', 'Active');
+INSERT INTO `ims_pgroup` VALUES (6, 'CA', 'เครื่องยนต์ อะไหล่ยนต์', 'Active');
 
 -- ----------------------------
 -- Table structure for ims_product
@@ -98,6 +172,7 @@ DROP TABLE IF EXISTS `ims_product`;
 CREATE TABLE `ims_product`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `product_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `pgroup_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `name_t` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '-',
   `name_e` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '-',
   `quantity` double(11, 2) NOT NULL DEFAULT 0.00,
@@ -111,11 +186,11 @@ CREATE TABLE `ims_product`  (
 -- ----------------------------
 -- Records of ims_product
 -- ----------------------------
-INSERT INTO `ims_product` VALUES (1, 'EL-MB001', 'Apple iPhone 8 ', 'iphone 6s mobile', 15.00, 'U-0001', 'Inactive', '2021-09-11 14:23:55', 'product-001.png');
-INSERT INTO `ims_product` VALUES (2, 'EL-MB002', 'samsung galaxy', 'ddsgds', 15.00, 'U-0001', 'Active', '2021-09-11 11:48:35', 'product-001.png');
-INSERT INTO `ims_product` VALUES (3, 'EL-MB003', 'iphone 7', 'iphone 7 mobile', 13.00, 'U-0001', 'Active', '2021-09-11 11:48:41', 'product-001.png');
-INSERT INTO `ims_product` VALUES (4, 'EL-MB004', 'Apple Iphone 12 ', '-', 20.00, 'U-0001', 'Active', '2021-09-11 11:48:47', 'product-001.png');
-INSERT INTO `ims_product` VALUES (5, 'OF-PN001', 'ปากกาสีน้ำเงิน', '-', 50.00, 'U-0003', 'Active', '2021-09-11 11:48:56', 'product-001.png');
+INSERT INTO `ims_product` VALUES (1, 'EL-MB001', 'MB', 'หัวเหว่ย 7 SE', 'iphone 6s mobile', 15.00, 'U-0001', 'Active', '2021-09-13 14:55:34', 'product-001.png');
+INSERT INTO `ims_product` VALUES (2, 'EL-MB002', 'MB', 'samsung galaxy', 'ddsgds', 15.00, 'U-0001', 'Active', '2021-09-15 10:26:11', 'product-001.png');
+INSERT INTO `ims_product` VALUES (3, 'EL-MB003', 'MB', 'iphone 7', 'iphone 7 mobile', 13.00, 'U-0001', 'Active', '2021-09-15 10:26:12', 'product-001.png');
+INSERT INTO `ims_product` VALUES (4, 'EL-MB004', 'MB', 'Apple Iphone 12 ไอโฟน ', '-', 20.00, 'U-0001', 'Active', '2021-09-20 09:01:25', 'product-001.png');
+INSERT INTO `ims_product` VALUES (5, 'OF-PN001', 'MB', 'ปากกาสีน้ำเงิน', '-', 50.00, 'U-0003', 'Active', '2021-09-15 10:26:17', 'product-001.png');
 
 -- ----------------------------
 -- Table structure for ims_purchase
@@ -142,20 +217,21 @@ INSERT INTO `ims_purchase` VALUES (7, '4', '1', '5', '2019-04-15 18:56:02');
 -- ----------------------------
 DROP TABLE IF EXISTS `ims_supplier`;
 CREATE TABLE `ims_supplier`  (
-  `supplier_id` int NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `supplier_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `supplier_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `mobile` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `status` enum('active','inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`supplier_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+  `phone` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status` enum('Active','Inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of ims_supplier
 -- ----------------------------
-INSERT INTO `ims_supplier` VALUES (1, 'Grant', '574575373734', 'Africa', 'active');
-INSERT INTO `ims_supplier` VALUES (3, 'David d', '11111111111', 'New Delhi', 'active');
-INSERT INTO `ims_supplier` VALUES (4, 'Warner', '55555555555', 'Australia', 'active');
+INSERT INTO `ims_supplier` VALUES (1, 'S-0001', 'Grant', 'Africa', '574575373734', 'Active');
+INSERT INTO `ims_supplier` VALUES (3, 'S-0002', 'David d', 'New Delhi', '11111111111', 'Active');
+INSERT INTO `ims_supplier` VALUES (5, 'S-0005', 'ดูโฮม', '112', '0440656565', 'Active');
 
 -- ----------------------------
 -- Table structure for ims_unit
@@ -167,7 +243,7 @@ CREATE TABLE `ims_unit`  (
   `unit_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `status` enum('Active','Inactive') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ims_unit
@@ -197,6 +273,8 @@ INSERT INTO `ims_unit` VALUES (22, 'U-0022', 'ลิตร', 'Active');
 INSERT INTO `ims_unit` VALUES (23, 'U-0023', 'หลา', 'Active');
 INSERT INTO `ims_unit` VALUES (24, 'U-0024', 'โหล', 'Active');
 INSERT INTO `ims_unit` VALUES (25, 'U-0025', 'ขวด', 'Active');
+INSERT INTO `ims_unit` VALUES (26, 'U-0026', 'อัน', 'Active');
+INSERT INTO `ims_unit` VALUES (27, 'U-0027', 'หุน', 'Active');
 
 -- ----------------------------
 -- Table structure for ims_user
@@ -220,8 +298,8 @@ CREATE TABLE `ims_user`  (
 -- ----------------------------
 -- Records of ims_user
 -- ----------------------------
-INSERT INTO `ims_user` VALUES (1, 1, 'admin@myadmin.com', 'admin@myadmin.com', 'ADMIN', 'PHP', '$2y$10$C0z1CwgBGUcCqIqlhcz65O1Zdi1H1YIiuqw/oGlzlj5IDdX/jHluC', 'admin', 'Active', 'img/icon/admin-001.png', 'th');
-INSERT INTO `ims_user` VALUES (2, 2, 'user@myadmin.com', 'user@myadmin.com', 'USER', 'PHP', '$2y$10$HPBYteBtDxT1a0O/zV2G4uuihCQle6ax0e81iJok8/a/hadP2ujQe', 'member', 'Active', 'img/icon/user-001.png', 'th');
+INSERT INTO `ims_user` VALUES (1, 1, 'admin@myadmin.com', 'admin@myadmin.com', 'ADMIN', 'STOCK', '$2y$10$C0z1CwgBGUcCqIqlhcz65O1Zdi1H1YIiuqw/oGlzlj5IDdX/jHluC', 'admin', 'Active', 'img/icon/admin-001.png', 'th');
+INSERT INTO `ims_user` VALUES (2, 2, 'user@myadmin.com', 'user@myadmin.com', 'USER', 'STOCK', '$2y$10$HPBYteBtDxT1a0O/zV2G4uuihCQle6ax0e81iJok8/a/hadP2ujQe', 'member', 'Active', 'img/icon/user-001.png', 'th');
 INSERT INTO `ims_user` VALUES (5, 3, 'User001@gmail.com', 'User001@gmail.com', 'User001', 'APPDATA1', '$2y$10$HPBYteBtDxT1a0O/zV2G4uuihCQle6ax0e81iJok8/a/hadP2ujQe', 'member', 'Active', 'img/icon/user-001.png', NULL);
 INSERT INTO `ims_user` VALUES (6, 4, 'user003@rmail.com', 'user003@rmail.com', 'USER003', 'ASD', '$2y$10$HPBYteBtDxT1a0O/zV2G4uuihCQle6ax0e81iJok8/a/hadP2ujQe', 'member', 'Active', 'img/icon/user-001.png', NULL);
 INSERT INTO `ims_user` VALUES (7, 5, 'admin001@myadmin.com', 'admin001@myadmin.com', 'Admin', 'Thai', '$2y$10$8VqAMP15iQYies0xqrA9r.otqBnbtiKtXGNxJpu2JlFPYEwYIABkq', 'member', 'Active', 'img/icon/user-001.png', NULL);
@@ -270,7 +348,7 @@ CREATE TABLE `menu_sub`  (
   `sort` int NULL DEFAULT 0,
   `privilege` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of menu_sub
@@ -283,13 +361,48 @@ INSERT INTO `menu_sub` VALUES (11, 'S105', 'M001', 'จัดการเมน�
 INSERT INTO `menu_sub` VALUES (19, 'S106', 'M001', 'เปลี่ยนภาษา ', 'Change Language', 'change-language.php', NULL, 'fa fa-language', 8, '1');
 INSERT INTO `menu_sub` VALUES (24, 'S201', 'M002', 'ทะเบียนสินค้า-อะไหล่', 'Product-Part', 'manage-product.php', NULL, 'fa fa-th', 1, '1');
 INSERT INTO `menu_sub` VALUES (25, 'S202', 'M002', 'ทะเบียนหน่วยนับ', 'Unit Code', 'manage-unit.php', NULL, 'fa fa-th', 2, '1');
+INSERT INTO `menu_sub` VALUES (26, 'S203', 'M002', 'ทะเบียนกลุ่มสินค้า', 'Product Group', 'manage-product-group.php', NULL, 'fa fa-th', 3, '1');
+INSERT INTO `menu_sub` VALUES (27, 'S101', 'M004', 'เอกสารรายการขาย ', 'Order Document', 'manage-order.php', NULL, 'fa fa-list-alt', 1, '1');
+INSERT INTO `menu_sub` VALUES (28, 'S301', 'M003', 'ทะเบียนลูกค้า', 'Customer Master', 'manage_customer.php', NULL, 'fa fa-th', 1, '1');
+INSERT INTO `menu_sub` VALUES (30, 'S302', 'M003', 'ทะเบียนผู้ขาย', 'Supplier Master', 'manage_supplier.php', NULL, 'fa fa-th', 2, '1');
 
 -- ----------------------------
 -- View structure for vims_product
 -- ----------------------------
 DROP VIEW IF EXISTS `vims_product`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vims_product` AS SELECT ims_product.*,ims_unit.unit_name as unit_name FROM ims_product
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `vims_product` AS SELECT ims_product.*,ims_unit.unit_name as unit_name,ims_pgroup.pgroup_name  as pgroup_name FROM ims_product
              left join ims_unit 
-             on ims_unit.unit_id = ims_product.unit_id ;
+             on ims_unit.unit_id = ims_product.unit_id 
+             left join ims_pgroup													 
+             on ims_pgroup.pgroup_id = ims_product.pgroup_id ;
+
+-- ----------------------------
+-- View structure for v_order_detail
+-- ----------------------------
+DROP VIEW IF EXISTS `v_order_detail`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `v_order_detail` AS select ord.*,vpd.name_t as product_name,unit.unit_name as unit_name from ims_order_detail ord 
+left join vims_product vpd 
+on vpd.product_id = ord.product_id
+left join ims_unit unit 
+on unit.unit_id = ord.unit_id ;
+
+-- ----------------------------
+-- View structure for v_order_detail_temp
+-- ----------------------------
+DROP VIEW IF EXISTS `v_order_detail_temp`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `v_order_detail_temp` AS select ord.*,vpd.name_t as product_name,unit.unit_name as unit_name from ims_order_detail_temp ord 
+left join vims_product vpd 
+on vpd.product_id = ord.product_id
+left join ims_unit unit 
+on unit.unit_id = ord.unit_id ;
+
+-- ----------------------------
+-- View structure for v_order_master
+-- ----------------------------
+DROP VIEW IF EXISTS `v_order_master`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `v_order_master` AS select ims_order_master.*,ims_customer.customer_name as customer_name 
+from ims_order_master 
+left join ims_customer 
+on ims_customer.customer_id = ims_order_master.customer_id ;
 
 SET FOREIGN_KEY_CHECKS = 1;
