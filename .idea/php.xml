@@ -44,6 +44,7 @@
       <path value="$PROJECT_DIR$/vendor/date-picker-1.9/js" />
       <path value="$PROJECT_DIR$/vendor/date-picker-1.9/locales" />
       <path value="$PROJECT_DIR$/vendor/date-picker-1.9/css" />
+      <path value="$PROJECT_DIR$/vendor/calendar/locales" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />
