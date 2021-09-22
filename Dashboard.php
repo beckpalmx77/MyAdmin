@@ -42,7 +42,6 @@ if (strlen($_SESSION['alogin']) == "") {
     include('includes/Modal-Logout.php');
     include('includes/Footer.php');
     ?>
-
     <!-- Scroll to top -->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
