@@ -100,13 +100,16 @@ if (strlen($_SESSION['alogin']) == "") {
             let calendarEl = document.getElementById('calendar');
             let calendar = new FullCalendar.Calendar(calendarEl, {
                 dateClick: function (info) {
-                    //alert('Date: ' + info.dateStr);
                     let date = info.dateStr;
-                    calendar.addEvent({
-                        title: 'dynamic event',
-                        start: date,
-                        allDay: true
-                    });
+                    let title = prompt("Please enter event");
+                    if (title != null) {
+                        calendar.addEvent({
+                            title: title,
+                            start: date,
+                            allDay: true
+                        });
+                        Save_Calendar(title, date);
+                    }
                 }
             });
             calendar.render();
@@ -114,6 +117,19 @@ if (strlen($_SESSION['alogin']) == "") {
 
     </script>
 
+    <script>
+        function Save_Calendar(title, date) {
+            let formData = {action: "ADD", title: title, date: date};
+            $.ajax({
+                url: 'model/manage_calendar_process.php',
+                method: "POST",
+                data: formData,
+                success: function (data) {
+                    alertify.success(data);
+                }
+            })
+        }
+    </script>
 
     </body>
 
