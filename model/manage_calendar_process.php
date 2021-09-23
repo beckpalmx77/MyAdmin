@@ -9,15 +9,16 @@ include('../util/record_util.php');
 if ($_POST["action"] === 'ADD') {
     if ($_POST["title"] !== '') {
         $title = $_POST["title"];
-        $start = $_POST["date"];
-        $end = $_POST["date"];
+        $start_event = $_POST["date"];
+        $end_event = $_POST["date"];
 
-        $sql = "INSERT INTO ims_event(title,start,end) VALUES (:title,:start,:end)";
+        $sql = "INSERT INTO ims_event(title,start_event,end_event) VALUES (:title,:start_event,:end_event)";
         $query = $dbh->prepare($sql);
         $query->bindParam(':title', $title, PDO::PARAM_STR);
-        $query->bindParam(':start', $start, PDO::PARAM_STR);
-        $query->bindParam(':end', $end, PDO::PARAM_STR);
+        $query->bindParam(':start_event', $start_event, PDO::PARAM_STR);
+        $query->bindParam(':end_event', $end_event, PDO::PARAM_STR);
         $query->execute();
+
         $lastInsertId = $dbh->lastInsertId();
 
         if ($lastInsertId) {
@@ -25,5 +26,14 @@ if ($_POST["action"] === 'ADD') {
         } else {
             echo $error;
         }
+    }
+}
+
+
+if ($_POST["action"] === 'GETEVENT') {
+    if ($_POST["id"] !== '') {
+
+
+
     }
 }

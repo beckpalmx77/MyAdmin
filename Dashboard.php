@@ -36,6 +36,73 @@ if (strlen($_SESSION['alogin']) == "") {
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="editeventmodal" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title">Update Event</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="container-fluid">
+
+                            <form id="editEvent" class="form-horizontal">
+                                <input type="text" id="editEventId" name="editEventId" value="">
+
+                                <div class="row">
+
+                                    <div-- class="col-md-6">
+
+                                        <div id="edit-title-group" class="form-group">
+                                            <label class="control-label" for="editEventTitle">Title</label>
+                                            <input type="text" class="form-control" id="editEventTitle" name="editEventTitle">
+                                            <!-- errors will go here -->
+                                        </div>
+                                        <div id="edit-title-group" class="form-group">
+                                            <label class="control-label" for="editStartDate">Date</label>
+                                            <input type="text" class="form-control" id="editStartDate" name="editStartDate">
+                                            <!-- errors will go here -->
+                                        </div>
+                                        <!--div id="edit-startdate-group" class="form-group">
+                                            <label class="control-label" for="editStartDate">Start Date</label>
+                                            <input type="text" class="form-control datetimepicker" id="editStartDate"
+                                                   name="editStartDate">
+                                        </div-->
+
+                                        <!--div id="edit-enddate-group" class="form-group">
+                                            <label class="control-label" for="editEndDate">End Date</label>
+                                            <input type="text" class="form-control datetimepicker" id="editEndDate"
+                                                   name="editEndDate">
+                                        </div-->
+
+                                    </div>
+
+
+
+                                    </div>
+
+                                </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-danger" id="deleteEvent" data-id>Delete</button>
+                    </div>
+
+                    </form>
+
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
     </div>
 
     <?php
@@ -99,6 +166,15 @@ if (strlen($_SESSION['alogin']) == "") {
         $(document).ready(function () {
             let calendarEl = document.getElementById('calendar');
             let calendar = new FullCalendar.Calendar(calendarEl, {
+                defaultView: 'dayGridMonth', // ค้าเริ่มร้นเมื่อโหลดแสดงปฏิทิน
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+                },
+                eventLimit: true, // allow "more" link when too many events
+                locale: 'th',
+                events: 'api/calendar_api.php',
                 dateClick: function (info) {
                     let date = info.dateStr;
                     let title = prompt("Please enter event");
@@ -110,6 +186,23 @@ if (strlen($_SESSION['alogin']) == "") {
                         });
                         Save_Calendar(title, date);
                     }
+                },
+                eventClick: function(info) {
+                    let id = info.event.id;
+                    alert("id = " + id);
+                    $('#editEventId').val(id);
+
+                    $.ajax({
+                        events: 'api/calendar_api.php',
+                        type:'GET',
+                        dataType: 'json',
+                        data:{id:id},
+                        success: function(data) {
+                            $('#editEventTitle').val(data.title);
+                            $('#editStartDate').val(data.date);
+                            $('#editeventmodal').modal('show');
+                        }
+                    });
                 }
             });
             calendar.render();
