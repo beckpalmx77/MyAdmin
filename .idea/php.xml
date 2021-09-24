@@ -45,6 +45,17 @@
       <path value="$PROJECT_DIR$/vendor/date-picker-1.9/locales" />
       <path value="$PROJECT_DIR$/vendor/date-picker-1.9/css" />
       <path value="$PROJECT_DIR$/vendor/calendar/locales" />
+      <path value="$PROJECT_DIR$/vendor/mycalendar/jquery" />
+      <path value="$PROJECT_DIR$/vendor/mycalendar/daygrid" />
+      <path value="$PROJECT_DIR$/vendor/mycalendar/datepicker" />
+      <path value="$PROJECT_DIR$/vendor/mycalendar/interaction" />
+      <path value="$PROJECT_DIR$/vendor/mycalendar/bootstrap" />
+      <path value="$PROJECT_DIR$/vendor/mycalendar/colorpicker" />
+      <path value="$PROJECT_DIR$/vendor/mycalendar/core" />
+      <path value="$PROJECT_DIR$/vendor/mycalendar/list" />
+      <path value="$PROJECT_DIR$/vendor/mycalendar/timegrid" />
+      <path value="$PROJECT_DIR$/vendor/mycalendar/jqueryui" />
+      <path value="$PROJECT_DIR$/vendor/mycalendar/css" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />

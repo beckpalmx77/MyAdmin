@@ -29,11 +29,25 @@ if ($_POST["action"] === 'ADD') {
     }
 }
 
+if ($_POST["action"] === 'UPDATE') {
+    if ($_POST["title"] !== '') {
+        $id = $_POST["id"];
+        $title = $_POST["title"];
+        $sql = "UPDATE ims_event SET title=:title WHERE id = :id";
+        $query = $dbh->prepare($sql);
+        $query->bindParam(':title', $title, PDO::PARAM_STR);
+        $query->bindParam(':id', $id, PDO::PARAM_STR);
+        $query->execute();
+        echo $save_success;
+    }
+}
 
-if ($_POST["action"] === 'GETEVENT') {
+if ($_POST["action"] === 'DELETE') {
     if ($_POST["id"] !== '') {
-
-
-
+        $id = $_POST["id"];
+        $sql = "DELETE FROM ims_event WHERE ID = " . $id;
+        $query = $dbh->prepare($sql);
+        $query->execute();
+            echo $save_success;
     }
 }

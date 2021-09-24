@@ -41,6 +41,17 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/fontawesome-free/sprites" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/fontawesome-free/svgs" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/fontawesome-free/webfonts" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mycalendar/bootstrap" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mycalendar/colorpicker" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mycalendar/core" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mycalendar/css" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mycalendar/datepicker" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mycalendar/daygrid" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mycalendar/interaction" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mycalendar/jquery" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mycalendar/jqueryui" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mycalendar/list" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mycalendar/timegrid" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/tcpdf/config" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/tcpdf/examples" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/tcpdf/fonts" />

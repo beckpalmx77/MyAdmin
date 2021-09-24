@@ -36,38 +36,32 @@ if (strlen($_SESSION['alogin']) == "") {
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="editeventmodal" tabindex="-1" role="dialog">
+        <div class="modal fade" id="EventModal" tabindex="-1" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-
                     <div class="modal-header">
-                        <h5 class="modal-title">Update Event</h5>
+                        <p class="modal-title" id="ModalHeader">Carlendar Event</p>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-
                     <div class="modal-body">
-
                         <div class="container-fluid">
-
-                            <form id="editEvent" class="form-horizontal">
-                                <input type="text" id="editEventId" name="editEventId" value="">
-
+                            <form id="editEventFrm" class="form-horizontal">
+                                <input type="hidden" id="id" name="id" value="">
                                 <div class="row">
-
-                                    <div-- class="col-md-6">
-
+                                    <div-- class="col-md-12">
                                         <div id="edit-title-group" class="form-group">
-                                            <label class="control-label" for="editEventTitle">Title</label>
-                                            <input type="text" class="form-control" id="editEventTitle" name="editEventTitle">
-                                            <!-- errors will go here -->
+                                            <label class="control-label" for="title">Event Detail</label>
+                                            <input type="text" class="form-control" id="title"
+                                                   name="title">
                                         </div>
-                                        <div id="edit-title-group" class="form-group">
+
+                                        <!--div id="edit-title-group" class="form-group">
                                             <label class="control-label" for="editStartDate">Date</label>
-                                            <input type="text" class="form-control" id="editStartDate" name="editStartDate">
-                                            <!-- errors will go here -->
-                                        </div>
+                                            <input type="text" class="form-control" id="editStartDate"
+                                                   name="editStartDate">
+                                        </div-->
                                         <!--div id="edit-startdate-group" class="form-group">
                                             <label class="control-label" for="editStartDate">Start Date</label>
                                             <input type="text" class="form-control datetimepicker" id="editStartDate"
@@ -79,30 +73,24 @@ if (strlen($_SESSION['alogin']) == "") {
                                             <input type="text" class="form-control datetimepicker" id="editEndDate"
                                                    name="editEndDate">
                                         </div-->
-
-                                    </div>
-
-
-
-                                    </div>
-
                                 </div>
-
                         </div>
-
                     </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <input type="hidden" id="action" name="action" value="">
+                        <!--button type="submit" class="btn btn-primary">Save changes</button-->
+                        <button type="button" class="btn btn-primary" id="editEvent" data-id>Update</button>
                         <button type="button" class="btn btn-danger" id="deleteEvent" data-id>Delete</button>
                     </div>
 
-                    </form>
-
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+                </div>
+            </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
     </div>
 
     <?php
@@ -125,42 +113,6 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src='vendor/calendar/main.js'></script>
     <script src='vendor/calendar/locales/th.js'></script>
 
-    <!--script>
-        document.addEventListener('DOMContentLoaded', function () {
-            let calendarEl = document.getElementById('calendar');
-            let calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                headerToolbar: {
-                    center: 'addEventButton'
-                },
-                customButtons: {
-                    addEventButton: {
-                        text: 'add event...',
-                        click: function () {
-                            let dateStr = prompt('Enter a date in YYYY-MM-DD format');
-                            let date = new Date(dateStr + 'T00:00:00'); // will be in local time
-
-                            if (!isNaN(date.valueOf())) { // valid?
-                                calendar.addEvent({
-                                    title: 'dynamic event',
-                                    start: date,
-                                    allDay: true
-                                });
-                                alert('Great. Now, update your database...');
-                            } else {
-                                alert('Invalid date.');
-                            }
-                        }
-                    }
-                }
-            });
-
-            calendar.render();
-        });
-
-
-    </script-->
-
     <script>
 
         $(document).ready(function () {
@@ -176,33 +128,28 @@ if (strlen($_SESSION['alogin']) == "") {
                 locale: 'th',
                 events: 'api/calendar_api.php',
                 dateClick: function (info) {
+                    let action = "ADD";
+                    let param = "1";
+                    let id = "";
                     let date = info.dateStr;
-                    let title = prompt("Please enter event");
+                    let title = prompt("Event Detail");
                     if (title != null) {
                         calendar.addEvent({
                             title: title,
                             start: date,
                             allDay: true
                         });
-                        Save_Calendar(title, date);
+                        let formData = {action: action, id: id, title: title, date: date};
+                        Manage_Calendar(param, formData);
                     }
                 },
-                eventClick: function(info) {
+                eventClick: function (info) {
                     let id = info.event.id;
-                    alert("id = " + id);
-                    $('#editEventId').val(id);
-
-                    $.ajax({
-                        events: 'api/calendar_api.php',
-                        type:'GET',
-                        dataType: 'json',
-                        data:{id:id},
-                        success: function(data) {
-                            $('#editEventTitle').val(data.title);
-                            $('#editStartDate').val(data.date);
-                            $('#editeventmodal').modal('show');
-                        }
-                    });
+                    let title = info.event.title;
+                    $('#id').val(id);
+                    $('#title').val(title);
+                    $('#action').val("UPDATE");
+                    $('#EventModal').modal('show');
                 }
             });
             calendar.render();
@@ -211,14 +158,40 @@ if (strlen($_SESSION['alogin']) == "") {
     </script>
 
     <script>
-        function Save_Calendar(title, date) {
-            let formData = {action: "ADD", title: title, date: date};
+
+        $("#editEvent").click(function () {
+            $('#action').val("UPDATE");
+            let formData = $('#editEventFrm').serialize();
+            let param = 2;
+            Manage_Calendar(param, formData);
+        });
+
+    </script>
+
+    <script>
+
+        $("#deleteEvent").click(function () {
+            $('#action').val("DELETE");
+            let formData = $('#editEventFrm').serialize();
+            let param = 3;
+            Manage_Calendar(param, formData);
+        });
+
+    </script>
+
+    <script>
+        function Manage_Calendar(param, formData) {
+            let method = param;
             $.ajax({
                 url: 'model/manage_calendar_process.php',
                 method: "POST",
                 data: formData,
                 success: function (data) {
                     alertify.success(data);
+                    if (method == 2 || method == 3) {
+                        $('#EventModal').modal('hide');
+                        location.reload();
+                    }
                 }
             })
         }
