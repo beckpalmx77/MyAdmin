@@ -20,6 +20,97 @@ if (strlen($_SESSION['alogin']) == "") {
                 ?>
                 <!-- Container Fluid-->
                 <div class="container-fluid" id="container-wrapper">
+
+                    <div class="row mb-3">
+                        <!-- Earnings (Monthly) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="row align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">Earnings (Monthly)
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-success"
+                                                                                                   id="Text1"></p></div>
+                                            <div class="mt-2 mb-0 text-muted text-xs">
+                                                <span class="text-success mr-2"><i
+                                                            class="fa fa-arrow-up"></i> 3.48%</span>
+                                                <span>Since last month</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-calendar fa-2x text-primary"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Earnings (Annual) Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">Sales</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">650</div>
+                                            <div class="mt-2 mb-0 text-muted text-xs">
+                                                <span class="text-success mr-2"><i
+                                                            class="fas fa-arrow-up"></i> 12%</span>
+                                                <span>Since last years</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-shopping-cart fa-2x text-success"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- New User Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">New User</div>
+                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">366</div>
+                                            <div class="mt-2 mb-0 text-muted text-xs">
+                                                <span class="text-success mr-2"><i
+                                                            class="fas fa-arrow-up"></i> 20.4%</span>
+                                                <span>Since last month</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-users fa-2x text-info"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Pending Requests Card Example -->
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">Pending Requests
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                            <div class="mt-2 mb-0 text-muted text-xs">
+                                            <span class="text-danger mr-2"><i
+                                                        class="fas fa-arrow-down"></i> 1.10%</span>
+                                                <span>Since yesterday</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-comments fa-2x text-warning"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="card mb-12">
@@ -96,6 +187,19 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
 
         $(document).ready(function () {
+            let earn_value = 1;
+            document.getElementById("Text1").innerHTML = earn_value.toString();
+            setInterval(function () {
+                earn_value = earn_value + 1;
+                document.getElementById("Text1").innerHTML = earn_value.toString();
+            }, 3000);
+        });
+        
+    </script>
+
+    <script>
+
+        $(document).ready(function () {
             let calendarEl = document.getElementById('calendar');
             let calendar = new FullCalendar.Calendar(calendarEl, {
                 defaultView: 'dayGridMonth', // ค้าเริ่มร้นเมื่อโหลดแสดงปฏิทิน
@@ -152,8 +256,8 @@ if (strlen($_SESSION['alogin']) == "") {
 
         $("#deleteEvent").click(function () {
             $('#action').val("DELETE");
+            let param = 2;
             let formData = $('#editEventFrm').serialize();
-            let param = 3;
             Manage_Calendar(param, formData);
         });
 
@@ -168,7 +272,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 data: formData,
                 success: function (data) {
                     alertify.success(data);
-                    if (method == 2 || method == 3) {
+                    if (method == 2) {
                         $('#EventModal').modal('hide');
                         location.reload();
                     }

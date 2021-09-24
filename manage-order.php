@@ -197,7 +197,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                    class="display"
                                                                    id="TableCustomerList"
                                                                    width="100%">
-                                                                <thead>
+                                                                <thead class="thead-light">
                                                                 <tr>
                                                                     <th>รหัสลูกค้า</th>
                                                                     <th>ชื่อลูกค้า</th>
