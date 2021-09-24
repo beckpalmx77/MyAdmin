@@ -56,31 +56,13 @@ if (strlen($_SESSION['alogin']) == "") {
                                             <input type="text" class="form-control" id="title"
                                                    name="title">
                                         </div>
-
-                                        <!--div id="edit-title-group" class="form-group">
-                                            <label class="control-label" for="editStartDate">Date</label>
-                                            <input type="text" class="form-control" id="editStartDate"
-                                                   name="editStartDate">
-                                        </div-->
-                                        <!--div id="edit-startdate-group" class="form-group">
-                                            <label class="control-label" for="editStartDate">Start Date</label>
-                                            <input type="text" class="form-control datetimepicker" id="editStartDate"
-                                                   name="editStartDate">
-                                        </div-->
-
-                                        <!--div id="edit-enddate-group" class="form-group">
-                                            <label class="control-label" for="editEndDate">End Date</label>
-                                            <input type="text" class="form-control datetimepicker" id="editEndDate"
-                                                   name="editEndDate">
-                                        </div-->
                                 </div>
                         </div>
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <input type="hidden" id="action" name="action" value="">
-                        <!--button type="submit" class="btn btn-primary">Save changes</button-->
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary" id="editEvent" data-id>Update</button>
                         <button type="button" class="btn btn-danger" id="deleteEvent" data-id>Delete</button>
                     </div>
@@ -88,9 +70,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 </div>
             </div>
             </form>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+        </div>
     </div>
 
     <?php
