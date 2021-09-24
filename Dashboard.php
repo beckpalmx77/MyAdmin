@@ -194,7 +194,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 document.getElementById("Text1").innerHTML = earn_value.toString();
             }, 3000);
         });
-        
+
     </script>
 
     <script>
@@ -232,7 +232,6 @@ if (strlen($_SESSION['alogin']) == "") {
                     let title = info.event.title;
                     $('#id').val(id);
                     $('#title').val(title);
-                    $('#action').val("UPDATE");
                     $('#EventModal').modal('show');
                 }
             });
