@@ -18,28 +18,25 @@ if (strlen($_SESSION['alogin']) == "") {
                 <?php
                 include('includes/Top-Bar.php');
                 ?>
-                <!-- Container Fluid-->
                 <div class="container-fluid" id="container-wrapper">
-
                     <div class="row mb-3">
-                        <!-- Earnings (Monthly) Card Example -->
                         <div class="col-xl-3 col-md-6 mb-4">
                             <div class="card h-100">
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">Earnings (Monthly)
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">All Order
                                             </div>
                                             <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-success"
                                                                                                    id="Text1"></p></div>
                                             <div class="mt-2 mb-0 text-muted text-xs">
                                                 <span class="text-success mr-2"><i
-                                                            class="fa fa-arrow-up"></i> 3.48%</span>
+                                                            class="fa fa-arrow-up"></i></span>
                                                 <span>Since last month</span>
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-primary"></i>
+                                            <i class="fas fa-shopping-cart fa-2x text-success"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -51,8 +48,10 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">Sales</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">650</div>
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">Total Product
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-success"
+                                                                                                   id="Text2"></p></div>
                                             <div class="mt-2 mb-0 text-muted text-xs">
                                                 <span class="text-success mr-2"><i
                                                             class="fas fa-arrow-up"></i> 12%</span>
@@ -60,7 +59,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-shopping-cart fa-2x text-success"></i>
+                                            <i class="fas fa-box fa-2x text-primary"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -72,8 +71,10 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">New User</div>
-                                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">366</div>
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">Total Customer
+                                            </div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-success"
+                                                                                                   id="Text3"></p></div>
                                             <div class="mt-2 mb-0 text-muted text-xs">
                                                 <span class="text-success mr-2"><i
                                                             class="fas fa-arrow-up"></i> 20.4%</span>
@@ -93,17 +94,18 @@ if (strlen($_SESSION['alogin']) == "") {
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-uppercase mb-1">Pending Requests
+                                            <div class="text-xs font-weight-bold text-uppercase mb-1">Total Supplier
                                             </div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><p class="text-success"
+                                                                                                   id="Text4"></p></div>
                                             <div class="mt-2 mb-0 text-muted text-xs">
-                                            <span class="text-danger mr-2"><i
-                                                        class="fas fa-arrow-down"></i> 1.10%</span>
-                                                <span>Since yesterday</span>
+                                                <!--span class="text-danger mr-2"><i
+                                                            class="fas fa-arrow-down"></i> 1.10%</span>
+                                                    <span>Since yesterday</span-->
                                             </div>
                                         </div>
                                         <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-warning"></i>
+                                            <i class="fas fa-warehouse fa-2x text-warning"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -187,13 +189,40 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
 
         $(document).ready(function () {
-            let earn_value = 1;
-            document.getElementById("Text1").innerHTML = earn_value.toString();
+
+            GetData("ims_order_master", "1");
+            GetData("ims_product", "2");
+            GetData("ims_customer", "3");
+            GetData("ims_supplier", "4");
             setInterval(function () {
-                earn_value = earn_value + 1;
-                document.getElementById("Text1").innerHTML = earn_value.toString();
+
+                GetData("ims_order_master", "1");
+                GetData("ims_product", "2");
+                GetData("ims_customer", "3");
+                GetData("ims_supplier", "4");
+
             }, 3000);
         });
+
+    </script>
+
+    <script>
+
+        function GetData(table_name, idx) {
+            let input_text = document.getElementById("Text" + idx);
+            let formData = {action: "GETCOUNTRECCORD", table_name: table_name};
+            $.ajax({
+                type: "POST",
+                url: 'model/manage_general_data.php',
+                data: formData,
+                success: function (response) {
+                    input_text.innerHTML = response;
+                },
+                error: function (response) {
+                    alertify.error("error : " + response);
+                }
+            });
+        }
 
     </script>
 
@@ -284,3 +313,4 @@ if (strlen($_SESSION['alogin']) == "") {
 
     </html>
 <?php } ?>
+
