@@ -6,7 +6,7 @@ include('../config/connect_db.php');
 include('../config/lang.php');
 include('../util/record_util.php');
 
-if ($_POST["action"] === 'GETCOUNTRECCORD') {
+if ($_POST["action"] === 'GET_COUNT_RECORDS') {
     $table_name = $_POST["table_name"];
     $return_arr = array();
     $sql_get = "SELECT count(*) as record_counts  FROM " . $table_name;

@@ -194,13 +194,12 @@ if (strlen($_SESSION['alogin']) == "") {
             GetData("ims_product", "2");
             GetData("ims_customer", "3");
             GetData("ims_supplier", "4");
-            setInterval(function () {
 
+            setInterval(function () {
                 GetData("ims_order_master", "1");
                 GetData("ims_product", "2");
                 GetData("ims_customer", "3");
                 GetData("ims_supplier", "4");
-
             }, 3000);
         });
 
@@ -210,7 +209,8 @@ if (strlen($_SESSION['alogin']) == "") {
 
         function GetData(table_name, idx) {
             let input_text = document.getElementById("Text" + idx);
-            let formData = {action: "GETCOUNTRECCORD", table_name: table_name};
+            let action = "GET_COUNT_RECORDS";
+            let formData = {action: action, table_name: table_name};
             $.ajax({
                 type: "POST",
                 url: 'model/manage_general_data.php',
@@ -312,5 +312,6 @@ if (strlen($_SESSION['alogin']) == "") {
     </body>
 
     </html>
+
 <?php } ?>
 

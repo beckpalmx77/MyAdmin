@@ -65,21 +65,21 @@ if (strlen($_SESSION['alogin']) == "") {
                                                         </div>
 
                                                         <input type="hidden" class="form-control"
-                                                               id="customer_id"
-                                                               name="customer_id">
+                                                               id="supplier_id"
+                                                               name="supplier_id">
                                                         <div class="col-sm-6">
-                                                            <label for="customer_name"
-                                                                   class="control-label">ชื่อลูกค้า</label>
+                                                            <label for="supplier_name"
+                                                                   class="control-label">ชื่อผู้ขาย</label>
                                                             <input type="text" class="form-control"
-                                                                   id="customer_name"
-                                                                   name="customer_name"
+                                                                   id="supplier_name"
+                                                                   name="supplier_name"
                                                                    required="required"
-                                                                   placeholder="ชื่อลูกค้า">
+                                                                   placeholder="ชื่อผู้ขาย">
                                                         </div>
                                                         <div class="col-sm-2">
                                                             <label for="CusModal"
-                                                                   class="control-label"> เลือกชื่อลูกค้า </label>
-                                                            <a data-toggle="modal" href="#SearchCusModal"
+                                                                   class="control-label"> เลือกชื่อผู้ขาย </label>
+                                                            <a data-toggle="modal" href="#SearchSupModal"
                                                                class="btn btn-primary">
                                                                 Click <i class="fa fa-search"
                                                                          aria-hidden="true"></i>
@@ -95,7 +95,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                     <table cellpadding="0" cellspacing="0" border="0"
                                                            class="display"
-                                                           id="TableOrderDetailList"
+                                                           id="TablePurchaseDetailList"
                                                            width="100%">
                                                         <thead>
                                                         <tr>
@@ -296,7 +296,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                         </div>
 
 
-                                        <div class="modal fade" id="SearchCusModal">
+                                        <div class="modal fade" id="SearchSupModal">
                                             <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -313,19 +313,19 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                             <table cellpadding="0" cellspacing="0" border="0"
                                                                    class="display"
-                                                                   id="TableCustomerList"
+                                                                   id="TableSupplierList"
                                                                    width="100%">
                                                                 <thead>
                                                                 <tr>
                                                                     <th>รหัสลูกค้า</th>
-                                                                    <th>ชื่อลูกค้า</th>
+                                                                    <th>ชื่อผู้ขาย</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tfoot>
                                                                 <tr>
                                                                     <th>รหัสลูกค้า</th>
-                                                                    <th>ชื่อลูกค้า</th>
+                                                                    <th>ชื่อผู้ขาย</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </tfoot>
@@ -470,14 +470,14 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#KeyAddData').val(KeyData + ":" + Date.now());
             }
 
-            if (queryString["doc_no"] != null && queryString["customer_name"] != null) {
+            if (queryString["doc_no"] != null && queryString["supplier_name"] != null) {
 
                 $('#doc_no').val(queryString["doc_no"]);
                 $('#doc_date').val(queryString["doc_date"]);
-                $('#customer_id').val(queryString["customer_id"]);
-                $('#customer_name').val(queryString["customer_name"]);
+                $('#supplier_id').val(queryString["supplier_id"]);
+                $('#supplier_name').val(queryString["supplier_name"]);
 
-                Load_Data_Detail(queryString["doc_no"], "v_order_detail");
+                Load_Data_Detail(queryString["doc_no"], "v_purchase_detail");
             }
         });
     </script>
@@ -485,8 +485,8 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
         function Load_Data_Detail(doc_no, table_name) {
 
-            let formData = {action: "GETORDERDETAIL", sub_action: "GETMASTER", doc_no: doc_no, table_name: table_name};
-            let dataRecords = $('#TableOrderDetailList').DataTable({
+            let formData = {action: "GETPURCHASEDETAIL", sub_action: "GETMASTER", doc_no: doc_no, table_name: table_name};
+            let dataRecords = $('#TablePurchaseDetailList').DataTable({
                 "paging": false,
                 "ordering": false,
                 'info': false,
@@ -508,7 +508,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': 'model/manage_order_detail_process.php',
+                    'url': 'model/manage_purchase_detail_process.php',
                     'data': formData
                 },
                 'columns': [
@@ -526,8 +526,8 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
         $(document).ready(function () {
 
-            let formData = {action: "GETCUSTOMER", sub_action: "GETSELECT"};
-            let dataRecords = $('#TableCustomerList').DataTable({
+            let formData = {action: "GETSUPPLIER", sub_action: "GETSELECT"};
+            let dataRecords = $('#TableSupplierList').DataTable({
                 'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
                 'language': {
                     search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
@@ -545,12 +545,12 @@ if (strlen($_SESSION['alogin']) == "") {
                 'serverSide': true,
                 'serverMethod': 'post',
                 'ajax': {
-                    'url': 'model/manage_customer_process.php',
+                    'url': 'model/manage_supplier_process.php',
                     'data': formData
                 },
                 'columns': [
-                    {data: 'customer_id'},
-                    {data: 'customer_name'},
+                    {data: 'supplier_id'},
+                    {data: 'supplier_name'},
                     {data: 'select'}
                 ]
             });
@@ -562,8 +562,8 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
         $(document).ready(function () {
             $("#btnAdd").click(function () {
-                if ($('#doc_date').val() == '' || $('#customer_name').val() == '') {
-                    alertify.error("กรุณาป้อนวันที่ / ชื่อลูกค้า ");
+                if ($('#doc_date').val() == '' || $('#supplier_name').val() == '') {
+                    alertify.error("กรุณาป้อนวันที่ / ชื่อผู้ขาย ");
                 } else {
                     $('#recordModal').modal('show');
                     $('#KeyAddDetail').val($('#KeyAddData').val());
@@ -584,22 +584,22 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
 
-        $("#TableOrderDetailList").on('click', '.update', function () {
+        $("#TablePurchaseDetailList").on('click', '.update', function () {
 
             let rec_id = $(this).attr("id");
 
             if ($('#KeyAddData').val() !== '') {
                 doc_no = $('#KeyAddData').val();
-                table_name = "v_order_detail_temp";
+                table_name = "v_purchase_detail_temp";
             } else {
                 doc_no = $('#doc_no').val();
-                table_name = "v_order_detail";
+                table_name = "v_purchase_detail";
             }
 
             let formData = {action: "GETDATA", id: rec_id, doc_no: doc_no, table_name: table_name};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_order_detail_process.php',
+                url: 'model/manage_purchase_detail_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
@@ -638,22 +638,22 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
 
-        $("#TableOrderDetailList").on('click', '.delete', function () {
+        $("#TablePurchaseDetailList").on('click', '.delete', function () {
 
             let rec_id = $(this).attr("id");
 
             if ($('#KeyAddData').val() !== '') {
                 doc_no = $('#KeyAddData').val();
-                table_name = "v_order_detail_temp";
+                table_name = "v_purchase_detail_temp";
             } else {
                 doc_no = $('#doc_no').val();
-                table_name = "v_order_detail";
+                table_name = "v_purchase_detail";
             }
 
             let formData = {action: "GETDATA", id: rec_id, doc_no: doc_no, table_name: table_name};
             $.ajax({
                 type: "POST",
-                url: 'model/manage_order_detail_process.php',
+                url: 'model/manage_purchase_detail_process.php',
                 dataType: "json",
                 data: formData,
                 success: function (response) {
@@ -690,11 +690,11 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
 
-        $("#TableCustomerList").on('click', '.select', function () {
+        $("#TableSupplierList").on('click', '.select', function () {
             let data = this.id.split('@');
-            $('#customer_id').val(data[0]);
-            $('#customer_name').val(data[1]);
-            $('#SearchCusModal').modal('hide');
+            $('#supplier_id').val(data[0]);
+            $('#supplier_name').val(data[1]);
+            $('#SearchSupModal').modal('hide');
         });
 
     </script>
@@ -794,12 +794,12 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
         $(document).ready(function () {
             $("#btnSave").click(function () {
-                if ($('#doc_date').val() == '' || $('#customer_name').val() == '') {
-                    alertify.error("กรุณาป้อนวันที่ / ชื่อลูกค้า ");
+                if ($('#doc_date').val() == '' || $('#supplier_name').val() == '') {
+                    alertify.error("กรุณาป้อนวันที่ / ชื่อผู้ขาย ");
                 } else {
                     let formData = $('#MainrecordForm').serialize();
                     $.ajax({
-                        url: 'model/manage_order_process.php',
+                        url: 'model/manage_purchase_process.php',
                         method: "POST",
                         data: formData,
                         success: function (data) {
@@ -828,7 +828,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
             let formData = {action: "SAVEDETAIL", KeyAddData: KeyAddData};
             $.ajax({
-                url: 'model/manage_order_detail_process.php',
+                url: 'model/manage_purchase_detail_process.php',
                 method: "POST",
                 data: formData,
                 success: function (data) {
@@ -851,7 +851,7 @@ if (strlen($_SESSION['alogin']) == "") {
             let formData = $(this).serialize();
 
             $.ajax({
-                url: 'model/manage_order_detail_process.php',
+                url: 'model/manage_purchase_detail_process.php',
                 method: "POST",
                 data: formData,
                 success: function (data) {
@@ -859,12 +859,12 @@ if (strlen($_SESSION['alogin']) == "") {
                     $('#recordForm')[0].reset();
                     $('#recordModal').modal('hide');
 
-                    $('#TableOrderDetailList').DataTable().clear().destroy();
+                    $('#TablePurchaseDetailList').DataTable().clear().destroy();
 
                     if (KeyAddData !== '') {
-                        Load_Data_Detail(KeyAddData, "v_order_detail_temp");
+                        Load_Data_Detail(KeyAddData, "v_purchase_detail_temp");
                     } else {
-                        Load_Data_Detail(doc_no_detail, "v_order_detail");
+                        Load_Data_Detail(doc_no_detail, "v_purchase_detail");
                     }
                 }
             })
