@@ -498,6 +498,13 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#product_id').val("");
                 $('#name_t').val("");
                 $('#quantity').val("");
+                $('#pgroup_id').val("");
+                $('#pgroup_name').val("");
+                $('#brand_id').val("");
+                $('#brand_name').val("");
+                $('#quantity').val("");
+                $('#unit_id').val("");
+                $('#unit_name').val("");
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
                 $('#action').val('ADD');
                 $('#save').val('Save');

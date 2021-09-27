@@ -321,8 +321,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#recordModal').modal('show');
                 $('#id').val("");
                 $('#unit_id').val("");
-                $('#name_t').val("");
-                $('#quantity').val("");
+                $('#unit_name').val("");
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
                 $('#action').val('ADD');
                 $('#save').val('Save');

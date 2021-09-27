@@ -324,7 +324,6 @@ if (strlen($_SESSION['alogin']) == "") {
                 $('#id').val("");
                 $('#brand_id').val("");
                 $('#brand_name').val("");
-                $('#quantity').val("");
                 $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
                 $('#action').val('ADD');
                 $('#save').val('Save');
