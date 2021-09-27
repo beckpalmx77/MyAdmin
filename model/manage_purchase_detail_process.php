@@ -27,6 +27,8 @@ if ($_POST["action"] === 'GETDATA') {
             "product_id" => $result['product_id'],
             "name_t" => $result['product_name'],
             "quantity" => $result['quantity'],
+            "price" => $result['price'],
+            "total_price" => $result['total_price'],
             "unit_id" => $result['unit_id'],
             "unit_name" => $result['unit_name']);
     }
@@ -300,6 +302,8 @@ if ($_POST["action"] === 'GETPURCHASEDETAIL') {
                 "product_id" => $row['product_id'],
                 "product_name" => $row['product_name'],
                 "quantity" => $row['quantity'],
+                "price" => $row['price'],
+                "total_price" => $row['total_price'],
                 "unit_id" => $row['unit_id'],
                 "unit_name" => $row['unit_name'],
                 "update" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",

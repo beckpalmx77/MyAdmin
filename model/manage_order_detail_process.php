@@ -27,6 +27,8 @@ if ($_POST["action"] === 'GETDATA') {
             "product_id" => $result['product_id'],
             "name_t" => $result['product_name'],
             "quantity" => $result['quantity'],
+            "price" => $result['price'],
+            "total_price" => $result['total_price'],
             "unit_id" => $result['unit_id'],
             "unit_name" => $result['unit_name']);
     }
@@ -50,6 +52,7 @@ if ($_POST["action_detail"] === 'ADD') {
         $product_id = $_POST["product_id"];
         $unit_id = $_POST["unit_id"];
         $quantity = $_POST["quantity"];
+        $price = $_POST["price"];
 
         $sql_find = "SELECT count(*) as row FROM " . $table_name . " WHERE doc_no = '" . $doc_no . "'";
         $row = $dbh->query($sql_find)->fetch();
@@ -58,14 +61,15 @@ if ($_POST["action_detail"] === 'ADD') {
         } else {
             $line_no = $row["0"] + 1;
         }
-        $sql = "INSERT INTO " . $table_name . " (doc_no,doc_date,product_id,unit_id,quantity,line_no) 
-            VALUES (:doc_no,:doc_date,:product_id,:unit_id,:quantity,:line_no)";
+        $sql = "INSERT INTO " . $table_name . " (doc_no,doc_date,product_id,unit_id,quantity,price,line_no) 
+            VALUES (:doc_no,:doc_date,:product_id,:unit_id,:quantity,:price,:line_no)";
         $query = $dbh->prepare($sql);
         $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
         $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
         $query->bindParam(':product_id', $product_id, PDO::PARAM_STR);
         $query->bindParam(':unit_id', $unit_id, PDO::PARAM_STR);
         $query->bindParam(':quantity', $quantity, PDO::PARAM_STR);
+        $query->bindParam(':price', $price, PDO::PARAM_STR);
         $query->bindParam(':line_no', $line_no, PDO::PARAM_STR);
         $query->execute();
         $lastInsertId = $dbh->lastInsertId();
@@ -96,7 +100,10 @@ if ($_POST["action_detail"] === 'UPDATE') {
         $id = $_POST["detail_id"];
         $product_id = $_POST["product_id"];
         $quantity = $_POST["quantity"];
+        $price = $_POST["price"];
         $unit_id = $_POST["unit_id"];
+
+
 
         $sql_find = "SELECT count(*) as row FROM " . $table_name . " WHERE id = '" . $id . "'";
 
@@ -104,12 +111,18 @@ if ($_POST["action_detail"] === 'UPDATE') {
         if (empty($row["0"])) {
             echo $error;
         } else {
-            $sql_update = "UPDATE " . $table_name . " SET doc_date=:doc_date,product_id=:product_id,quantity=:quantity,unit_id=:unit_id            
-            WHERE id = :id";
+            $sql_update = "UPDATE " .  $table_name
+            . " SET doc_date=:doc_date,product_id=:product_id,quantity=:quantity "
+            . ",price=:price,unit_id=:unit_id "
+            . " WHERE id = :id ";
+
+
+
             $query = $dbh->prepare($sql_update);
             $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
             $query->bindParam(':product_id', $product_id, PDO::PARAM_STR);
             $query->bindParam(':quantity', $quantity, PDO::PARAM_STR);
+            $query->bindParam(':price', $price, PDO::PARAM_STR);
             $query->bindParam(':unit_id', $unit_id, PDO::PARAM_STR);
             $query->bindParam(':id', $id, PDO::PARAM_STR);
             $query->execute();
@@ -164,10 +177,10 @@ if ($_POST["action"] === 'UPDATE') {
         $doc_no = $_POST["doc_no"];
         $doc_date = $_POST["doc_date"];
         $status = $_POST["status"];
-        $sql_find = "SELECT * FROM v_order_detail WHERE doc_no = '" . $doc_no . "'";
+        $sql_find = "SELECT * FROM ims_order_detail WHERE doc_no = '" . $doc_no . "'";
         $nRows = $dbh->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
-            $sql_update = "UPDATE v_order_detail SET doc_no=:doc_no,doc_date=:doc_date,status=:status            
+            $sql_update = "UPDATE ims_order_detail SET doc_no=:doc_no,doc_date=:doc_date,status=:status            
             WHERE id = :id";
             $query = $dbh->prepare($sql_update);
             $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
@@ -200,14 +213,15 @@ if ($_POST["action"] === 'SAVEDETAIL') {
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
         foreach ($results as $result) {
 
-            $sql = "INSERT INTO ims_order_detail (doc_no,doc_date,product_id,unit_id,quantity,line_no) 
-            VALUES (:doc_no,:doc_date,:product_id,:unit_id,:quantity,:line_no)";
+            $sql = "INSERT INTO ims_order_detail (doc_no,doc_date,product_id,unit_id,quantity,price,line_no) 
+            VALUES (:doc_no,:doc_date,:product_id,:unit_id,:quantity,:price,:line_no)";
             $query = $dbh->prepare($sql);
             $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
             $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
             $query->bindParam(':product_id', $result['product_id'], PDO::PARAM_STR);
             $query->bindParam(':unit_id', $result['unit_id'], PDO::PARAM_STR);
             $query->bindParam(':quantity', $result['quantity'], PDO::PARAM_STR);
+            $query->bindParam(':price', $result['price'], PDO::PARAM_STR);
             $query->bindParam(':line_no', $result['line_no'], PDO::PARAM_STR);
             $query->execute();
             $lastInsertId = $dbh->lastInsertId();
@@ -300,6 +314,8 @@ if ($_POST["action"] === 'GETORDERDETAIL') {
                 "product_id" => $row['product_id'],
                 "product_name" => $row['product_name'],
                 "quantity" => $row['quantity'],
+                "price" => $row['price'],
+                "total_price" => $row['total_price'],
                 "unit_id" => $row['unit_id'],
                 "unit_name" => $row['unit_name'],
                 "update" => "<button type='button' name='update' id='" . $row['id'] . "' class='btn btn-info btn-xs update' data-toggle='tooltip' title='Update'>Update</button>",

@@ -226,7 +226,30 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                required="required"
                                                                                placeholder="หน่วยนับ">
                                                                     </div>
+                                                                </div>
 
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-5">
+                                                                        <label for="price"
+                                                                               class="control-label">ราคา/หน่วย</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="price"
+                                                                               name="price"
+                                                                               required="required"
+                                                                               placeholder="ราคา/หน่วย">
+                                                                    </div>
+                                                                    <input type="hidden" class="form-control"
+                                                                           id="unit_id"
+                                                                           name="unit_id">
+                                                                    <div class="col-sm-5">
+                                                                        <label for="total_price"
+                                                                               class="control-label">ราคารวม</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="total_price"
+                                                                               name="total_price"
+                                                                               required="required"
+                                                                               placeholder="ราคารวม">
+                                                                    </div>
                                                                 </div>
 
                                                             </div>
@@ -485,7 +508,12 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
         function Load_Data_Detail(doc_no, table_name) {
 
-            let formData = {action: "GETPURCHASEDETAIL", sub_action: "GETMASTER", doc_no: doc_no, table_name: table_name};
+            let formData = {
+                action: "GETPURCHASEDETAIL",
+                sub_action: "GETMASTER",
+                doc_no: doc_no,
+                table_name: table_name
+            };
             let dataRecords = $('#TablePurchaseDetailList').DataTable({
                 "paging": false,
                 "ordering": false,

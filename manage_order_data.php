@@ -103,6 +103,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                             <th>สินค้า</th>
                                                             <th>จำนวน</th>
                                                             <th>หน่วยนับ</th>
+                                                            <th>ราคา/หน่วย</th>
+                                                            <th>รวมราคา</th>
                                                             <th>Action</th>
                                                             <th>Action</th>
                                                         </tr>
@@ -227,6 +229,26 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                placeholder="หน่วยนับ">
                                                                     </div>
 
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <div class="col-sm-5">
+                                                                        <label for="price"
+                                                                               class="control-label">ราคา/หน่วย</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="price"
+                                                                               name="price"
+                                                                               required="required"
+                                                                               placeholder="ราคา/หน่วย">
+                                                                    </div>
+                                                                    <div class="col-sm-5">
+                                                                        <label for="total_price"
+                                                                               class="control-label">ราคารวม</label>
+                                                                        <input type="text" class="form-control"
+                                                                               id="total_price"
+                                                                               name="total_price"
+                                                                               required="required"
+                                                                               placeholder="ราคารวม">
+                                                                    </div>
                                                                 </div>
 
                                                             </div>
@@ -514,8 +536,10 @@ if (strlen($_SESSION['alogin']) == "") {
                 'columns': [
                     {data: 'line_no'},
                     {data: 'product_name'},
-                    {data: 'quantity'},
+                    {data: 'quantity', className: "text-right"},
                     {data: 'unit_name'},
+                    {data: 'price', className: "text-right"},
+                    {data: 'total_price', className: "text-right"},
                     {data: 'update'},
                     {data: 'delete'}
                 ]
@@ -572,6 +596,8 @@ if (strlen($_SESSION['alogin']) == "") {
                     $('#product_id').val("");
                     $('#name_t').val("");
                     $('#quantity').val("");
+                    $('#price').val("");
+                    $('#total_price').val("");
                     $('#unit_id').val("");
                     $('#unit_name').val("");
                     $('.modal-title').html("<i class='fa fa-plus'></i> ADD Record");
@@ -610,6 +636,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         let name_t = response[i].name_t;
                         let doc_date = response[i].doc_date;
                         let quantity = response[i].quantity;
+                        let price = response[i].price;
+                        let total_price = response[i].total_price;
                         let unit_id = response[i].unit_id;
                         let unit_name = response[i].unit_name;
 
@@ -621,6 +649,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#product_id').val(product_id);
                         $('#name_t').val(name_t);
                         $('#quantity').val(quantity);
+                        $('#price').val(price);
+                        $('#total_price').val(total_price);
                         $('#unit_id').val(unit_id);
                         $('#unit_name').val(unit_name);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
@@ -663,6 +693,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         let id = response[i].id;
                         let name_t = response[i].name_t;
                         let quantity = response[i].quantity;
+                        let price = response[i].price;
+                        let total_price = response[i].total_price;
                         let unit_id = response[i].unit_id;
                         let unit_name = response[i].unit_name;
 
@@ -673,6 +705,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#product_id').val(product_id);
                         $('#name_t').val(name_t);
                         $('#quantity').val(quantity);
+                        $('#price').val(price);
+                        $('#total_price').val(total_price);
                         $('#unit_id').val(unit_id);
                         $('#unit_name').val(unit_name);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
@@ -827,6 +861,7 @@ if (strlen($_SESSION['alogin']) == "") {
         function Save_Detail(KeyAddData) {
 
             let formData = {action: "SAVEDETAIL", KeyAddData: KeyAddData};
+            alert(formData);
             $.ajax({
                 url: 'model/manage_order_detail_process.php',
                 method: "POST",
@@ -849,7 +884,6 @@ if (strlen($_SESSION['alogin']) == "") {
             }
             let doc_no_detail = $('#doc_no_detail').val();
             let formData = $(this).serialize();
-
             $.ajax({
                 url: 'model/manage_order_detail_process.php',
                 method: "POST",
@@ -873,9 +907,35 @@ if (strlen($_SESSION['alogin']) == "") {
 
     </script>
 
+    <script>
+        function cal_total() {
+            let quantity = parseFloat($('#quantity').val().replace(/,/g, ''));
+            let price = parseFloat($('#price').val().replace(/,/g, ''));
+            let total_price = quantity * price;
+            $('#total_price').val(total_price);
+        }
+    </script>
+
+    <script>
+
+        $('#quantity').blur(function () {
+            cal_total();
+        });
+
+        $('#price').blur(function () {
+            cal_total();
+        });
+
+        $('#total_price').blur(function () {
+            cal_total();
+        });
+
+    </script>
+
     </body>
 
     </html>
 
 <?php } ?>
+
 
