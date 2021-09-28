@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '16479f15dc5612fadc4cfeae565c3bd4111e085c',
+        'reference' => '511423e2ee75758a9e7768a4214225053984e4de',
         'name' => '__root__',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '16479f15dc5612fadc4cfeae565c3bd4111e085c',
+            'reference' => '511423e2ee75758a9e7768a4214225053984e4de',
             'dev_requirement' => false,
         ),
         'ttskch/select2-bootstrap4-theme' => array(

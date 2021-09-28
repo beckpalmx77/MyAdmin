@@ -639,6 +639,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         let name_t = response[i].name_t;
                         let doc_date = response[i].doc_date;
                         let quantity = response[i].quantity;
+                        let price = response[i].price;
+                        let total_price = response[i].total_price;
                         let unit_id = response[i].unit_id;
                         let unit_name = response[i].unit_name;
 
@@ -650,6 +652,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#product_id').val(product_id);
                         $('#name_t').val(name_t);
                         $('#quantity').val(quantity);
+                        $('#price').val(price);
+                        $('#total_price').val(total_price);
                         $('#unit_id').val(unit_id);
                         $('#unit_name').val(unit_name);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
@@ -692,6 +696,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         let id = response[i].id;
                         let name_t = response[i].name_t;
                         let quantity = response[i].quantity;
+                        let price = response[i].price;
+                        let total_price = response[i].total_price;
                         let unit_id = response[i].unit_id;
                         let unit_name = response[i].unit_name;
 
@@ -702,6 +708,8 @@ if (strlen($_SESSION['alogin']) == "") {
                         $('#product_id').val(product_id);
                         $('#name_t').val(name_t);
                         $('#quantity').val(quantity);
+                        $('#price').val(price);
+                        $('#total_price').val(total_price);
                         $('#unit_id').val(unit_id);
                         $('#unit_name').val(unit_name);
                         $('.modal-title').html("<i class='fa fa-plus'></i> Edit Record");
@@ -903,18 +911,16 @@ if (strlen($_SESSION['alogin']) == "") {
     </script>
 
     <script>
-        function cal_total() {
-            let quantity = $('#quantity').val();
-            let price = $('#price').val();
-            let total_price = quantity * price;
-            $('#total_price').val(total_price.toFixed(2));
+        function cal_total(num1, num2) {
+            let return_result = num1 * num2;
+            return return_result;
         }
     </script>
 
     <script>
 
         $('#quantity,#price,#total_price').blur(function () {
-            cal_total();
+            $('#total_price').val(cal_total($('#quantity').val(), $('#price').val()).toFixed(2));
         });
 
     </script>

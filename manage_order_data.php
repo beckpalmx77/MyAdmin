@@ -906,19 +906,18 @@ if (strlen($_SESSION['alogin']) == "") {
 
     </script>
 
+
     <script>
-        function cal_total() {
-            let quantity = $('#quantity').val();
-            let price = $('#price').val();
-            let total_price = quantity * price;
-            $('#total_price').val(total_price.toFixed(2));
+        function cal_total(num1,num2) {
+            let return_result = num1 * num2;
+            return return_result;
         }
     </script>
 
     <script>
 
         $('#quantity,#price,#total_price').blur(function () {
-            cal_total();
+            $('#total_price').val(cal_total($('#quantity').val(),$('#price').val()).toFixed(2));
         });
 
     </script>
