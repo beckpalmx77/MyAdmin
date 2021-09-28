@@ -26,10 +26,9 @@ include('config/connect_db.php');
 
     //privilege 1 = admin
 
-
     if ($_SESSION['account_type'] != "admin") {
-        $where_condM = " where privilege = '2' ";
-        $where_condS = " and privilege = '2' ";
+        $where_condM = " where privilege = 'User' ";
+        $where_condS = " and privilege = 'User' ";
     }
 
     $sql = "SELECT * from menu_main " . $where_condM . " order by main_menu_id";

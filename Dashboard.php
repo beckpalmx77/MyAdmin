@@ -180,7 +180,7 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/myadmin.min.js"></script>
     <script src="vendor/chart.js/Chart.min.js"></script>
-    <script src="js/demo/chart-area-demo.js"></script>
+    <script src="js/chart/chart-area-demo.js"></script>
 
     <link href='vendor/calendar/main.css' rel='stylesheet'/>
     <script src='vendor/calendar/main.js'></script>
