@@ -107,7 +107,7 @@ if (strlen($_SESSION['alogin']) == "") {
             $("form").on("submit", function (event) {
                 event.preventDefault();
                 let formValues = $(this).serialize();
-                $.post("model/manage_account_process.php", formValues, function (response) {
+                $.post("model/manage_XXX_process.php", formValues, function (response) {
 
                     if (response == 1) {
                         alertify.success("เปลี่ยนรหัสผ่านเรียบร้อยแล้ว กรุณาเข้าระบบด้วยรหัสผ่านใหม่อีกครั้ง");
