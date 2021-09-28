@@ -180,6 +180,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                class="form-control"
                                                                                id="product_id" name="product_id"
                                                                                required="required"
+                                                                               readonly="true"
                                                                                placeholder="รหัสสินค้า/อะไหล่">
                                                                     </div>
 
@@ -190,6 +191,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                id="name_t"
                                                                                name="name_t"
                                                                                required="required"
+                                                                               readonly="true"
                                                                                placeholder="ชื่อสินค้า/อะไหล่">
                                                                     </div>
 
@@ -226,6 +228,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                id="unit_name"
                                                                                name="unit_name"
                                                                                required="required"
+                                                                               readonly="true"
                                                                                placeholder="หน่วยนับ">
                                                                     </div>
 
@@ -317,7 +320,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                             </div>
                                         </div>
 
-
                                         <div class="modal fade" id="SearchCusModal">
                                             <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
@@ -407,6 +409,7 @@ if (strlen($_SESSION['alogin']) == "") {
     <!-- RuangAdmin Javascript -->
     <script src="js/myadmin.min.js"></script>
     <script src="js/util.js"></script>
+    <script src="js/Calculate.js"></script>
     <!-- Javascript for this page -->
 
     <script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
@@ -906,18 +909,13 @@ if (strlen($_SESSION['alogin']) == "") {
 
     </script>
 
-
-    <script>
-        function cal_total(num1,num2) {
-            let return_result = num1 * num2;
-            return return_result;
-        }
-    </script>
-
     <script>
 
         $('#quantity,#price,#total_price').blur(function () {
-            $('#total_price').val(cal_total($('#quantity').val(),$('#price').val()).toFixed(2));
+
+            let total_price = new Calculate($('#quantity').val(), $('#price').val());
+            $('#total_price').val(total_price.Multiple().toFixed(2));
+
         });
 
     </script>
