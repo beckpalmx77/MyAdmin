@@ -140,7 +140,6 @@ if (strlen($_SESSION['alogin']) == "") {
             let login_id = '<?php echo $_SESSION['login_id']; ?>';
             $('#email').val(email);
             $('#login_id').val(login_id);
-
         });
 
     </script>
