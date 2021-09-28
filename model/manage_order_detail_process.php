@@ -104,18 +104,16 @@ if ($_POST["action_detail"] === 'UPDATE') {
         $unit_id = $_POST["unit_id"];
 
 
-
         $sql_find = "SELECT count(*) as row FROM " . $table_name . " WHERE id = '" . $id . "'";
 
         $row = $dbh->query($sql_find)->fetch();
         if (empty($row["0"])) {
             echo $error;
         } else {
-            $sql_update = "UPDATE " .  $table_name
-            . " SET doc_date=:doc_date,product_id=:product_id,quantity=:quantity "
-            . ",price=:price,unit_id=:unit_id "
-            . " WHERE id = :id ";
-
+            $sql_update = "UPDATE " . $table_name
+                . " SET doc_date=:doc_date,product_id=:product_id,quantity=:quantity "
+                . ",price=:price,unit_id=:unit_id "
+                . " WHERE id = :id ";
 
 
             $query = $dbh->prepare($sql_update);

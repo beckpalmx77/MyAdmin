@@ -103,6 +103,8 @@ if (strlen($_SESSION['alogin']) == "") {
                                                             <th>สินค้า</th>
                                                             <th>จำนวน</th>
                                                             <th>หน่วยนับ</th>
+                                                            <th>ราคา/หน่วย</th>
+                                                            <th>รวมราคา</th>
                                                             <th>Action</th>
                                                             <th>Action</th>
                                                         </tr>
@@ -238,9 +240,6 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                                required="required"
                                                                                placeholder="ราคา/หน่วย">
                                                                     </div>
-                                                                    <input type="hidden" class="form-control"
-                                                                           id="unit_id"
-                                                                           name="unit_id">
                                                                     <div class="col-sm-5">
                                                                         <label for="total_price"
                                                                                class="control-label">ราคารวม</label>
@@ -542,8 +541,10 @@ if (strlen($_SESSION['alogin']) == "") {
                 'columns': [
                     {data: 'line_no'},
                     {data: 'product_name'},
-                    {data: 'quantity'},
+                    {data: 'quantity', className: "text-right"},
                     {data: 'unit_name'},
+                    {data: 'price', className: "text-right"},
+                    {data: 'total_price', className: "text-right"},
                     {data: 'update'},
                     {data: 'delete'}
                 ]
@@ -897,6 +898,23 @@ if (strlen($_SESSION['alogin']) == "") {
                 }
             })
 
+        });
+
+    </script>
+
+    <script>
+        function cal_total() {
+            let quantity = $('#quantity').val();
+            let price = $('#price').val();
+            let total_price = quantity * price;
+            $('#total_price').val(total_price.toFixed(2));
+        }
+    </script>
+
+    <script>
+
+        $('#quantity,#price,#total_price').blur(function () {
+            cal_total();
         });
 
     </script>

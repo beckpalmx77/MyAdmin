@@ -210,7 +210,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                     <div class="col-sm-5">
                                                                         <label for="quantity"
                                                                                class="control-label">จำนวน</label>
-                                                                        <input type="text" class="form-control"
+                                                                        <input type="number" class="form-control"
                                                                                id="quantity"
                                                                                name="quantity"
                                                                                required="required"
@@ -234,7 +234,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                     <div class="col-sm-5">
                                                                         <label for="price"
                                                                                class="control-label">ราคา/หน่วย</label>
-                                                                        <input type="text" class="form-control"
+                                                                        <input type="number" class="form-control"
                                                                                id="price"
                                                                                name="price"
                                                                                required="required"
@@ -243,7 +243,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                     <div class="col-sm-5">
                                                                         <label for="total_price"
                                                                                class="control-label">ราคารวม</label>
-                                                                        <input type="text" class="form-control"
+                                                                        <input type="number" class="form-control"
                                                                                id="total_price"
                                                                                name="total_price"
                                                                                required="required"
@@ -861,7 +861,6 @@ if (strlen($_SESSION['alogin']) == "") {
         function Save_Detail(KeyAddData) {
 
             let formData = {action: "SAVEDETAIL", KeyAddData: KeyAddData};
-            alert(formData);
             $.ajax({
                 url: 'model/manage_order_detail_process.php',
                 method: "POST",
@@ -909,24 +908,16 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         function cal_total() {
-            let quantity = parseFloat($('#quantity').val().replace(/,/g, ''));
-            let price = parseFloat($('#price').val().replace(/,/g, ''));
+            let quantity = $('#quantity').val();
+            let price = $('#price').val();
             let total_price = quantity * price;
-            $('#total_price').val(total_price);
+            $('#total_price').val(total_price.toFixed(2));
         }
     </script>
 
     <script>
 
-        $('#quantity').blur(function () {
-            cal_total();
-        });
-
-        $('#price').blur(function () {
-            cal_total();
-        });
-
-        $('#total_price').blur(function () {
+        $('#quantity,#price,#total_price').blur(function () {
             cal_total();
         });
 
