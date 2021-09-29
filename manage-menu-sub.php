@@ -211,15 +211,15 @@ if (strlen($_SESSION['alogin']) == "") {
                                                                    width="100%">
                                                                 <thead>
                                                                 <tr>
-                                                                    <th>รหัส</th>
-                                                                    <th>ชื่อหน้าจอ</th>
+                                                                    <th>รหัสเมนูหลัก</th>
+                                                                    <th>ชื่อเมนูหลัก</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </thead>
                                                                 <tfoot>
                                                                 <tr>
-                                                                    <th>รหัส</th>
-                                                                    <th>ชื่อหน้าจอ</th>
+                                                                    <th>รหัสเมนูหลัก</th>
+                                                                    <th>ชื่อเมนูหลัก</th>
                                                                     <th>Action</th>
                                                                 </tr>
                                                                 </tfoot>

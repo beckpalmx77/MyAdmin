@@ -1,7 +1,7 @@
 <?php
 session_start();
 error_reporting(0);
-
+date_default_timezone_set("Asia/Bangkok");
 include('../config/connect_db.php');
 include('../config/lang.php');
 include('../util/record_util.php');
@@ -86,23 +86,28 @@ if ($_POST["action"] === 'ADD') {
 
 if ($_POST["action"] === 'UPDATE') {
 
-    if ($_POST["customer_id"] != '') {
+    if ($_POST["doc_no"] != '') {
 
         $id = $_POST["id"];
         $doc_no = $_POST["doc_no"];
         $customer_id = $_POST["customer_id"];
         $status = $_POST["status"];
+        $update_date = date('Y-m-d H:i:s');
         $sql_find = "SELECT * FROM ims_order_master WHERE doc_no = '" . $doc_no . "'";
         $nRows = $dbh->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             $sql_update = "UPDATE ims_order_master SET customer_id=:customer_id,status=:status            
-            WHERE doc_no = :doc_no";
+            ,update_date=:update_date WHERE doc_no = :doc_no";
             $query = $dbh->prepare($sql_update);
             $query->bindParam(':customer_id', $customer_id, PDO::PARAM_STR);
             $query->bindParam(':status', $status, PDO::PARAM_STR);
+            $query->bindParam(':update_date', $update_date, PDO::PARAM_STR);
             $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
-            $query->execute();
-            echo $save_success;
+            if($query->execute()){
+                echo $save_success;
+            }else{
+                echo $error;
+            }
         }
 
     }

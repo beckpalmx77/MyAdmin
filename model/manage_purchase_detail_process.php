@@ -1,7 +1,7 @@
 <?php
 session_start();
 error_reporting(0);
-
+date_default_timezone_set("Asia/Bangkok");
 include('../config/connect_db.php');
 include('../config/lang.php');
 include('../util/record_util.php');
