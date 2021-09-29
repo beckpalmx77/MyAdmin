@@ -410,6 +410,10 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="js/myadmin.min.js"></script>
     <script src="js/util.js"></script>
     <script src="js/Calculate.js"></script>
+
+    <script src="js/modal/show_customer_modal.js"></script>
+    <script src="js/modal/show_product_modal.js"></script>
+    <script src="js/modal/show_unit_modal.js"></script>
     <!-- Javascript for this page -->
 
     <script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>
@@ -552,42 +556,6 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
-
-            let formData = {action: "GETCUSTOMER", sub_action: "GETSELECT"};
-            let dataRecords = $('#TableCustomerList').DataTable({
-                'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
-                'language': {
-                    search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
-                    info: 'หน้าที่ _PAGE_ จาก _PAGES_',
-                    infoEmpty: 'ไม่มีข้อมูล',
-                    zeroRecords: "ไม่มีข้อมูลตามเงื่อนไข",
-                    infoFiltered: '(กรองข้อมูลจากทั้งหมด _MAX_ รายการ)',
-                    paginate: {
-                        previous: 'ก่อนหน้า',
-                        last: 'สุดท้าย',
-                        next: 'ต่อไป'
-                    }
-                },
-                'processing': true,
-                'serverSide': true,
-                'serverMethod': 'post',
-                'ajax': {
-                    'url': 'model/manage_customer_process.php',
-                    'data': formData
-                },
-                'columns': [
-                    {data: 'customer_id'},
-                    {data: 'customer_name'},
-                    {data: 'select'}
-                ]
-            });
-        });
-
-    </script>
-
-
-    <script>
-        $(document).ready(function () {
             $("#btnAdd").click(function () {
                 if ($('#doc_date').val() == '' || $('#customer_name').val() == '') {
                     alertify.error("กรุณาป้อนวันที่ / ชื่อลูกค้า ");
@@ -721,109 +689,6 @@ if (strlen($_SESSION['alogin']) == "") {
                     alertify.error("error : " + response);
                 }
             });
-        });
-
-    </script>
-
-    <script>
-
-        $("#TableCustomerList").on('click', '.select', function () {
-            let data = this.id.split('@');
-            $('#customer_id').val(data[0]);
-            $('#customer_name').val(data[1]);
-            $('#SearchCusModal').modal('hide');
-        });
-
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            let formData = {action: "GETUNIT", sub_action: "GETSELECT"};
-            let dataRecords = $('#TableUnitList').DataTable({
-                'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
-                'language': {
-                    search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
-                    info: 'หน้าที่ _PAGE_ จาก _PAGES_',
-                    infoEmpty: 'ไม่มีข้อมูล',
-                    zeroRecords: "ไม่มีข้อมูลตามเงื่อนไข",
-                    infoFiltered: '(กรองข้อมูลจากทั้งหมด _MAX_ รายการ)',
-                    paginate: {
-                        previous: 'ก่อนหน้า',
-                        last: 'สุดท้าย',
-                        next: 'ต่อไป'
-                    }
-                },
-                'processing': true,
-                'serverSide': true,
-                'serverMethod': 'post',
-                'ajax': {
-                    'url': 'model/manage_unit_process.php',
-                    'data': formData
-                },
-                'columns': [
-                    {data: 'unit_id'},
-                    {data: 'unit_name'},
-                    {data: 'select'}
-                ]
-            });
-        });
-    </script>
-
-    <script>
-
-        $("#TableUnitList").on('click', '.select', function () {
-            let data = this.id.split('@');
-            $('#unit_id').val(data[0]);
-            $('#unit_name').val(data[1]);
-            $('#SearchModal').modal('hide');
-        });
-
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            let formData = {action: "GETPRODUCT", sub_action: "GETSELECT"};
-            let dataRecords = $('#TableProductList').DataTable({
-                'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
-                'language': {
-                    search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
-                    info: 'หน้าที่ _PAGE_ จาก _PAGES_',
-                    infoEmpty: 'ไม่มีข้อมูล',
-                    zeroRecords: "ไม่มีข้อมูลตามเงื่อนไข",
-                    infoFiltered: '(กรองข้อมูลจากทั้งหมด _MAX_ รายการ)',
-                    paginate: {
-                        previous: 'ก่อนหน้า',
-                        last: 'สุดท้าย',
-                        next: 'ต่อไป'
-                    }
-                },
-                'processing': true,
-                'serverSide': true,
-                'serverMethod': 'post',
-                'ajax': {
-                    'url': 'model/manage_product_process.php',
-                    'data': formData
-                },
-                'columns': [
-                    {data: 'product_id'},
-                    {data: 'name_t'},
-                    {data: 'unit_id'},
-                    {data: 'unit_name'},
-                    {data: 'select'}
-                ]
-            });
-        });
-    </script>
-
-    <script>
-
-        $("#TableProductList").on('click', '.select', function () {
-            let data = this.id.split('@');
-            $('#product_id').val(data[0]);
-            $('#name_t').val(data[1]);
-            $('#unit_id').val(data[2]);
-            $('#unit_name').val(data[3]);
-            $('#SearchProductModal').modal('hide');
         });
 
     </script>

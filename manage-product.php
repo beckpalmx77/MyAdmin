@@ -376,6 +376,11 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/myadmin.min.js"></script>
 
+
+    <script src="js/modal/show_pgroup_modal.js"></script>
+    <script src="js/modal/show_brand_modal.js"></script>
+    <script src="js/modal/show_unit_modal.js"></script>
+
     <!-- Page level plugins -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
@@ -401,6 +406,7 @@ if (strlen($_SESSION['alogin']) == "") {
             top: 30%;
         }
     </style>
+
     <script>
         $(document).ready(function () {
             $(".icon-input-btn").each(function () {
@@ -613,139 +619,6 @@ if (strlen($_SESSION['alogin']) == "") {
 
     </script>
 
-    <script>
-        $(document).ready(function () {
-            let formData = {action: "GETPGROUP", sub_action: "GETSELECT"};
-            let dataRecords = $('#TablePGList').DataTable({
-                'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
-                'language': {
-                    search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
-                    info: 'หน้าที่ _PAGE_ จาก _PAGES_',
-                    infoEmpty: 'ไม่มีข้อมูล',
-                    zeroRecords: "ไม่มีข้อมูลตามเงื่อนไข",
-                    infoFiltered: '(กรองข้อมูลจากทั้งหมด _MAX_ รายการ)',
-                    paginate: {
-                        previous: 'ก่อนหน้า',
-                        last: 'สุดท้าย',
-                        next: 'ต่อไป'
-                    }
-                },
-                'processing': true,
-                'serverSide': true,
-                'serverMethod': 'post',
-                'ajax': {
-                    'url': 'model/manage_pgroup_process.php',
-                    'data': formData
-                },
-                'columns': [
-                    {data: 'pgroup_id'},
-                    {data: 'pgroup_name'},
-                    {data: 'select'}
-                ]
-            });
-        });
-    </script>
-
-    <script>
-
-        $("#TablePGList").on('click', '.select', function () {
-            let data = this.id.split('@');
-            $('#pgroup_id').val(data[0]);
-            $('#pgroup_name').val(data[1]);
-            $('#Search-PG-Modal').modal('hide');
-        });
-
-    </script>
-
-
-    <script>
-        $(document).ready(function () {
-            let formData = {action: "GETBRAND", sub_action: "GETSELECT"};
-            let dataRecords = $('#TableBrandList').DataTable({
-                'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
-                'language': {
-                    search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
-                    info: 'หน้าที่ _PAGE_ จาก _PAGES_',
-                    infoEmpty: 'ไม่มีข้อมูล',
-                    zeroRecords: "ไม่มีข้อมูลตามเงื่อนไข",
-                    infoFiltered: '(กรองข้อมูลจากทั้งหมด _MAX_ รายการ)',
-                    paginate: {
-                        previous: 'ก่อนหน้า',
-                        last: 'สุดท้าย',
-                        next: 'ต่อไป'
-                    }
-                },
-                'processing': true,
-                'serverSide': true,
-                'serverMethod': 'post',
-                'ajax': {
-                    'url': 'model/manage_brand_process.php',
-                    'data': formData
-                },
-                'columns': [
-                    {data: 'brand_id'},
-                    {data: 'brand_name'},
-                    {data: 'select'}
-                ]
-            });
-        });
-    </script>
-
-    <script>
-
-        $("#TableBrandList").on('click', '.select', function () {
-            let data = this.id.split('@');
-            $('#brand_id').val(data[0]);
-            $('#brand_name').val(data[1]);
-            $('#Search-Brand-Modal').modal('hide');
-        });
-
-    </script>
-
-
-    <script>
-        $(document).ready(function () {
-            let formData = {action: "GETUNIT", sub_action: "GETSELECT"};
-            let dataRecords = $('#TableUnitList').DataTable({
-                'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
-                'language': {
-                    search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
-                    info: 'หน้าที่ _PAGE_ จาก _PAGES_',
-                    infoEmpty: 'ไม่มีข้อมูล',
-                    zeroRecords: "ไม่มีข้อมูลตามเงื่อนไข",
-                    infoFiltered: '(กรองข้อมูลจากทั้งหมด _MAX_ รายการ)',
-                    paginate: {
-                        previous: 'ก่อนหน้า',
-                        last: 'สุดท้าย',
-                        next: 'ต่อไป'
-                    }
-                },
-                'processing': true,
-                'serverSide': true,
-                'serverMethod': 'post',
-                'ajax': {
-                    'url': 'model/manage_unit_process.php',
-                    'data': formData
-                },
-                'columns': [
-                    {data: 'unit_id'},
-                    {data: 'unit_name'},
-                    {data: 'select'}
-                ]
-            });
-        });
-    </script>
-
-    <script>
-
-        $("#TableUnitList").on('click', '.select', function () {
-            let data = this.id.split('@');
-            $('#unit_id').val(data[0]);
-            $('#unit_name').val(data[1]);
-            $('#SearchUnitModal').modal('hide');
-        });
-
-    </script>
 
     </body>
     </html>
