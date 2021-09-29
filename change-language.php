@@ -141,8 +141,10 @@ if (strlen($_SESSION['alogin']) == "") {
         $(document).ready(function () {
             let email = '<?php echo $_SESSION['alogin']; ?>';
             let login_id = '<?php echo $_SESSION['login_id']; ?>';
+            let lang = '<?php echo $_SESSION['lang']; ?>';
             $('#email').val(email);
             $('#login_id').val(login_id);
+            $('#lang').val(lang);
         });
 
     </script>
