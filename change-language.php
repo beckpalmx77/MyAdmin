@@ -46,6 +46,21 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                                         <form id="from_data">
                                                             <div class="form-group has-success">
+
+                                                                <div class="form-group has-success">
+                                                                    <label class="control-label" for="lang">เปลี่ยนภาษา
+                                                                        Change Language</label>
+                                                                    <div class=”form-group”>
+                                                                        <select id="lang" name="lang"
+                                                                                class="form-control"
+                                                                                data-live-search="true"
+                                                                                title="Please select">
+                                                                            <option>th</option>
+                                                                            <option>en</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <span class="help-block"></span>
+                                                                </div>
                                                                 <div class="">
                                                                     <button type="submit"
                                                                             class="btn btn-primary btn-block">
@@ -107,29 +122,17 @@ if (strlen($_SESSION['alogin']) == "") {
             $("form").on("submit", function (event) {
                 event.preventDefault();
                 let formValues = $(this).serialize();
-                $.post("model/manage_XXX_process.php", formValues, function (response) {
-
+                $.post("model/manage_account_process.php", formValues, function (response) {
                     if (response == 1) {
-                        alertify.success("เปลี่ยนรหัสผ่านเรียบร้อยแล้ว กรุณาเข้าระบบด้วยรหัสผ่านใหม่อีกครั้ง");
+                        alertify.success("เปลี่ยนภาษาเรียบร้อยแล้ว กรุณาเข้าระบบอีกครั้ง");
                     } else if (response == 2) {
-                        alertify.error("ไม่สามารถบันทึกข้อมูลได้ มี User นี้แล้ว ");
+                        alertify.error("XXX");
                     } else {
-                        alertify.error("ไม่สามารถบันทึกข้อมูลได้ DB Error ");
+                        alertify.error("YYY");
                     }
                 });
             });
         });
-    </script>
-
-
-    <script>
-
-        $('#re_password').blur(function () {
-            if ($('#new_password').val() !== $('#re_password').val()) {
-                alertify.error("กรุณาป้อนรหัสผ่านใหม่ 2 ครั้งให้เหมือนกัน !!! ");
-            }
-        });
-
     </script>
 
 

@@ -145,6 +145,21 @@ if ($_POST["action"] === 'CHG') {
     }
 }
 
+if ($_POST["action"] === 'CHL') {
+    try {
+        $lang = $_POST['lang'];
+        $id = $_POST["login_id"];
+        $sql_update = "UPDATE ims_user SET lang=:lang WHERE id = :id";
+        $query = $dbh->prepare($sql_update);
+        $query->bindParam(':lang', $lang, PDO::PARAM_STR);
+        $query->bindParam(':id', $id, PDO::PARAM_STR);
+        $query->execute();
+        echo 1;
+    } catch (Exception $e) {
+        echo 3;
+    }
+}
+
 if ($_POST["action"] === 'GETACCOUNT') {
 ## Read value
     $draw = $_POST['draw'];
@@ -154,7 +169,6 @@ if ($_POST["action"] === 'GETACCOUNT') {
     $columnName = $_POST['columns'][$columnIndex]['data']; // Column name
     $columnSortOrder = $_POST['order'][0]['dir']; // asc or desc
     $searchValue = $_POST['search']['value']; // Search value
-
     $searchArray = array();
 
 ## Search
