@@ -90,7 +90,7 @@ if ($_POST["action"] === 'UPDATE') {
         $data_target = $_POST["data_target"];
         $aria_controls = $_POST["aria_controls"];
         $privilege = $_POST["privilege"];
-        $sql_find = "SELECT * FROM menu_main WHERE main_menu_id = '" . $main_menu_id . "'";
+        $sql_find = "SELECT * FROM menu_main WHERE id = '" . $id . "'";
         $nRows = $dbh->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             $sql_update = "UPDATE menu_main SET label=:label

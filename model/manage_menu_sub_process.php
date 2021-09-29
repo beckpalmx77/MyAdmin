@@ -46,8 +46,11 @@ if ($_POST["action"] === 'SEARCH') {
 
 if ($_POST["action"] === 'ADD') {
     if ($_POST["label"] !== '') {
-        $main_menu_id = "S" . sprintf('%03s', LAST_ID($dbh, "menu_sub", 'id'));
+        $main_menu_id = $_POST["main_menu_id"];
+        $prefix_menu_id = "S" . substr($_POST["main_menu_id"],3);
+        $sub_menu_id = $prefix_menu_id . sprintf('%02s', LAST_ID_COND($dbh, "menu_sub", $prefix_menu_id,'sub_menu_id'));
         $label = $_POST["label"];
+        $label_en = $_POST["label"];
         $link = $_POST["link"];
         $icon = $_POST["icon"];
         $privilege = $_POST["privilege"];
@@ -57,11 +60,13 @@ if ($_POST["action"] === 'ADD') {
         if ($nRows > 0) {
             echo $dup;
         } else {
-            $sql = "INSERT INTO menu_sub(main_menu_id,label,link,icon,privilege) 
-            VALUES (:main_menu_id,:label,:link,:icon,:privilege)";
+            $sql = "INSERT INTO menu_sub(sub_menu_id,main_menu_id,label,label_en,link,icon,privilege) 
+            VALUES (:sub_menu_id,:main_menu_id,:label,:label_en,:link,:icon,:privilege)";
             $query = $dbh->prepare($sql);
+            $query->bindParam(':sub_menu_id', $sub_menu_id, PDO::PARAM_STR);
             $query->bindParam(':main_menu_id', $main_menu_id, PDO::PARAM_STR);
             $query->bindParam(':label', $label, PDO::PARAM_STR);
+            $query->bindParam(':label_en', $label_en, PDO::PARAM_STR);
             $query->bindParam(':link', $link, PDO::PARAM_STR);
             $query->bindParam(':icon', $icon, PDO::PARAM_STR);
             $query->bindParam(':icon', $icon, PDO::PARAM_STR);
@@ -87,7 +92,7 @@ if ($_POST["action"] === 'UPDATE') {
         $link = $_POST["link"];
         $icon = $_POST["icon"];
         $privilege = $_POST["privilege"];
-        $sql_find = "SELECT * FROM menu_sub WHERE main_menu_id = '" . $main_menu_id . "'";
+        $sql_find = "SELECT * FROM menu_sub WHERE id = '" . $id . "'";
         $nRows = $dbh->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             $sql_update = "UPDATE menu_sub SET label=:label

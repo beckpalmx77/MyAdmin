@@ -24,3 +24,15 @@ function LAST_ID($dbh, $table, $field)
     }
     return $ret_value;
 }
+
+function LAST_ID_COND($dbh, $table, $cond ,$field)
+{
+    $row = $dbh->query("select count(" . $field . ") as record_number from " . $table
+    . " where sub_menu_id like '" . $cond . "%'")->fetch();
+    if (empty($row["0"])) {
+        $ret_value = 1;
+    } else {
+        $ret_value = $row["0"] + 1;
+    }
+    return $ret_value;
+}
