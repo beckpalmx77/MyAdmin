@@ -120,8 +120,11 @@ if ($_POST["action_detail"] === 'UPDATE') {
             $query->bindParam(':price', $price, PDO::PARAM_STR);
             $query->bindParam(':unit_id', $unit_id, PDO::PARAM_STR);
             $query->bindParam(':id', $id, PDO::PARAM_STR);
-            $query->execute();
-            echo $save_success;
+            if($query->execute()){
+                echo $save_success;
+            }else{
+                echo $error;
+            }
         }
 
     }
@@ -160,31 +163,6 @@ if ($_POST["action_detail"] === 'DELETE') {
             }
         }
 
-
-    }
-}
-
-if ($_POST["action"] === 'UPDATE') {
-
-    if ($_POST["doc_date"] != '') {
-
-        $id = $_POST["id"];
-        $doc_no = $_POST["doc_no"];
-        $doc_date = $_POST["doc_date"];
-        $status = $_POST["status"];
-        $sql_find = "SELECT * FROM v_purchase_detail WHERE doc_no = '" . $doc_no . "'";
-        $nRows = $dbh->query($sql_find)->fetchColumn();
-        if ($nRows > 0) {
-            $sql_update = "UPDATE v_purchase_detail SET doc_no=:doc_no,doc_date=:doc_date,status=:status            
-            WHERE id = :id";
-            $query = $dbh->prepare($sql_update);
-            $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
-            $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
-            $query->bindParam(':status', $status, PDO::PARAM_STR);
-            $query->bindParam(':id', $id, PDO::PARAM_STR);
-            $query->execute();
-            echo $save_success;
-        }
 
     }
 }
@@ -230,24 +208,6 @@ if ($_POST["action"] === 'SAVEDETAIL') {
 
     }
 
-}
-
-if ($_POST["action"] === 'DELETE') {
-
-    $id = $_POST["id"];
-
-    $sql_find = "SELECT * FROM ims_purchase_detail WHERE id = " . $id;
-    $nRows = $dbh->query($sql_find)->fetchColumn();
-    if ($nRows > 0) {
-        try {
-            $sql = "DELETE FROM ims_purchase_detail WHERE id = " . $id;
-            $query = $dbh->prepare($sql);
-            $query->execute();
-            echo $del_success;
-        } catch (Exception $e) {
-            echo 'Message: ' . $e->getMessage();
-        }
-    }
 }
 
 if ($_POST["action"] === 'GETPURCHASEDETAIL') {
