@@ -186,47 +186,46 @@ if (strlen($_SESSION['alogin']) == "") {
                                                             </button>
                                                         </div>
                                                     </form>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                                    <div class="modal fade" id="Search-MENU-Modal">
-                                                        <div class="modal-dialog modal-lg">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h4 class="modal-title">Modal title</h4>
-                                                                    <button type="button" class="close" data-dismiss="modal"
-                                                                            aria-hidden="true">×
-                                                                    </button>
-                                                                </div>
-
-                                                                <div class="container"></div>
-                                                                <div class="modal-body">
-
-                                                                    <div class="modal-body">
-
-                                                                        <table cellpadding="0" cellspacing="0" border="0"
-                                                                               class="display"
-                                                                               id="TableMainMenuList"
-                                                                               width="100%">
-                                                                            <thead>
-                                                                            <tr>
-                                                                                <th>รหัสเมนูหลัก</th>
-                                                                                <th>ชื่อเมนูหลัก</th>
-                                                                                <th>Action</th>
-                                                                            </tr>
-                                                                            </thead>
-                                                                            <tfoot>
-                                                                            <tr>
-                                                                                <th>รหัสเมนูหลัก</th>
-                                                                                <th>ชื่อเมนูหลัก</th>
-                                                                                <th>Action</th>
-                                                                            </tr>
-                                                                            </tfoot>
-                                                                        </table>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                        <div class="modal fade" id="Search-MENU-Modal">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Modal title</h4>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-hidden="true">×
+                                                        </button>
                                                     </div>
 
+                                                    <div class="container"></div>
+                                                    <div class="modal-body">
+
+                                                        <div class="modal-body">
+
+                                                            <table cellpadding="0" cellspacing="0" border="0"
+                                                                   class="display"
+                                                                   id="TableMainMenuList"
+                                                                   width="100%">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>รหัส</th>
+                                                                    <th>ชื่อหน้าจอ</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tfoot>
+                                                                <tr>
+                                                                    <th>รหัส</th>
+                                                                    <th>ชื่อหน้าจอ</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -259,6 +258,8 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="js/myadmin.min.js"></script>
 
+    <script src="js/modal/show_mmenu_modal.js"></script>
+
     <!-- Page level plugins -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
@@ -284,6 +285,7 @@ if (strlen($_SESSION['alogin']) == "") {
             top: 30%;
         }
     </style>
+
     <script>
         $(document).ready(function () {
             $(".icon-input-btn").each(function () {
@@ -476,50 +478,6 @@ if (strlen($_SESSION['alogin']) == "") {
                     alertify.error("error : " + response);
                 }
             });
-        });
-
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            let formData = {action: "GETMEINMENU", sub_action: "GETSELECT"};
-            let dataRecords = $('#TableMainMenuList').DataTable({
-                'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
-                'language': {
-                    search: 'ค้นหา', lengthMenu: 'แสดง _MENU_ รายการ',
-                    info: 'หน้าที่ _PAGE_ จาก _PAGES_',
-                    infoEmpty: 'ไม่มีข้อมูล',
-                    zeroRecords: "ไม่มีข้อมูลตามเงื่อนไข",
-                    infoFiltered: '(กรองข้อมูลจากทั้งหมด _MAX_ รายการ)',
-                    paginate: {
-                        previous: 'ก่อนหน้า',
-                        last: 'สุดท้าย',
-                        next: 'ต่อไป'
-                    }
-                },
-                'processing': true,
-                'serverSide': true,
-                'serverMethod': 'post',
-                'ajax': {
-                    'url': 'model/manage_menu_main_process.php',
-                    'data': formData
-                },
-                'columns': [
-                    {data: 'main_menu_id'},
-                    {data: 'label'},
-                    {data: 'select'}
-                ]
-            });
-        });
-    </script>
-
-    <script>
-
-        $("#TableMainMenuList").on('click', '.select', function () {
-            let data = this.id.split('@');
-            $('#main_menu_id').val(data[0]);
-            $('#main_label').val(data[1]);
-            $('#Search-MENU-Modal').modal('hide');
         });
 
     </script>
