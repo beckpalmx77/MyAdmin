@@ -37,8 +37,11 @@ if ($_POST["action"] === 'UPDATE') {
         $query = $dbh->prepare($sql);
         $query->bindParam(':title', $title, PDO::PARAM_STR);
         $query->bindParam(':id', $id, PDO::PARAM_STR);
-        $query->execute();
-        echo $save_success;
+        if($query->execute()){
+            echo $save_success;
+        }else{
+            echo $error;
+        }
     }
 }
 
@@ -47,7 +50,10 @@ if ($_POST["action"] === 'DELETE') {
         $id = $_POST["id"];
         $sql = "DELETE FROM ims_event WHERE ID = " . $id;
         $query = $dbh->prepare($sql);
-        $query->execute();
-            echo $save_success;
+        if($query->execute()){
+            echo $del_success;
+        }else{
+            echo $error;
+        }
     }
 }

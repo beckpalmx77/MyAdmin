@@ -127,6 +127,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                             </div>
                                             <div class="modal-footer">
                                                 <input type="hidden" name="id" id="id"/>
+                                                <input type="hidden" name="save_status" id="save_status"/>
                                                 <input type="hidden" name="action" id="action"
                                                        value=""/>
                                                 <button type="button" class="btn btn-primary"
@@ -469,8 +470,12 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
         $(document).ready(function () {
             $("#btnClose").click(function () {
-                window.opener = self;
-                window.close();
+                if ($('#save_status').val() !== '') {
+                    window.opener = self;
+                    window.close();
+                } else {
+                    alertify.error("กรุณากด save อีกครั้ง");
+                }
             });
         });
     </script>
@@ -495,9 +500,12 @@ if (strlen($_SESSION['alogin']) == "") {
             $("#sub_menu").html(queryString["sub_menu"]);
             $('#action').val(queryString["action"]);
 
+            $('#save_status').val("before");
+
             if (queryString["action"] === 'ADD') {
                 let KeyData = generate_token(15);
                 $('#KeyAddData').val(KeyData + ":" + Date.now());
+                $('#save_status').val("add");
             }
 
             if (queryString["doc_no"] != null && queryString["supplier_name"] != null) {
@@ -719,8 +727,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
                             alertify.success(data);
                             window.opener.location.reload();
-                            //window.opener = self;
-                            //window.close();
+                            $('#save_status').val("save");
 
                         }
                     })
@@ -740,7 +747,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 method: "POST",
                 data: formData,
                 success: function (data) {
-                    alertify.success(data);
+                    //alertify.success(data);
                 }
             })
 
@@ -763,7 +770,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 method: "POST",
                 data: formData,
                 success: function (data) {
-                    alertify.success(data);
+                    //alertify.success(data);
                     $('#recordForm')[0].reset();
                     $('#recordModal').modal('hide');
 

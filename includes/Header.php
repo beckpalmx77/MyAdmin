@@ -13,8 +13,10 @@
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="css/myadmin.css" rel="stylesheet">
+
     <link rel="stylesheet" href="vendor/alertify/css/alertify.core.css"/>
     <link rel="stylesheet" href="vendor/alertify/css/alertify.default.css"/>
+    <!--link rel="stylesheet" href="vendor/alertify/css/alertify.bootstrap.css"/-->
     <link rel="stylesheet" href="vendor/alertify/css/main.css"/>
 
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
