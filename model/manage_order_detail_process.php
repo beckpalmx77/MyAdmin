@@ -114,8 +114,6 @@ if ($_POST["action_detail"] === 'UPDATE') {
                 . " SET doc_date=:doc_date,product_id=:product_id,quantity=:quantity "
                 . ",price=:price,unit_id=:unit_id "
                 . " WHERE id = :id ";
-
-
             $query = $dbh->prepare($sql_update);
             $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
             $query->bindParam(':product_id', $product_id, PDO::PARAM_STR);

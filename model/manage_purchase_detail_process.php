@@ -197,7 +197,6 @@ if ($_POST["action"] === 'SAVEDETAIL') {
             $query->bindParam(':line_no', $result['line_no'], PDO::PARAM_STR);
             $query->execute();
             $lastInsertId = $dbh->lastInsertId();
-
         }
 
         if ($lastInsertId) {

@@ -49,4 +49,13 @@
         }
     </style>
 
+    <style>
+
+        th {
+            background-color: #6574fb;
+            color: white;
+        }
+
+    </style>
+
 </head>
