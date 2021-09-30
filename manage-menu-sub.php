@@ -55,7 +55,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     <th>รหัสหน้าจอ</th>
                                                     <th>ชื่อหน้าจอ</th>
                                                     <th>Link</th>
-                                                    <th>Icon</th>
+                                                    <!--th>Icon</th-->
                                                     <th>Privilege</th>
                                                     <th>Action</th>
                                                     <th>Action</th>
@@ -66,7 +66,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                                     <th>รหัสหน้าจอ</th>
                                                     <th>ชื่อหน้าจอ</th>
                                                     <th>Link</th>
-                                                    <th>Icon</th>
+                                                    <!--th>Icon</th-->
                                                     <th>Privilege</th>
                                                     <th>Action</th>
                                                     <th>Action</th>
@@ -346,7 +346,7 @@ if (strlen($_SESSION['alogin']) == "") {
                     {data: 'sub_menu_id'},
                     {data: 'label'},
                     {data: 'link'},
-                    {data: 'icon'},
+                    //{data: 'icon'},
                     {data: 'privilege'},
                     {data: 'update'},
                     {data: 'delete'}
