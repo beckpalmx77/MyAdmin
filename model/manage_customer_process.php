@@ -131,10 +131,11 @@ if ($_POST["action"] === 'GETCUSTOMER') {
     $searchQuery = " ";
     if ($searchValue != '') {
         $searchQuery = " AND (customer_id LIKE :customer_id or
-        customer_name LIKE :customer_name ) ";
+        customer_name LIKE :customer_name or address LIKE :address) ";
         $searchArray = array(
             'customer_id' => "%$searchValue%",
             'customer_name' => "%$searchValue%",
+            'address' => "%$searchValue%",
         );
     }
 

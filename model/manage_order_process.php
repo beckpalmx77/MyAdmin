@@ -152,10 +152,10 @@ if ($_POST["action"] === 'GETORDER') {
     $searchQuery = " ";
     if ($searchValue != '') {
         $searchQuery = " AND (doc_no LIKE :doc_no or
-        customer_id LIKE :customer_id ) ";
+        customer_name LIKE :customer_name ) ";
         $searchArray = array(
             'doc_no' => "%$searchValue%",
-            'customer_id' => "%$searchValue%",
+            'customer_name' => "%$searchValue%",
         );
     }
 

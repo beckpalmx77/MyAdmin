@@ -153,10 +153,10 @@ if ($_POST["action"] === 'GETPURCHASE') {
     $searchQuery = " ";
     if ($searchValue != '') {
         $searchQuery = " AND (doc_no LIKE :doc_no or
-        supplier_id LIKE :supplier_id ) ";
+        supplier_name LIKE :supplier_name ) ";
         $searchArray = array(
             'doc_no' => "%$searchValue%",
-            'supplier_id' => "%$searchValue%",
+            'supplier_name' => "%$searchValue%",
         );
     }
 

@@ -131,10 +131,11 @@ if ($_POST["action"] === 'GETSUPPLIER') {
     $searchQuery = " ";
     if ($searchValue != '') {
         $searchQuery = " AND (supplier_id LIKE :supplier_id or
-        supplier_name LIKE :supplier_name ) ";
+        supplier_name LIKE :supplier_name or address LIKE :address) ";
         $searchArray = array(
             'supplier_id' => "%$searchValue%",
             'supplier_name' => "%$searchValue%",
+            'address' => "%$searchValue%",
         );
     }
 
