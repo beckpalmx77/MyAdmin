@@ -20,8 +20,9 @@ if ($_POST["action"] === 'GET_COUNT_RECORDS') {
 }
 
 if ($_POST["action"] === 'GET_COUNT_RECORDS_COND') {
+    $cond = $_POST["cond"];
     $return_arr = array();
-    $sql_get = "SELECT count(*) as record_counts  FROM " . $table_name;
+    $sql_get = "SELECT count(*) as record_counts  FROM " . $table_name . " " . $cond;
     $statement = $dbh->query($sql_get);
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
     foreach ($results as $result) {

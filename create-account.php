@@ -177,6 +177,8 @@ if (strlen($_SESSION['alogin']) == "") {
     <script src="js/myadmin.min.js"></script>
     <!-- Javascript for this page -->
 
+    <script src="js/MyFrameWork/framework_util.js"></script>
+
     <script>
         $(document).ready(function () {
             $("form").on("submit", function (event) {
@@ -195,6 +197,46 @@ if (strlen($_SESSION['alogin']) == "") {
                 });
             });
         });
+    </script>
+
+    <script>
+
+        $('#email').blur(function () {
+
+            let action = "GET_COUNT_RECORDS_COND";
+            let table_name = "ims_user";
+            let cond = " WHERE email = '" + $('#email').val() + "'";
+            let formData = {action: action, table_name: table_name, cond: cond};
+            $.ajax({
+                type: "POST",
+                url: 'model/manage_general_data.php',
+                data: formData,
+                success: function (response) {
+                    if (response > 0) {
+                        alertify.error("มี User Email นี้ในระบบแล้วโปรดใช้ User อื่น");
+                        $('#email').val("");
+                    }
+                },
+                error: function (response) {
+                    alertify.error("error : " + response);
+                }
+            });
+        });
+
+    </script>
+
+    <script>
+
+        $('#email').focusout(function () {
+            let email_address = $('#email').val();
+            if (ValidateEmail(email_address)) {
+                $('#email').val(email_address);
+            } else {
+                alertify.error("กรุณาป้อน รูปแบบ Email ที่ถูกต้อง");
+                $('#email').val("");
+            }
+        });
+
     </script>
 
     </body>

@@ -14,7 +14,7 @@ $query = $dbh->prepare($sql);
 $query->bindParam(':username', $username, PDO::PARAM_STR);
 $query->execute();
 $results = $query->fetchAll(PDO::FETCH_OBJ);
-if ($query->rowCount()==1) {
+if ($query->rowCount() == 1) {
     foreach ($results as $result) {
         if (password_verify($_POST['password'], $result->password)) {
             $_SESSION['alogin'] = $result->email;
