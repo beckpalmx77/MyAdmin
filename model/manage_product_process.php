@@ -7,7 +7,7 @@ include('../config/lang.php');
 include('../util/reorder_record.php');
 
 
-if ($_POST["action"] === 'GETDATA') {
+if ($_POST["action"] === 'GET_DATA') {
 
     $id = $_POST["id"];
 
@@ -147,7 +147,7 @@ if ($_POST["action"] === 'DELETE') {
     }
 }
 
-if ($_POST["action"] === 'GETPRODUCT') {
+if ($_POST["action"] === 'GET_PRODUCT') {
 
 ## Read value
     $draw = $_POST['draw'];
@@ -203,7 +203,7 @@ if ($_POST["action"] === 'GETPRODUCT') {
     $data = array();
 
     foreach ($empRecords as $row) {
-        if ($_POST['sub_action'] === "GETMASTER") {
+        if ($_POST['sub_action'] === "GET_MASTER") {
             $data[] = array(
                 "product_id" => $row['product_id'],
                 "name_t" => $row['name_t'],

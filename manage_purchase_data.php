@@ -524,8 +524,8 @@ if (strlen($_SESSION['alogin']) == "") {
         function Load_Data_Detail(doc_no, table_name) {
 
             let formData = {
-                action: "GETPURCHASEDETAIL",
-                sub_action: "GETMASTER",
+                action: "GET_PURCHASE_DETAIL",
+                sub_action: "GET_MASTER",
                 doc_no: doc_no,
                 table_name: table_name
             };
@@ -741,7 +741,7 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
         function Save_Detail(KeyAddData) {
 
-            let formData = {action: "SAVEDETAIL", KeyAddData: KeyAddData};
+            let formData = {action: "SAVE_DETAIL", KeyAddData: KeyAddData};
             $.ajax({
                 url: 'model/manage_purchase_detail_process.php',
                 method: "POST",

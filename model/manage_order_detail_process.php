@@ -8,7 +8,7 @@ include('../util/record_util.php');
 include('../util/reorder_record.php');
 
 
-if ($_POST["action"] === 'GETDATA') {
+if ($_POST["action"] === 'GET_DATA') {
 
     $id = $_POST["id"];
     $doc_no = $_POST["doc_no"];
@@ -168,7 +168,7 @@ if ($_POST["action_detail"] === 'DELETE') {
     }
 }
 
-if ($_POST["action"] === 'SAVEDETAIL') {
+if ($_POST["action"] === 'SAVE_DETAIL') {
 
     if ($_POST["KeyAddData"] != '') {
 
@@ -214,7 +214,7 @@ if ($_POST["action"] === 'SAVEDETAIL') {
 }
 
 
-if ($_POST["action"] === 'GETORDERDETAIL') {
+if ($_POST["action"] === 'GET_ORDERDETAIL') {
 
     ## Read value
     $table_name = $_POST['table_name'];
@@ -262,7 +262,7 @@ if ($_POST["action"] === 'GETORDERDETAIL') {
 
     foreach ($empRecords as $row) {
 
-        if ($_POST['sub_action'] === "GETMASTER") {
+        if ($_POST['sub_action'] === "GET_MASTER") {
             $data[] = array(
                 "id" => $row['id'],
                 "doc_no" => $row['doc_no'],

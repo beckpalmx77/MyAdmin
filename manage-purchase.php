@@ -324,7 +324,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
-            let formData = {action: "GETPURCHASE", sub_action: "GETMASTER"};
+            let formData = {action: "GET_PURCHASE", sub_action: "GET_MASTER"};
             let dataRecords = $('#TableRecordList').DataTable({
                 'columnDefs': [{"orderSequence": ["desc", "asc"]}],
                 'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
@@ -477,7 +477,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
             $('#TablePurchaseDetailList').DataTable().clear().destroy();
 
-            let formData = {action: "GETPURCHASEDETAIL", sub_action: "GETMASTER", doc_no: doc_no, table_name: table_name};
+            let formData = {action: "GET_PURCHASE_DETAIL", sub_action: "GET_MASTER", doc_no: doc_no, table_name: table_name};
             let dataRecords = $('#TablePurchaseDetailList').DataTable({
                 "paging": false,
                 "purchaseing": false,

@@ -6,7 +6,7 @@ include('../config/connect_db.php');
 include('../config/lang.php');
 include('../util/record_util.php');
 
-if ($_POST["action"] === 'GETORDERDETAIL') {
+if ($_POST["action"] === 'GET_ORDERDETAIL') {
 
     $draw = 1;
     $query = "SELECT * FROM v_order_detail WHERE doc_no = '" . $_POST["doc_no"] . "'";
@@ -25,7 +25,7 @@ if ($_POST["action"] === 'GETORDERDETAIL') {
     $data = array();
     foreach ($empRecords as $row) {
 
-        if ($_POST['sub_action'] === "GETMASTER") {
+        if ($_POST['sub_action'] === "GET_MASTER") {
             $data[] = array(
                 "id" => $row['id'],
                 "doc_no" => $row['doc_no'],

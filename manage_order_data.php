@@ -522,7 +522,7 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
         function Load_Data_Detail(doc_no, table_name) {
 
-            let formData = {action: "GETORDERDETAIL", sub_action: "GETMASTER", doc_no: doc_no, table_name: table_name};
+            let formData = {action: "GET_ORDERDETAIL", sub_action: "GET_MASTER", doc_no: doc_no, table_name: table_name};
             let dataRecords = $('#TableOrderDetailList').DataTable({
                 "paging": false,
                 "ordering": false,
@@ -733,7 +733,7 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
         function Save_Detail(KeyAddData) {
 
-            let formData = {action: "SAVEDETAIL", KeyAddData: KeyAddData};
+            let formData = {action: "SAVE_DETAIL", KeyAddData: KeyAddData};
             $.ajax({
                 url: 'model/manage_order_detail_process.php',
                 method: "POST",

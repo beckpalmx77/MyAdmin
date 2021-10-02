@@ -264,7 +264,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
-            let formData = {action: "GETBRAND", sub_action: "GETMASTER"};
+            let formData = {action: "GET_BRAND", sub_action: "GET_MASTER"};
             let dataRecords = $('#TableRecordList').DataTable({
                 'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
                 'language': {

@@ -7,7 +7,7 @@ include('../config/lang.php');
 include('../util/record_util.php');
 
 
-if ($_POST["action"] === 'GETDATA') {
+if ($_POST["action"] === 'GET_DATA') {
 
     $id = $_POST["id"];
 
@@ -114,7 +114,7 @@ if ($_POST["action"] === 'DELETE') {
     }
 }
 
-if ($_POST["action"] === 'GETUNIT') {
+if ($_POST["action"] === 'GET_UNIT') {
 
     ## Read value
     $draw = $_POST['draw'];
@@ -167,7 +167,7 @@ if ($_POST["action"] === 'GETUNIT') {
 
     foreach ($empRecords as $row) {
 
-        if ($_POST['sub_action'] === "GETMASTER") {
+        if ($_POST['sub_action'] === "GET_MASTER") {
             $data[] = array(
                 "id" => $row['id'],
                 "unit_id" => $row['unit_id'],

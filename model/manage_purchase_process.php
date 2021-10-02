@@ -6,7 +6,7 @@ include('../config/connect_db.php');
 include('../config/lang.php');
 include('../util/record_util.php');
 
-if ($_POST["action"] === 'GETDATA') {
+if ($_POST["action"] === 'GET_DATA') {
 
     $id = $_POST["id"];
 
@@ -103,9 +103,9 @@ if ($_POST["action"] === 'UPDATE') {
             $query->bindParam(':status', $status, PDO::PARAM_STR);
             $query->bindParam(':update_date', $update_date, PDO::PARAM_STR);
             $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
-            if($query->execute()){
+            if ($query->execute()) {
                 echo $save_success;
-            }else{
+            } else {
                 echo $error;
             }
         }
@@ -132,7 +132,7 @@ if ($_POST["action"] === 'DELETE') {
     }
 }
 
-if ($_POST["action"] === 'GETPURCHASE') {
+if ($_POST["action"] === 'GET_PURCHASE') {
 
     ## Read value
     $draw = $_POST['draw'];
@@ -192,7 +192,7 @@ if ($_POST["action"] === 'GETPURCHASE') {
 
     foreach ($empRecords as $row) {
 
-        if ($_POST['sub_action'] === "GETMASTER") {
+        if ($_POST['sub_action'] === "GET_MASTER") {
             $data[] = array(
                 "doc_no" => $row['doc_no'],
                 "supplier_id" => $row['supplier_id'],
@@ -223,6 +223,5 @@ if ($_POST["action"] === 'GETPURCHASE') {
     );
 
     echo json_encode($response);
-
 
 }

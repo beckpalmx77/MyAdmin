@@ -217,7 +217,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
         $(document).ready(function () {
-            let formData = {action: "GETACCOUNT", sub_action: "GETMASTER"};
+            let formData = {action: "GET_ACCOUNT", sub_action: "GET_MASTER"};
             let dataRecords = $('#TableRecordList').DataTable({
                 'processing': true,
                 'serverSide': true,

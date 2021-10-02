@@ -6,7 +6,7 @@ include('../config/connect_db.php');
 include('../config/lang.php');
 include('../util/record_util.php');
 
-if ($_POST["action"] === 'GETDATA') {
+if ($_POST["action"] === 'GET_DATA') {
     $id = $_POST["id"];
     $return_arr = array();
     $sql_get = "SELECT * FROM menu_main WHERE id = " . $id;
@@ -127,7 +127,7 @@ if ($_POST["action"] === 'DELETE') {
     }
 }
 
-if ($_POST["action"] === 'GETMEINMENU') {
+if ($_POST["action"] === 'GET_MAIN_MENU') {
     ## Read value
     $draw = $_POST['draw'];
     $row = $_POST['start'];
@@ -178,7 +178,7 @@ if ($_POST["action"] === 'GETMEINMENU') {
 
     foreach ($empRecords as $row) {
 
-        if ($_POST['sub_action'] === "GETMASTER") {
+        if ($_POST['sub_action'] === "GET_MASTER") {
             $data[] = array(
                 "id" => $row['id'],
                 "main_menu_id" => $row['main_menu_id'],

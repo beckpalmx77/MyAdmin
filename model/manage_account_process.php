@@ -7,7 +7,7 @@ include('../config/lang.php');
 include('../util/reorder_record.php');
 
 
-if ($_POST["action"] === 'GETDATA') {
+if ($_POST["action"] === 'GET_DATA') {
 
     $id = $_POST["id"];
 
@@ -160,7 +160,7 @@ if ($_POST["action"] === 'CHL') {
     }
 }
 
-if ($_POST["action"] === 'GETACCOUNT') {
+if ($_POST["action"] === 'GET_ACCOUNT') {
 ## Read value
     $draw = $_POST['draw'];
     $row = $_POST['start'];
