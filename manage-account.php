@@ -124,7 +124,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                     <select id="account_type" name="account_type"
                                             class="form-control" data-live-search="true"
                                             title="Please select">
-                                        <option>member</option>
+                                        <option>user</option>
                                         <option>admin</option>
                                     </select>
                                 </div>
