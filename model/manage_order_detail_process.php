@@ -214,7 +214,7 @@ if ($_POST["action"] === 'SAVE_DETAIL') {
 }
 
 
-if ($_POST["action"] === 'GET_ORDERDETAIL') {
+if ($_POST["action"] === 'GET_ORDER_DETAIL') {
 
     ## Read value
     $table_name = $_POST['table_name'];

@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    let formData = {action: "GETSUPPLIER", sub_action: "GETSELECT"};
+    let formData = {action: "GET_SUPPLIER", sub_action: "GET_SELECT"};
     let dataRecords = $('#TableSupplierList').DataTable({
         'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
         'language': {

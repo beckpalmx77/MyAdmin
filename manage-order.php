@@ -384,7 +384,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
         $("#TableRecordList").on('click', '.delete', function () {
             let id = $(this).attr("id");
-            let formData = {action: "GETDATA", id: id};
+            let formData = {action: "GET_DATA", id: id};
             let table_name = "v_order_detail";
             $.ajax({
                 type: "POST",
@@ -444,7 +444,7 @@ if (strlen($_SESSION['alogin']) == "") {
             let main_menu = document.getElementById("main_menu").value;
             let sub_menu = document.getElementById("sub_menu").value;
             //alert(id);
-            let formData = {action: "GETDATA", id: id};
+            let formData = {action: "GET_DATA", id: id};
             $.ajax({
                 type: "POST",
                 url: 'model/manage_order_process.php',
@@ -478,7 +478,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
             $('#TableOrderDetailList').DataTable().clear().destroy();
 
-            let formData = {action: "GET_ORDERDETAIL", sub_action: "GET_MASTER", doc_no: doc_no, table_name: table_name};
+            let formData = {action: "GET_ORDER_DETAIL", sub_action: "GET_MASTER", doc_no: doc_no, table_name: table_name};
             let dataRecords = $('#TableOrderDetailList').DataTable({
                 "paging": false,
                 "ordering": false,

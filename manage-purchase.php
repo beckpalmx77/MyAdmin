@@ -383,7 +383,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
         $("#TableRecordList").on('click', '.delete', function () {
             let id = $(this).attr("id");
-            let formData = {action: "GETDATA", id: id};
+            let formData = {action: "GET_DATA", id: id};
             let table_name = "v_purchase_detail";
             $.ajax({
                 type: "POST",
@@ -443,7 +443,7 @@ if (strlen($_SESSION['alogin']) == "") {
             let main_menu = document.getElementById("main_menu").value;
             let sub_menu = document.getElementById("sub_menu").value;
             //alert(id);
-            let formData = {action: "GETDATA", id: id};
+            let formData = {action: "GET_DATA", id: id};
             $.ajax({
                 type: "POST",
                 url: 'model/manage_purchase_process.php',

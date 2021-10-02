@@ -5715,7 +5715,7 @@
                 }
 
                 InputData.prototype.current = function (_, callback) {
-                    function getSelected (data, selectedIds) {
+                    function GET_SELECTed (data, selectedIds) {
                         var selected = [];
 
                         if (data.selected || $.inArray(data.id, selectedIds) !== -1) {
@@ -5726,7 +5726,7 @@
                         }
 
                         if (data.children) {
-                            selected.push.apply(selected, getSelected(data.children, selectedIds));
+                            selected.push.apply(selected, GET_SELECTed(data.children, selectedIds));
                         }
 
                         return selected;
@@ -5739,7 +5739,7 @@
 
                         selected.push.apply(
                             selected,
-                            getSelected(
+                            GET_SELECTed(
                                 data,
                                 this.$element.val().split(
                                     this._valueSeparator

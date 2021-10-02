@@ -277,7 +277,7 @@ include('includes/Header.php');
 
     function update_data(id) {
 
-        let formData = {action: "GETDATA", id: id};
+        let formData = {action: "GET_DATA", id: id};
 
         $.ajax({
             type: "POST",

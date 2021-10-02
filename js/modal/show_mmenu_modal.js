@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    let formData = {action: "GETMEINMENU", sub_action: "GETSELECT"};
+    let formData = {action: "GET_MAIN_MENU", sub_action: "GET_SELECT"};
     let dataRecords = $('#TableMainMenuList').DataTable({
         'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
         'language': {

@@ -1,6 +1,6 @@
 
 $(document).ready(function () {
-    let formData = {action: "GETPGROUP", sub_action: "GETSELECT"};
+    let formData = {action: "GET_PRODUCT_GROUP", sub_action: "GET_SELECT"};
     let dataRecords = $('#TablePGList').DataTable({
         'lengthMenu': [[5, 10, 20, 50, 100], [5, 10, 20, 50, 100]],
         'language': {

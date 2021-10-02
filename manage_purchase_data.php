@@ -607,7 +607,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 table_name = "v_purchase_detail";
             }
 
-            let formData = {action: "GETDATA", id: rec_id, doc_no: doc_no, table_name: table_name};
+            let formData = {action: "GET_DATA", id: rec_id, doc_no: doc_no, table_name: table_name};
             $.ajax({
                 type: "POST",
                 url: 'model/manage_purchase_detail_process.php',
@@ -665,7 +665,7 @@ if (strlen($_SESSION['alogin']) == "") {
                 table_name = "v_purchase_detail";
             }
 
-            let formData = {action: "GETDATA", id: rec_id, doc_no: doc_no, table_name: table_name};
+            let formData = {action: "GET_DATA", id: rec_id, doc_no: doc_no, table_name: table_name};
             $.ajax({
                 type: "POST",
                 url: 'model/manage_purchase_detail_process.php',

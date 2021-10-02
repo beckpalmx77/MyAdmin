@@ -238,7 +238,7 @@
             }, i.StoreData = function (e, t, n) {
                 var r = i.GetUniqueElementId(e);
                 i.__cache[r] || (i.__cache[r] = {}), i.__cache[r][t] = n
-            }, i.GetData = function (e, t) {
+            }, i.GET_DATA = function (e, t) {
                 var n = i.GetUniqueElementId(e);
                 return t ? i.__cache[n] && null != i.__cache[n][t] ? i.__cache[n][t] : o(e).data(t) : i.__cache[n]
             }, i.RemoveData = function (e) {
@@ -289,7 +289,7 @@
                         return e.id.toString()
                     });
                     t.$results.find(".select2-results__option[aria-selected]").each(function () {
-                        var e = h(this), t = f.GetData(this, "data"), n = "" + t.id;
+                        var e = h(this), t = f.GET_DATA(this, "data"), n = "" + t.id;
                         null != t.element && t.element.selected || null == t.element && -1 < h.inArray(n, r) ? e.attr("aria-selected", "true") : e.attr("aria-selected", "false")
                     })
                 })
@@ -344,7 +344,7 @@
                 }), t.on("results:select", function () {
                     var e = l.getHighlightedResults();
                     if (0 !== e.length) {
-                        var t = f.GetData(e[0], "data");
+                        var t = f.GET_DATA(e[0], "data");
                         "true" == e.attr("aria-selected") ? l.trigger("close", {}) : l.trigger("select", {data: t})
                     }
                 }), t.on("results:previous", function () {
@@ -375,7 +375,7 @@
                         r = 0 < e.deltaY && t - e.deltaY <= 0, i = e.deltaY < 0 && n <= l.$results.height();
                     r ? (l.$results.scrollTop(0), e.preventDefault(), e.stopPropagation()) : i && (l.$results.scrollTop(l.$results.get(0).scrollHeight - l.$results.height()), e.preventDefault(), e.stopPropagation())
                 }), this.$results.on("mouseup", ".select2-results__option[aria-selected]", function (e) {
-                    var t = h(this), n = f.GetData(this, "data");
+                    var t = h(this), n = f.GET_DATA(this, "data");
                     "true" !== t.attr("aria-selected") ? l.trigger("select", {
                         originalEvent: e,
                         data: n
@@ -384,7 +384,7 @@
                         data: n
                     }) : l.trigger("close", {})
                 }), this.$results.on("mouseenter", ".select2-results__option[aria-selected]", function (e) {
-                    var t = f.GetData(this, "data");
+                    var t = f.GET_DATA(this, "data");
                     l.getHighlightedResults().removeClass("select2-results__option--highlighted"), l.trigger("results:focus", {
                         data: t,
                         element: h(this)
@@ -432,7 +432,7 @@
 
             return r.Extend(o, r.Observable), o.prototype.render = function () {
                 var e = n('<span class="select2-selection" role="combobox"  aria-haspopup="true" aria-expanded="false"></span>');
-                return this._tabindex = 0, null != r.GetData(this.$element[0], "old-tabindex") ? this._tabindex = r.GetData(this.$element[0], "old-tabindex") : null != this.$element.attr("tabindex") && (this._tabindex = this.$element.attr("tabindex")), e.attr("title", this.$element.attr("title")), e.attr("tabindex", this._tabindex), e.attr("aria-disabled", "false"), this.$selection = e
+                return this._tabindex = 0, null != r.GET_DATA(this.$element[0], "old-tabindex") ? this._tabindex = r.GET_DATA(this.$element[0], "old-tabindex") : null != this.$element.attr("tabindex") && (this._tabindex = this.$element.attr("tabindex")), e.attr("title", this.$element.attr("title")), e.attr("tabindex", this._tabindex), e.attr("aria-disabled", "false"), this.$selection = e
             }, o.prototype.bind = function (e, t) {
                 var n = this, r = e.id + "-results";
                 this.container = e, this.$selection.on("focus", function (e) {
@@ -463,7 +463,7 @@
                 n(document.body).on("mousedown.select2." + e.id, function (e) {
                     var t = n(e.target).closest(".select2");
                     n(".select2.select2-container--open").each(function () {
-                        this != t[0] && r.GetData(this, "element").select2("close")
+                        this != t[0] && r.GET_DATA(this, "element").select2("close")
                     })
                 })
             }, o.prototype._detachCloseHandler = function (e) {
@@ -524,7 +524,7 @@
                     r.trigger("toggle", {originalEvent: e})
                 }), this.$selection.on("click", ".select2-selection__choice__remove", function (e) {
                     if (!r.options.get("disabled")) {
-                        var t = i(this).parent(), n = l.GetData(t[0], "data");
+                        var t = i(this).parent(), n = l.GET_DATA(t[0], "data");
                         r.trigger("unselect", {originalEvent: e, data: n})
                     }
                 })
@@ -581,7 +581,7 @@
                     var n = this.$selection.find(".select2-selection__clear");
                     if (0 !== n.length) {
                         t.stopPropagation();
-                        var r = a.GetData(n[0], "data"), i = this.$element.val();
+                        var r = a.GET_DATA(n[0], "data"), i = this.$element.val();
                         this.$element.val(this.placeholder.id);
                         var o = {data: r};
                         if (this.trigger("clear", o), o.prevented) this.$element.val(i); else {
@@ -631,7 +631,7 @@
                     if (e.stopPropagation(), r.trigger("keypress", e), r._keyUpPrevented = e.isDefaultPrevented(), e.which === l.BACKSPACE && "" === r.$search.val()) {
                         var t = r.$searchContainer.prev(".select2-selection__choice");
                         if (0 < t.length) {
-                            var n = a.GetData(t[0], "data");
+                            var n = a.GET_DATA(t[0], "data");
                             r.searchRemoveChoice(n), e.preventDefault()
                         }
                     }
@@ -1629,7 +1629,7 @@
                 return r.element = t, a.StoreData(t, "data", r), n
             }, n.prototype.item = function (e) {
                 var t = {};
-                if (null != (t = a.GetData(e[0], "data"))) return t;
+                if (null != (t = a.GET_DATA(e[0], "data"))) return t;
                 if (e.is("option")) t = {
                     id: e.val(),
                     text: e.text(),
@@ -1991,7 +1991,7 @@
                 s.each(function () {
                     a.StoreData(this, "select2-scroll-position", {x: f(this).scrollLeft(), y: f(this).scrollTop()})
                 }), s.on(r, function (e) {
-                    var t = a.GetData(this, "select2-scroll-position");
+                    var t = a.GET_DATA(this, "select2-scroll-position");
                     f(this).scrollTop(t.y)
                 }), f(window).on(r + " " + i + " " + o, function (e) {
                     n._positionDropdown(), n._resizeDropdown()
@@ -2047,7 +2047,7 @@
                 }
                 var r = this.getHighlightedResults();
                 if (!(r.length < 1)) {
-                    var i = o.GetData(r[0], "data");
+                    var i = o.GET_DATA(r[0], "data");
                     null != i.element && i.element.selected || null == i.element && i.selected || this.trigger("select", {data: i})
                 }
             }, e
@@ -2217,7 +2217,7 @@
 
             return e.prototype.fromElement = function (e) {
                 var t = ["select2"];
-                null == this.options.multiple && (this.options.multiple = e.prop("multiple")), null == this.options.disabled && (this.options.disabled = e.prop("disabled")), null == this.options.dir && (e.prop("dir") ? this.options.dir = e.prop("dir") : e.closest("[dir]").prop("dir") ? this.options.dir = e.closest("[dir]").prop("dir") : this.options.dir = "ltr"), e.prop("disabled", this.options.disabled), e.prop("multiple", this.options.multiple), p.GetData(e[0], "select2Tags") && (this.options.debug && window.console && console.warn && console.warn('Select2: The `data-select2-tags` attribute has been changed to use the `data-data` and `data-tags="true"` attributes and will be removed in future versions of Select2.'), p.StoreData(e[0], "data", p.GetData(e[0], "select2Tags")), p.StoreData(e[0], "tags", !0)), p.GetData(e[0], "ajaxUrl") && (this.options.debug && window.console && console.warn && console.warn("Select2: The `data-ajax-url` attribute has been changed to `data-ajax--url` and support for the old attribute will be removed in future versions of Select2."), e.attr("ajax--url", p.GetData(e[0], "ajaxUrl")), p.StoreData(e[0], "ajax-Url", p.GetData(e[0], "ajaxUrl")));
+                null == this.options.multiple && (this.options.multiple = e.prop("multiple")), null == this.options.disabled && (this.options.disabled = e.prop("disabled")), null == this.options.dir && (e.prop("dir") ? this.options.dir = e.prop("dir") : e.closest("[dir]").prop("dir") ? this.options.dir = e.closest("[dir]").prop("dir") : this.options.dir = "ltr"), e.prop("disabled", this.options.disabled), e.prop("multiple", this.options.multiple), p.GET_DATA(e[0], "select2Tags") && (this.options.debug && window.console && console.warn && console.warn('Select2: The `data-select2-tags` attribute has been changed to use the `data-data` and `data-tags="true"` attributes and will be removed in future versions of Select2.'), p.StoreData(e[0], "data", p.GET_DATA(e[0], "select2Tags")), p.StoreData(e[0], "tags", !0)), p.GET_DATA(e[0], "ajaxUrl") && (this.options.debug && window.console && console.warn && console.warn("Select2: The `data-ajax-url` attribute has been changed to `data-ajax--url` and support for the old attribute will be removed in future versions of Select2."), e.attr("ajax--url", p.GET_DATA(e[0], "ajaxUrl")), p.StoreData(e[0], "ajax-Url", p.GET_DATA(e[0], "ajaxUrl")));
                 var n = {};
 
                 function r(e, t) {
@@ -2227,12 +2227,12 @@
                 for (var i = 0; i < e[0].attributes.length; i++) {
                     var o = e[0].attributes[i].name, s = "data-";
                     if (o.substr(0, s.length) == s) {
-                        var a = o.substring(s.length), l = p.GetData(e[0], a);
+                        var a = o.substring(s.length), l = p.GET_DATA(e[0], a);
                         n[a.replace(/-([a-z])/g, r)] = l
                     }
                 }
                 d.fn.jquery && "1." == d.fn.jquery.substr(0, 2) && e[0].dataset && (n = d.extend(!0, {}, e[0].dataset, n));
-                var c = d.extend(!0, {}, p.GetData(e[0]), n);
+                var c = d.extend(!0, {}, p.GET_DATA(e[0]), n);
                 for (var u in c = p._convertData(c)) -1 < d.inArray(u, t) || (d.isPlainObject(this.options[u]) ? d.extend(this.options[u], c[u]) : this.options[u] = c[u]);
                 return this
             }, e.prototype.get = function (e) {
@@ -2242,7 +2242,7 @@
             }, e
         }), e.define("select2/core", ["jquery", "./options", "./utils", "./keys"], function (i, c, u, r) {
             var d = function (e, t) {
-                null != u.GetData(e[0], "select2") && u.GetData(e[0], "select2").destroy(), this.$element = e, this.id = this._generateId(e), t = t || {}, this.options = new c(t, e), d.__super__.constructor.call(this);
+                null != u.GET_DATA(e[0], "select2") && u.GET_DATA(e[0], "select2").destroy(), this.$element = e, this.id = this._generateId(e), t = t || {}, this.options = new c(t, e), d.__super__.constructor.call(this);
                 var n = e.attr("tabindex") || 0;
                 u.StoreData(e[0], "old-tabindex", n), e.attr("tabindex", "-1");
                 var r = this.options.get("dataAdapter");
@@ -2405,7 +2405,7 @@
                     return e.toString()
                 })), this.$element.val(t).trigger("change")
             }, d.prototype.destroy = function () {
-                this.$container.remove(), this.$element[0].detachEvent && this.$element[0].detachEvent("onpropertychange", this._syncA), null != this._observer ? (this._observer.disconnect(), this._observer = null) : this.$element[0].removeEventListener && (this.$element[0].removeEventListener("DOMAttrModified", this._syncA, !1), this.$element[0].removeEventListener("DOMNodeInserted", this._syncS, !1), this.$element[0].removeEventListener("DOMNodeRemoved", this._syncS, !1)), this._syncA = null, this._syncS = null, this.$element.off(".select2"), this.$element.attr("tabindex", u.GetData(this.$element[0], "old-tabindex")), this.$element.removeClass("select2-hidden-accessible"), this.$element.attr("aria-hidden", "false"), u.RemoveData(this.$element[0]), this.$element.removeData("select2"), this.dataAdapter.destroy(), this.selection.destroy(), this.dropdown.destroy(), this.results.destroy(), this.dataAdapter = null, this.selection = null, this.dropdown = null, this.results = null
+                this.$container.remove(), this.$element[0].detachEvent && this.$element[0].detachEvent("onpropertychange", this._syncA), null != this._observer ? (this._observer.disconnect(), this._observer = null) : this.$element[0].removeEventListener && (this.$element[0].removeEventListener("DOMAttrModified", this._syncA, !1), this.$element[0].removeEventListener("DOMNodeInserted", this._syncS, !1), this.$element[0].removeEventListener("DOMNodeRemoved", this._syncS, !1)), this._syncA = null, this._syncS = null, this.$element.off(".select2"), this.$element.attr("tabindex", u.GET_DATA(this.$element[0], "old-tabindex")), this.$element.removeClass("select2-hidden-accessible"), this.$element.attr("aria-hidden", "false"), u.RemoveData(this.$element[0]), this.$element.removeData("select2"), this.dataAdapter.destroy(), this.selection.destroy(), this.dropdown.destroy(), this.results.destroy(), this.dataAdapter = null, this.selection = null, this.dropdown = null, this.results = null
             }, d.prototype.render = function () {
                 var e = i('<span class="select2 select2-container"><span class="selection"></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>');
                 return e.attr("dir", this.options.get("dir")), this.$container = e, this.$container.addClass("select2-container--" + this.options.get("theme")), u.StoreData(e[0], "element", this.$element), e
@@ -2423,7 +2423,7 @@
                     if ("string" != typeof t) throw new Error("Invalid arguments for Select2: " + t);
                     var n, r = Array.prototype.slice.call(arguments, 1);
                     return this.each(function () {
-                        var e = s.GetData(this, "select2");
+                        var e = s.GET_DATA(this, "select2");
                         null == e && window.console && console.error && console.error("The select2('" + t + "') method was called on an element that is not using Select2."), n = e[t].apply(e, r)
                     }), -1 < i.inArray(t, a) ? this : n
                 }

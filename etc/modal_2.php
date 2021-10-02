@@ -309,7 +309,7 @@ if (strlen($_SESSION['alogin']) == "") {
                                     $("#TableRecordList").on('click', '.update', function () {
                                         let id = $(this).attr("id");
                                         //alert(id);
-                                        let formData = {action: "GETDATA", id: id};
+                                        let formData = {action: "GET_DATA", id: id};
                                         $.ajax({
                                             type: "POST",
                                             url: 'model/manage_product_process.php',
@@ -351,7 +351,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
                                     $("#TableRecordList").on('click', '.delete', function () {
                                         let id = $(this).attr("id");
-                                        let formData = {action: "GETDATA", id: id};
+                                        let formData = {action: "GET_DATA", id: id};
                                         $.ajax({
                                             type: "POST",
                                             url: 'model/manage_product_process.php',

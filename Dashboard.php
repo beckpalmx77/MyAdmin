@@ -190,16 +190,16 @@ if (strlen($_SESSION['alogin']) == "") {
 
         $(document).ready(function () {
 
-            GetData("ims_order_master", "1");
-            GetData("ims_product", "2");
-            GetData("ims_customer", "3");
-            GetData("ims_supplier", "4");
+            GET_DATA("ims_order_master", "1");
+            GET_DATA("ims_product", "2");
+            GET_DATA("ims_customer", "3");
+            GET_DATA("ims_supplier", "4");
 
             setInterval(function () {
-                GetData("ims_order_master", "1");
-                GetData("ims_product", "2");
-                GetData("ims_customer", "3");
-                GetData("ims_supplier", "4");
+                GET_DATA("ims_order_master", "1");
+                GET_DATA("ims_product", "2");
+                GET_DATA("ims_customer", "3");
+                GET_DATA("ims_supplier", "4");
             }, 3000);
         });
 
@@ -207,7 +207,7 @@ if (strlen($_SESSION['alogin']) == "") {
 
     <script>
 
-        function GetData(table_name, idx) {
+        function GET_DATA(table_name, idx) {
             let input_text = document.getElementById("Text" + idx);
             let action = "GET_COUNT_RECORDS";
             let formData = {action: action, table_name: table_name};
