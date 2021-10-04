@@ -568,8 +568,6 @@ if (strlen($_SESSION['alogin']) == "") {
         }
     </script>
 
-
-
     <script>
         $(document).ready(function () {
             $("#btnAdd").click(function () {

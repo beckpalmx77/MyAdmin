@@ -50,17 +50,9 @@
     </style>
 
     <style>
-        
-        table {
-            border-collapse: collapse;
-            border-spacing: 0;
-            width: 100%;
-            border: 1px solid #ddd;
-        }
 
         th {
-            background-color: #6574fb;
-            color: white;
+
         }
 
     </style>

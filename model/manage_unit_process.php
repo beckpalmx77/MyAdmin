@@ -198,5 +198,4 @@ if ($_POST["action"] === 'GET_UNIT') {
 
     echo json_encode($response);
 
-
 }

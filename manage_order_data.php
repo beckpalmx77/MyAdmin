@@ -522,7 +522,7 @@ if (strlen($_SESSION['alogin']) == "") {
     <script>
         function Load_Data_Detail(doc_no, table_name) {
 
-            let formData = {action: "GET_ORDERDETAIL", sub_action: "GET_MASTER", doc_no: doc_no, table_name: table_name};
+            let formData = {action: "GET_ORDER_DETAIL", sub_action: "GET_MASTER", doc_no: doc_no, table_name: table_name};
             let dataRecords = $('#TableOrderDetailList').DataTable({
                 "paging": false,
                 "ordering": false,
