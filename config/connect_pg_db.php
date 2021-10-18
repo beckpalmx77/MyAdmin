@@ -1,4 +1,7 @@
 <?php
+
+include ('db_pg_value.inc');
+
 //กำหนดค่า Access-Control-Allow-Origin ให้ เครื่อง อื่น ๆ สามารถเรียกใช้งานหน้านี้ได้
 header("Access-Control-Allow-Origin: *");
 
@@ -9,11 +12,6 @@ header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
 header("Access-Control-Max-Age: 3600");
 
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
-$host = 'localhost';
-$dbuser = 'postgres';
-$dbpass = 'SuperAdmin007';
-$dbname = 'MADB_PRODUCT_2564';
 
 try {
     // If you change db server system, change this too!
