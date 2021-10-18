@@ -28,19 +28,19 @@ if ($searchValue != '') {
 }
 
 ## Total number of records without filtering
-$stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM ims_user ");
+$stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM ims_user ");
 $stmt->execute();
 $records = $stmt->fetch();
 $totalRecords = $records['allcount'];
 
 ## Total number of records with filtering
-$stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM ims_user WHERE 1 " . $searchQuery);
+$stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM ims_user WHERE 1 " . $searchQuery);
 $stmt->execute($searchArray);
 $records = $stmt->fetch();
 $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
-$stmt = $dbh->prepare("SELECT * FROM ims_user WHERE 1 " . $searchQuery . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
+$stmt = $conn->prepare("SELECT * FROM ims_user WHERE 1 " . $searchQuery . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
 
 // Bind values
 foreach ($searchArray as $key => $search) {

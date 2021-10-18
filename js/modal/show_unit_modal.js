@@ -29,7 +29,6 @@ $(document).ready(function () {
     });
 });
 
-
 $("#TableUnitList").on('click', '.select', function () {
     let data = this.id.split('@');
     $('#unit_id').val(data[0]);

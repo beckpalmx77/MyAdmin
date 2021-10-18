@@ -8,7 +8,7 @@ include('../config/connect_db.php');
     if(!isset($_POST['searchTerm'])){
 
         // Fetch records
-        $stmt = $dbh->prepare("SELECT * FROM ims_unit ORDER BY unit_name LIMIT :limit");
+        $stmt = $conn->prepare("SELECT * FROM ims_unit ORDER BY unit_name LIMIT :limit");
         $stmt->bindValue(':limit', (int)$numberofrecords, PDO::PARAM_INT);
         $stmt->execute();
         $ims_unitList = $stmt->fetchAll();
@@ -18,7 +18,7 @@ include('../config/connect_db.php');
         $search = $_POST['searchTerm'];// Search text
 
         // Fetch records
-        $stmt = $dbh->prepare("SELECT * FROM ims_unit WHERE unit_name like :unit_name ORDER BY unit_name LIMIT :limit");
+        $stmt = $conn->prepare("SELECT * FROM ims_unit WHERE unit_name like :unit_name ORDER BY unit_name LIMIT :limit");
         $stmt->bindValue(':unit_name', '%'.$search.'%', PDO::PARAM_STR);
         $stmt->bindValue(':limit', (int)$numberofrecords, PDO::PARAM_INT);
         $stmt->execute();

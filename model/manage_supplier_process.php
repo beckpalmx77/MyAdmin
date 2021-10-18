@@ -10,7 +10,7 @@ if ($_POST["action"] === 'GET_DATA') {
     $id = $_POST["id"];
     $return_arr = array();
     $sql_get = "SELECT * FROM ims_supplier WHERE id = " . $id;
-    $statement = $dbh->query($sql_get);
+    $statement = $conn->query($sql_get);
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($results as $result) {
@@ -30,7 +30,7 @@ if ($_POST["action"] === 'SEARCH') {
     if ($_POST["supplier_name"] !== '') {
         $supplier_name = $_POST["supplier_name"];
         $sql_find = "SELECT * FROM ims_supplier WHERE supplier_name = '" . $supplier_name . "'";
-        $nRows = $dbh->query($sql_find)->fetchColumn();
+        $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             echo 2;
         } else {
@@ -41,27 +41,27 @@ if ($_POST["action"] === 'SEARCH') {
 
 if ($_POST["action"] === 'ADD') {
     if ($_POST["supplier_name"] !== '') {
-        $supplier_id = "S-" . sprintf('%04s', LAST_ID($dbh, "ims_supplier", 'id'));
+        $supplier_id = "S-" . sprintf('%04s', LAST_ID($conn, "ims_supplier", 'id'));
         $supplier_name = $_POST["supplier_name"];
         $address = $_POST["address"];
         $phone = $_POST["phone"];
         $status = $_POST["status"];
         $sql_find = "SELECT * FROM ims_supplier WHERE supplier_name = '" . $supplier_name . "'";
 
-        $nRows = $dbh->query($sql_find)->fetchColumn();
+        $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             echo $dup;
         } else {
             $sql = "INSERT INTO ims_supplier(supplier_id,supplier_name,address,phone,status) 
             VALUES (:supplier_id,:supplier_name,:address,:phone,:status)";
-            $query = $dbh->prepare($sql);
+            $query = $conn->prepare($sql);
             $query->bindParam(':supplier_id', $supplier_id, PDO::PARAM_STR);
             $query->bindParam(':supplier_name', $supplier_name, PDO::PARAM_STR);
             $query->bindParam(':address', $address, PDO::PARAM_STR);
             $query->bindParam(':phone', $phone, PDO::PARAM_STR);
             $query->bindParam(':status', $status, PDO::PARAM_STR);
             $query->execute();
-            $lastInsertId = $dbh->lastInsertId();
+            $lastInsertId = $conn->lastInsertId();
 
             if ($lastInsertId) {
                 echo $save_success;
@@ -82,12 +82,12 @@ if ($_POST["action"] === 'UPDATE') {
         $phone = $_POST["phone"];
         $status = $_POST["status"];
         $sql_find = "SELECT * FROM ims_supplier WHERE supplier_id = '" . $supplier_id . "'";
-        $nRows = $dbh->query($sql_find)->fetchColumn();
+        $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             $sql_update = "UPDATE ims_supplier SET supplier_name=:supplier_name
             ,address=:address,phone=:phone,status=:status
             WHERE id = :id";
-            $query = $dbh->prepare($sql_update);
+            $query = $conn->prepare($sql_update);
             $query->bindParam(':supplier_name', $supplier_name, PDO::PARAM_STR);
             $query->bindParam(':address', $address, PDO::PARAM_STR);
             $query->bindParam(':phone', $phone, PDO::PARAM_STR);
@@ -103,11 +103,11 @@ if ($_POST["action"] === 'UPDATE') {
 if ($_POST["action"] === 'DELETE') {
     $id = $_POST["id"];
     $sql_find = "SELECT * FROM ims_supplier WHERE id = " . $id;
-    $nRows = $dbh->query($sql_find)->fetchColumn();
+    $nRows = $conn->query($sql_find)->fetchColumn();
     if ($nRows > 0) {
         try {
             $sql = "DELETE FROM ims_supplier WHERE id = " . $id;
-            $query = $dbh->prepare($sql);
+            $query = $conn->prepare($sql);
             $query->execute();
             echo $del_success;
         } catch (Exception $e) {
@@ -140,19 +140,19 @@ if ($_POST["action"] === 'GET_SUPPLIER') {
     }
 
 ## Total number of records without filtering
-    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM ims_supplier ");
+    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM ims_supplier ");
     $stmt->execute();
     $records = $stmt->fetch();
     $totalRecords = $records['allcount'];
 
 ## Total number of records with filtering
-    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM ims_supplier WHERE 1 " . $searchQuery);
+    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM ims_supplier WHERE 1 " . $searchQuery);
     $stmt->execute($searchArray);
     $records = $stmt->fetch();
     $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
-    $stmt = $dbh->prepare("SELECT * FROM ims_supplier WHERE 1 " . $searchQuery
+    $stmt = $conn->prepare("SELECT * FROM ims_supplier WHERE 1 " . $searchQuery
         . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
 
 // Bind values

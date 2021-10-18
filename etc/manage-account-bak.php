@@ -66,7 +66,7 @@ include('includes/Header.php');
                                                         </tfoot>
                                                         <tbody>
                                                         <?php $sql = "SELECT * FROM ims_user ";
-                                                        $query = $dbh->prepare($sql);
+                                                        $query = $conn->prepare($sql);
                                                         $query->execute();
                                                         $results = $query->fetchAll(PDO::FETCH_OBJ);
                                                         $cnt = 1;

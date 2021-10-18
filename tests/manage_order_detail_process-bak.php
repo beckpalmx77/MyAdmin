@@ -13,7 +13,7 @@ if ($_POST["action"] === 'GET_DATA') {
 
     $return_arr = array();
     $sql_get = "SELECT * FROM v_order_detail WHERE id = " . $id;
-    $statement = $dbh->query($sql_get);
+    $statement = $conn->query($sql_get);
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($results as $result) {
@@ -35,7 +35,7 @@ if ($_POST["action"] === 'SEARCH') {
 
         $doc_no = $_POST["doc_no"];
         $sql_find = "SELECT * FROM ims_order_detail WHERE doc_no = '" . $doc_no . "'";
-        $nRows = $dbh->query($sql_find)->fetchColumn();
+        $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             echo 2;
         } else {
@@ -50,13 +50,13 @@ if ($_POST["action"] === 'ADD') {
         $doc_year = substr($_POST["doc_date"], 0, 4);
         $field = "doc_runno";
         $doc_type = "-ORD-";
-        $doc_runno = LAST_ID_YEAR($dbh, $table, $field, $doc_year);
+        $doc_runno = LAST_ID_YEAR($conn, $table, $field, $doc_year);
         $doc_no = $doc_year . $doc_type . sprintf('%06s', $doc_runno);
         $product_id = $_POST["product_id"];
         $doc_date = $_POST["doc_date"];
         $status = $_POST["status"];
         $sql_find = "SELECT * FROM " . $table . " WHERE doc_no = '" . $doc_no . "'";
-        $stmt = $dbh->query($sql_find);
+        $stmt = $conn->query($sql_find);
         $nRows = $stmt->rowCount();
 
         echo $doc_runno;
@@ -66,7 +66,7 @@ if ($_POST["action"] === 'ADD') {
         } else {
             $sql = "INSERT INTO " . $table . " (doc_no,product_id,doc_date,doc_year,doc_runno,status)
                     VALUES (:doc_no,:product_id,:doc_date,:doc_year,:doc_runno,:status)";
-            $query = $dbh->prepare($sql);
+            $query = $conn->prepare($sql);
             $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
             $query->bindParam(':product_id', $product_id, PDO::PARAM_STR);
             $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
@@ -74,7 +74,7 @@ if ($_POST["action"] === 'ADD') {
             $query->bindParam(':doc_runno', $doc_runno, PDO::PARAM_STR);
             $query->bindParam(':status', $status, PDO::PARAM_STR);
             $query->execute();
-            $lastInsertId = $dbh->lastInsertId();
+            $lastInsertId = $conn->lastInsertId();
             if ($lastInsertId) {
                 echo $save_success;
             } else {
@@ -94,11 +94,11 @@ if ($_POST["action"] === 'UPDATE') {
         $product_id = $_POST["product_id"];
         $status = $_POST["status"];
         $sql_find = "SELECT * FROM ims_order_detail WHERE doc_no = '" . $doc_no . "'";
-        $nRows = $dbh->query($sql_find)->fetchColumn();
+        $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             $sql_update = "UPDATE ims_order_detail SET doc_no=:doc_no,product_id=:product_id,status=:status            
             WHERE id = :id";
-            $query = $dbh->prepare($sql_update);
+            $query = $conn->prepare($sql_update);
             $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
             $query->bindParam(':product_id', $product_id, PDO::PARAM_STR);
             $query->bindParam(':status', $status, PDO::PARAM_STR);
@@ -115,11 +115,11 @@ if ($_POST["action"] === 'DELETE') {
     $id = $_POST["id"];
 
     $sql_find = "SELECT * FROM ims_order_detail WHERE id = " . $id;
-    $nRows = $dbh->query($sql_find)->fetchColumn();
+    $nRows = $conn->query($sql_find)->fetchColumn();
     if ($nRows > 0) {
         try {
             $sql = "DELETE FROM ims_order_detail WHERE id = " . $id;
-            $query = $dbh->prepare($sql);
+            $query = $conn->prepare($sql);
             $query->execute();
             echo $del_success;
         } catch (Exception $e) {
@@ -157,13 +157,13 @@ if ($_POST["action"] === 'GET_ORDERDETAIL') {
     }
 
 ## Total number of records without filtering
-    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM ims_order_detail ");
+    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM ims_order_detail ");
     $stmt->execute();
     $records = $stmt->fetch();
     $totalRecords = $records['allcount'];
 
 ## Total number of records with filtering
-    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM ims_order_detail WHERE 1 " . $searchQuery);
+    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM ims_order_detail WHERE 1 " . $searchQuery);
     $stmt->execute($searchArray);
     $records = $stmt->fetch();
     $totalRecordwithFilter = $records['allcount'];
@@ -172,7 +172,7 @@ if ($_POST["action"] === 'GET_ORDERDETAIL') {
     $query_str = "SELECT * FROM v_order_detail WHERE 1 " . $searchQuery
         . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset";
 
-    $stmt = $dbh->prepare("SELECT * FROM v_order_detail WHERE 1 " . $searchQuery
+    $stmt = $conn->prepare("SELECT * FROM v_order_detail WHERE 1 " . $searchQuery
         . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
 
 // Bind values

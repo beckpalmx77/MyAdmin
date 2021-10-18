@@ -32,7 +32,7 @@ include('config/connect_db.php');
     }
 
     $sql = "SELECT * from menu_main " . $where_condM . " order by main_menu_id";
-    $query = $dbh->prepare($sql);
+    $query = $conn->prepare($sql);
     //$query->bindParam(':cid', $cid, PDO::PARAM_STR);
     $query->execute();
     $results = $query->fetchAll(PDO::FETCH_OBJ);
@@ -61,7 +61,7 @@ include('config/connect_db.php');
                         <?php
 
                         $sql1 = "SELECT * from menu_sub where main_menu_id =:mid " . $where_condS . " order by main_menu_id,sub_menu_id";
-                        $query1 = $dbh->prepare($sql1);
+                        $query1 = $conn->prepare($sql1);
                         $query1->bindParam(':mid', $result->main_menu_id, PDO::PARAM_STR);
                         $query1->execute();
                         $results1 = $query1->fetchAll(PDO::FETCH_OBJ);

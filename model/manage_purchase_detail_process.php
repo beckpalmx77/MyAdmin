@@ -17,7 +17,7 @@ if ($_POST["action"] === 'GET_DATA') {
     $return_arr = array();
 
     $sql_get = "SELECT * FROM " . $table_name . " WHERE id = " . $id;
-    $statement = $dbh->query($sql_get);
+    $statement = $conn->query($sql_get);
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($results as $result) {
@@ -55,7 +55,7 @@ if ($_POST["action_detail"] === 'ADD') {
         $price = $_POST["price"];
 
         $sql_find = "SELECT count(*) as row FROM " . $table_name . " WHERE doc_no = '" . $doc_no . "'";
-        $row = $dbh->query($sql_find)->fetch();
+        $row = $conn->query($sql_find)->fetch();
         if (empty($row["0"])) {
             $line_no = 1;
         } else {
@@ -63,7 +63,7 @@ if ($_POST["action_detail"] === 'ADD') {
         }
         $sql = "INSERT INTO " . $table_name . " (doc_no,doc_date,product_id,unit_id,quantity,price,line_no) 
             VALUES (:doc_no,:doc_date,:product_id,:unit_id,:quantity,:price,:line_no)";
-        $query = $dbh->prepare($sql);
+        $query = $conn->prepare($sql);
         $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
         $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
         $query->bindParam(':product_id', $product_id, PDO::PARAM_STR);
@@ -72,7 +72,7 @@ if ($_POST["action_detail"] === 'ADD') {
         $query->bindParam(':price', $price, PDO::PARAM_STR);
         $query->bindParam(':line_no', $line_no, PDO::PARAM_STR);
         $query->execute();
-        $lastInsertId = $dbh->lastInsertId();
+        $lastInsertId = $conn->lastInsertId();
 
         if ($lastInsertId) {
             echo $save_success;
@@ -105,7 +105,7 @@ if ($_POST["action_detail"] === 'UPDATE') {
 
         $sql_find = "SELECT count(*) as row FROM " . $table_name . " WHERE id = '" . $id . "'";
 
-        $row = $dbh->query($sql_find)->fetch();
+        $row = $conn->query($sql_find)->fetch();
         if (empty($row["0"])) {
             echo $error;
         } else {
@@ -113,7 +113,7 @@ if ($_POST["action_detail"] === 'UPDATE') {
                 . " SET doc_date=:doc_date,product_id=:product_id,quantity=:quantity "
                 . ",price=:price,unit_id=:unit_id "
                 . " WHERE id = :id ";
-            $query = $dbh->prepare($sql_update);
+            $query = $conn->prepare($sql_update);
             $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
             $query->bindParam(':product_id', $product_id, PDO::PARAM_STR);
             $query->bindParam(':quantity', $quantity, PDO::PARAM_STR);
@@ -147,14 +147,14 @@ if ($_POST["action_detail"] === 'DELETE') {
         $quantity = $_POST["quantity"];
         $unit_id = $_POST["unit_id"];
         $sql_find = "SELECT * FROM " . $table_name . " WHERE id = " . $id;
-        $nRows = $dbh->query($sql_find)->fetchColumn();
+        $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             try {
                 $sql = "DELETE FROM " . $table_name . " WHERE id = " . $id;
-                $query = $dbh->prepare($sql);
+                $query = $conn->prepare($sql);
                 $query->execute();
 
-                Reorder_Record_By_DocNO($dbh, $table_name, $doc_no);
+                Reorder_Record_By_DocNO($conn, $table_name, $doc_no);
 
                 echo $del_success;
 
@@ -174,7 +174,7 @@ if ($_POST["action"] === 'SAVE_DETAIL') {
         $KeyAddData = $_POST["KeyAddData"];
 
         $sql_find = "SELECT * FROM ims_purchase_master WHERE KeyAddData = '" . $KeyAddData . "'";
-        $statement = $dbh->query($sql_find);
+        $statement = $conn->query($sql_find);
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
         foreach ($results as $result) {
             $doc_no = $result['doc_no'];
@@ -182,13 +182,13 @@ if ($_POST["action"] === 'SAVE_DETAIL') {
         }
 
         $sql_find_detail = "SELECT * FROM ims_purchase_detail_temp WHERE doc_no = '" . $KeyAddData . "'";
-        $statement = $dbh->query($sql_find_detail);
+        $statement = $conn->query($sql_find_detail);
         $results = $statement->fetchAll(PDO::FETCH_ASSOC);
         foreach ($results as $result) {
 
             $sql = "INSERT INTO ims_purchase_detail (doc_no,doc_date,product_id,unit_id,quantity,line_no) 
             VALUES (:doc_no,:doc_date,:product_id,:unit_id,:quantity,:line_no)";
-            $query = $dbh->prepare($sql);
+            $query = $conn->prepare($sql);
             $query->bindParam(':doc_no', $doc_no, PDO::PARAM_STR);
             $query->bindParam(':doc_date', $doc_date, PDO::PARAM_STR);
             $query->bindParam(':product_id', $result['product_id'], PDO::PARAM_STR);
@@ -196,7 +196,7 @@ if ($_POST["action"] === 'SAVE_DETAIL') {
             $query->bindParam(':quantity', $result['quantity'], PDO::PARAM_STR);
             $query->bindParam(':line_no', $result['line_no'], PDO::PARAM_STR);
             $query->execute();
-            $lastInsertId = $dbh->lastInsertId();
+            $lastInsertId = $conn->lastInsertId();
         }
 
         if ($lastInsertId) {
@@ -235,13 +235,13 @@ if ($_POST["action"] === 'GET_PURCHASE_DETAIL') {
     }
 
 ## Total number of records without filtering
-    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM " . $table_name . " WHERE DOC_NO = '" . $_POST["doc_no"] . "'");
+    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM " . $table_name . " WHERE DOC_NO = '" . $_POST["doc_no"] . "'");
     $stmt->execute();
     $records = $stmt->fetch();
     $totalRecords = $records['allcount'];
 
 ## Total number of records with filtering
-    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM " . $table_name . " WHERE DOC_NO = '" . $_POST["doc_no"] . "'");
+    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM " . $table_name . " WHERE DOC_NO = '" . $_POST["doc_no"] . "'");
     $stmt->execute();
     $records = $stmt->fetch();
     $totalRecordwithFilter = $records['allcount'];
@@ -250,7 +250,7 @@ if ($_POST["action"] === 'GET_PURCHASE_DETAIL') {
     $query_str = "SELECT * FROM " . $table_name . " WHERE doc_no = '" . $_POST["doc_no"] . "'"
         . " ORDER BY line_no ";
 
-    $stmt = $dbh->prepare($query_str);
+    $stmt = $conn->prepare($query_str);
     $stmt->execute();
     $empRecords = $stmt->fetchAll();
     $data = array();

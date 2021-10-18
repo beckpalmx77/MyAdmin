@@ -9,7 +9,7 @@ $return_arr = array();
 $sql = "SELECT * FROM ims_user WHERE id = 8";
 
 // execute a query
-$statement = $dbh->query($sql);
+$statement = $conn->query($sql);
 
 // fetch all rows
 $results = $statement->fetchAll(PDO::FETCH_ASSOC);

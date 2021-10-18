@@ -10,7 +10,7 @@ include('../util/record_util.php');
 if ($_POST["action"] === 'GET_STOCK_PROCESS') {
 
         $sql_find = "SELECT * FROM ims_order_detail approve_status = 'Y'";
-        $nRows = $dbh->query($sql_find)->fetchColumn();
+        $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
 
         }

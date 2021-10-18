@@ -10,7 +10,7 @@ if ($_SESSION['alogin'] != '') {
 $username = $_POST['username'];
 $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 $sql = "SELECT * FROM ims_user  WHERE email=:username ";
-$query = $dbh->prepare($sql);
+$query = $conn->prepare($sql);
 $query->bindParam(':username', $username, PDO::PARAM_STR);
 $query->execute();
 $results = $query->fetchAll(PDO::FETCH_OBJ);

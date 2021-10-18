@@ -30,7 +30,7 @@ if ($requestMethod == 'GET') {
 
     $return_arr = array();
 
-    $statement = $dbh->query($sql_get);
+    $statement = $conn->query($sql_get);
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($results as $result) {

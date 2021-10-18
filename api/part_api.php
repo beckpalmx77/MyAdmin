@@ -1,7 +1,7 @@
 <?php
-include('../config/connect_db.php');
+include('../config/connect_pg_db.php');
 include('../config/lang.php');
-include('../util/reorder_record.php');
+
 
 //กำหนดค่า Access-Control-Allow-Origin ให้ เครื่อง อื่น ๆ สามารถเรียกใช้งานหน้านี้ได้
 header("Access-Control-Allow-Origin: *");
@@ -23,9 +23,9 @@ if ($requestMethod == 'GET') {
 
     if (isset($_GET['id']) && !empty($_GET['id'])) {
         $id = $_GET['id'];
-        $sql_get = "SELECT * FROM vims_product WHERE id = " . $id;
+        $sql_get = "SELECT * FROM vm_part WHERE runno = " . $id;
     } else {
-        $sql_get = "SELECT * FROM vims_product ";
+        $sql_get = "SELECT * FROM vm_part ";
     }
 
     $return_arr = array();
@@ -34,21 +34,16 @@ if ($requestMethod == 'GET') {
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($results as $result) {
-        $return_arr[] = array("id" => $result['id'],
-            "productid" => $result['product_id'],
-            "productname" => $result['name_t'],
-            "quantity" => $result['quantity'],
-            "pgroupid" => $result['pgroup_id'],
-            "pgroupname" => $result['pgroup_name'],
-            "brandid" => $result['brand_id'],
-            "brandname" => $result['brand_name'],
+        $return_arr[] = array("id" => $result['runno'],
+            "partid" => $result['part_id'],
+            "partname" => $result['part_name'],
             "unitid" => $result['unit_id'],
             "unitname" => $result['unit_name'],
-            "status" => $result['status']);
+            "status" => $result['delete_flag']);
     }
 
-    $product = json_encode($return_arr);
-    file_put_contents("product.json", $product);
+    $part = json_encode($return_arr);
+    file_put_contents("part.json", $part);
     echo json_encode($return_arr);
 
 }

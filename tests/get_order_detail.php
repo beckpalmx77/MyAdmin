@@ -11,15 +11,15 @@ if ($_POST["action"] === 'GET_ORDERDETAIL') {
     $draw = 1;
     $query = "SELECT * FROM v_order_detail WHERE doc_no = '" . $_POST["doc_no"] . "'";
 
-    $stmt = $dbh->prepare($query);
+    $stmt = $conn->prepare($query);
     $records = $stmt->fetch();
     $totalRecords = $records['allcount'];
 
-    $stmt = $dbh->prepare($query);
+    $stmt = $conn->prepare($query);
     $records = $stmt->fetch();
     $totalRecordwithFilter = $records['allcount'];
 
-    $stmt = $dbh->prepare($query);
+    $stmt = $conn->prepare($query);
     $stmt->execute();
     $empRecords = $stmt->fetchAll();
     $data = array();

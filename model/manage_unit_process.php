@@ -14,7 +14,7 @@ if ($_POST["action"] === 'GET_DATA') {
     $return_arr = array();
 
     $sql_get = "SELECT * FROM ims_unit WHERE id = " . $id;
-    $statement = $dbh->query($sql_get);
+    $statement = $conn->query($sql_get);
     $results = $statement->fetchAll(PDO::FETCH_ASSOC);
 
     foreach ($results as $result) {
@@ -34,7 +34,7 @@ if ($_POST["action"] === 'SEARCH') {
 
         $unit_name = $_POST["unit_name"];
         $sql_find = "SELECT * FROM ims_unit WHERE unit_name = '" . $unit_name . "'";
-        $nRows = $dbh->query($sql_find)->fetchColumn();
+        $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             echo 2;
         } else {
@@ -45,21 +45,21 @@ if ($_POST["action"] === 'SEARCH') {
 
 if ($_POST["action"] === 'ADD') {
     if ($_POST["unit_name"] !== '') {
-        $unit_id = "U-" . sprintf('%04s', LAST_ID($dbh, "ims_unit", 'id'));
+        $unit_id = "U-" . sprintf('%04s', LAST_ID($conn, "ims_unit", 'id'));
         $unit_name = $_POST["unit_name"];
         $status = $_POST["status"];
         $sql_find = "SELECT * FROM ims_unit WHERE unit_name = '" . $unit_name . "'";
-        $nRows = $dbh->query($sql_find)->fetchColumn();
+        $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             echo $dup;
         } else {
             $sql = "INSERT INTO ims_unit(unit_id,unit_name,status) VALUES (:unit_id,:unit_name,:status)";
-            $query = $dbh->prepare($sql);
+            $query = $conn->prepare($sql);
             $query->bindParam(':unit_id', $unit_id, PDO::PARAM_STR);
             $query->bindParam(':unit_name', $unit_name, PDO::PARAM_STR);
             $query->bindParam(':status', $status, PDO::PARAM_STR);
             $query->execute();
-            $lastInsertId = $dbh->lastInsertId();
+            $lastInsertId = $conn->lastInsertId();
 
             if ($lastInsertId) {
                 echo $save_success;
@@ -80,11 +80,11 @@ if ($_POST["action"] === 'UPDATE') {
         $unit_name = $_POST["unit_name"];
         $status = $_POST["status"];
         $sql_find = "SELECT * FROM ims_unit WHERE unit_id = '" . $unit_id . "'";
-        $nRows = $dbh->query($sql_find)->fetchColumn();
+        $nRows = $conn->query($sql_find)->fetchColumn();
         if ($nRows > 0) {
             $sql_update = "UPDATE ims_unit SET unit_id=:unit_id,unit_name=:unit_name,status=:status            
             WHERE id = :id";
-            $query = $dbh->prepare($sql_update);
+            $query = $conn->prepare($sql_update);
             $query->bindParam(':unit_id', $unit_id, PDO::PARAM_STR);
             $query->bindParam(':unit_name', $unit_name, PDO::PARAM_STR);
             $query->bindParam(':status', $status, PDO::PARAM_STR);
@@ -101,11 +101,11 @@ if ($_POST["action"] === 'DELETE') {
     $id = $_POST["id"];
 
     $sql_find = "SELECT * FROM ims_unit WHERE id = " . $id;
-    $nRows = $dbh->query($sql_find)->fetchColumn();
+    $nRows = $conn->query($sql_find)->fetchColumn();
     if ($nRows > 0) {
         try {
             $sql = "DELETE FROM ims_unit WHERE id = " . $id;
-            $query = $dbh->prepare($sql);
+            $query = $conn->prepare($sql);
             $query->execute();
             echo $del_success;
         } catch (Exception $e) {
@@ -139,19 +139,19 @@ if ($_POST["action"] === 'GET_UNIT') {
     }
 
 ## Total number of records without filtering
-    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM ims_unit ");
+    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM ims_unit ");
     $stmt->execute();
     $records = $stmt->fetch();
     $totalRecords = $records['allcount'];
 
 ## Total number of records with filtering
-    $stmt = $dbh->prepare("SELECT COUNT(*) AS allcount FROM ims_unit WHERE 1 " . $searchQuery);
+    $stmt = $conn->prepare("SELECT COUNT(*) AS allcount FROM ims_unit WHERE 1 " . $searchQuery);
     $stmt->execute($searchArray);
     $records = $stmt->fetch();
     $totalRecordwithFilter = $records['allcount'];
 
 ## Fetch records
-    $stmt = $dbh->prepare("SELECT * FROM ims_unit WHERE 1 " . $searchQuery
+    $stmt = $conn->prepare("SELECT * FROM ims_unit WHERE 1 " . $searchQuery
         . " ORDER BY " . $columnName . " " . $columnSortOrder . " LIMIT :limit,:offset");
 
 // Bind values
